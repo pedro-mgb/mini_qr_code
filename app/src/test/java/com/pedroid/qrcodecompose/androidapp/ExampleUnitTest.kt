@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose
+package com.pedroid.qrcodecompose.androidapp
 
 import org.junit.Test
 

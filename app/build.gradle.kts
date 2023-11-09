@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.pedroid.qrcodecompose"
+    namespace = "com.pedroid.qrcodecompose.androidapp"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.pedroid.qrcodecompose"
+        applicationId = "com.pedroid.qrcodecompose.androidapp"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

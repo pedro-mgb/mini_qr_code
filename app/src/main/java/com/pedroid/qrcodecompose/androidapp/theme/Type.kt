@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.ui.theme
+package com.pedroid.qrcodecompose.androidapp.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
