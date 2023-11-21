@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.theme
+package com.pedroid.qrcodecompose.androidapp.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
