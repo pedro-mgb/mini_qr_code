@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">QR Code Compose/CameraX</string>
+
+    <string name="bottom_navigation_item_scan">Scanear</string>
+    <string name="bottom_navigation_item_generate">Gerar</string>
+    <string name="bottom_navigation_item_history">Histórico</string>
+    <string name="bottom_navigation_item_settings">Definições</string>
+
+    <string name="to_be_implemented">Disponível em breve…</string>
+</resources>
