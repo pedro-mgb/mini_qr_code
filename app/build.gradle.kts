@@ -54,7 +54,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
     // region compose bom
     implementation(platform(libs.androidx.compose.bom))
@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.material3.windowSizeClass)
     // endregion compose bom
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.hilt.android)
 
     ksp(libs.hilt.compiler)

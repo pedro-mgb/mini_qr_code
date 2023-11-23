@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.QRCodeComposeCameraX" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Style that uses default dark color as background
+            In case of addition of light mode, this should be corrected -->
+    <style name="Theme.QRCodeComposeCameraX" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/dark_grey_background</item>
+        <item name="android:colorBackground">@color/dark_grey_background</item>
+    </style>
+
+    <style name="Theme.QRCodeComposeCameraX.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/dark_grey_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.QRCodeComposeCameraX</item>
+    </style>
+
 </resources>
