@@ -6,5 +6,12 @@ import androidx.navigation.NavGraphBuilder
 fun NavGraphBuilder.scanningFeatureNavigationRoutes(
     navController: NavController
 ) {
-    scanQRCodeInfoRoute()
+    scanQRCodeInfoRoute(
+        navigationListeners = ScanQRCodeInfoNavigationListeners(
+            onGoScanQRCode = {
+                navController.navigateToScanQRCodeCamera()
+            }
+        )
+    )
+    scanQRCodeCameraRoute()
 }

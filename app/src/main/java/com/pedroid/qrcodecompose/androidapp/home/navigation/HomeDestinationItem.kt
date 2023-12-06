@@ -10,6 +10,7 @@ import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GENERATE_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HISTORY_LIST_ROUTE
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_CAMERA_READER_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.SETTINGS_ROUTE
 
@@ -21,11 +22,16 @@ sealed class HomeDestinationItem(
     @StringRes val itemTextId: Int,
     val itemIcon: ImageVector,
     val routeLabel: String,
+    val encompassingRoutes: List<String> = listOf(routeLabel)
 ) {
     data object Scan : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_scan,
         itemIcon = Icons.Filled.ScanQRCode,
-        routeLabel = SCAN_ROUTE
+        routeLabel = SCAN_ROUTE,
+        encompassingRoutes = listOf(
+            SCAN_ROUTE,
+            SCAN_CAMERA_READER_ROUTE
+        )
     )
 
     data object Generate : HomeDestinationItem(

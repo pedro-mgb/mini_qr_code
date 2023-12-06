@@ -66,6 +66,7 @@ dependencies {
     // endregion compose bom
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
 
     ksp(libs.hilt.compiler)

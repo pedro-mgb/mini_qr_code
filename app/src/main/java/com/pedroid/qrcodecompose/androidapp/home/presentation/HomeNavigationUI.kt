@@ -71,6 +71,9 @@ private fun HomeDestinationItem.NavText() {
 // region utils
 private fun NavDestination?.isHomeItemInHierarchy(destination: HomeDestinationItem) =
     this?.hierarchy?.any {
-        it.route?.contains(destination.routeLabel, ignoreCase = true) ?: false
+        destination.encompassingRoutes.any { encompassingRoute ->
+            // to make sure the item is still selected in the main navigation route or any of the subsequent navigation routes
+            it.route?.contains(encompassingRoute, ignoreCase = true) ?: false
+        }
     } ?: false
 // endregion utils

@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">QR Code Compose/CameraX</string>
 
-    <string name="bottom_navigation_item_scan">Scanear</string>
+    <string name="bottom_navigation_item_scan">Capturar</string>
     <string name="bottom_navigation_item_generate">Gerar</string>
     <string name="bottom_navigation_item_history">Histórico</string>
     <string name="bottom_navigation_item_settings">Definições</string>
 
     <string name="to_be_implemented">Disponível em breve…</string>
+
+    <string name="scan_code_header">Scan de QR codes é fácil, basta pressionares o botão \'%s\' para usar a tua câmara para capturar QR Codes</string>
+    <string name="scan_code_permission_info">Precisas de conceder acesso à câmara. É necessário para ler QR Codes</string>
+    <string name="scan_code_permission_denied_info">Negaste o acesso à câmara. Esta app necessita de acesso à câmara para ler QR Codes. Alternativamente, podes usar as outras features desta app</string>
+    <string name="scan_code_action_button">Capturar agora</string>
 </resources>
