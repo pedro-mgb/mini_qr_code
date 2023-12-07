@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+    implementation(project(":qr_code_compose_x"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
