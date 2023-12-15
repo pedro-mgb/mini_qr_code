@@ -26,6 +26,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPrev
 fun ScanQRCodeInfoScreen(
     onScanCodePressed: () -> Unit,
     cameraPermissionStatus: PermissionStatus,
+    scannedCode: String = ""
 ) {
     Column(
         modifier = Modifier
@@ -34,48 +35,108 @@ fun ScanQRCodeInfoScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-            text = stringResource(
-                id = R.string.scan_code_header,
-                stringResource(id = R.string.scan_code_action_button)
-            ),
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        when (cameraPermissionStatus) {
-            PermissionStatus.Granted -> {
-                // nothing to show here, as permission has already been granted
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-
-            is PermissionStatus.Denied -> {
-                Text(
-                    modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-                    text = stringResource(
-                        id = if (cameraPermissionStatus.shouldShowRationale) {
-                            R.string.scan_code_permission_denied_info
-                        } else {
-                            R.string.scan_code_permission_info
-                        }
-                    ),
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-            }
+        if (scannedCode.isEmpty()) {
+            InitialInfoHeader()
+        } else {
+            QRCodeDataContent(qrCode = scannedCode)
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
+        Spacer(modifier = Modifier.height(20.dp))
         Button(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
             onClick = onScanCodePressed
         ) {
-            Text(text = stringResource(id = R.string.scan_code_action_button))
+            Text(
+                text = if (scannedCode.isEmpty()) {
+                    stringResource(id = R.string.scan_code_action_button)
+                } else {
+                    stringResource(id = R.string.scan_another_code_action_button)
+                }
+            )
         }
     }
 }
 
+@Composable
+private fun InitialInfoHeader() {
+    Text(
+        modifier = Modifier.fillMaxWidth(fraction = 0.8f),
+        text = stringResource(
+            id = R.string.scan_code_header,
+            stringResource(id = R.string.scan_code_action_button)
+        ),
+        style = MaterialTheme.typography.titleLarge,
+    )
+}
+
+@Composable
+private fun QRCodeDataContent(
+    qrCode: String
+) {
+    Text(qrCode)
+}
+
+@ExperimentalPermissionsApi
+@Composable
+private fun CameraPermissionContent(
+    cameraPermissionStatus: PermissionStatus
+) {
+    when (cameraPermissionStatus) {
+        PermissionStatus.Granted -> {
+            // nothing to show here, as permission has already been granted
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+
+        is PermissionStatus.Denied -> {
+            Text(
+                modifier = Modifier.fillMaxWidth(fraction = 0.8f),
+                text = stringResource(
+                    id = if (cameraPermissionStatus.shouldShowRationale) {
+                        R.string.scan_code_permission_denied_info
+                    } else {
+                        R.string.scan_code_permission_info
+                    }
+                ),
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Preview
 @Composable
-fun ScanQRCodeInfoScreenPreview() {
+fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
     BaseQRCodeAppPreview {
+        ScanQRCodeInfoScreen(
+            onScanCodePressed = { },
+            cameraPermissionStatus = PermissionStatus.Granted
+        )
+    }
+}
 
+@OptIn(ExperimentalPermissionsApi::class)
+@Preview
+@Composable
+fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
+    BaseQRCodeAppPreview {
+        ScanQRCodeInfoScreen(
+            onScanCodePressed = { },
+            cameraPermissionStatus = PermissionStatus.Denied(shouldShowRationale = true)
+        )
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Preview
+@Composable
+fun ScanQRCodeInfoScreenWithCodeReadPreview() {
+    BaseQRCodeAppPreview {
+        ScanQRCodeInfoScreen(
+            onScanCodePressed = { },
+            cameraPermissionStatus = PermissionStatus.Granted,
+            scannedCode = "some_qr_code"
+        )
     }
 }

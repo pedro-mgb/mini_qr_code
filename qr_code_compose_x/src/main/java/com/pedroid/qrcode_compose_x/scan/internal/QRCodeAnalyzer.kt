@@ -60,7 +60,7 @@ internal class QrCodeAnalyzer(
                 image.close()
             }
         } else {
-            Log.d(LOG_TAG, "Got ${image.format}, but supported image list")
+            Log.d(LOG_TAG, "Got ${image.format}, but it's not on supported image list: $onQrCodeStatus")
             onQrCodeStatus(QRCodeScanResult.Invalid)
         }
     }

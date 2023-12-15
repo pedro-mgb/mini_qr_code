@@ -23,6 +23,7 @@ fun NavGraphBuilder.scanQRCodeInfoRoute(
                 navigationListeners.onGoScanQRCode()
             }
         )
+        val scannedCode: String = it.savedStateHandle.get<String>(QR_CODE_SCANNED_KEY) ?: ""
 
         ScanQRCodeInfoScreen(
             onScanCodePressed = {
@@ -30,7 +31,8 @@ fun NavGraphBuilder.scanQRCodeInfoRoute(
                     navigationListeners.onGoScanQRCode()
                 }
             },
-            cameraPermissionStatus = cameraPermissionState.status
+            cameraPermissionStatus = cameraPermissionState.status,
+            scannedCode = scannedCode,
         )
     }
 }

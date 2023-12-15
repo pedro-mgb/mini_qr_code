@@ -12,4 +12,5 @@
     <string name="scan_code_permission_info">You\'ll need to grant camera permission. It is necessary to scan QR Codes</string>
     <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use the other existing features of this app</string>
     <string name="scan_code_action_button">Scan now</string>
+    <string name="scan_another_code_action_button">Scan again</string>
 </resources>

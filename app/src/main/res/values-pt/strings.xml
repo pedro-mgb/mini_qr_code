@@ -12,4 +12,5 @@
     <string name="scan_code_permission_info">Precisas de conceder acesso à câmara. É necessário para ler QR Codes</string>
     <string name="scan_code_permission_denied_info">Negaste o acesso à câmara. Esta app necessita de acesso à câmara para ler QR Codes. Alternativamente, podes usar as outras features desta app</string>
     <string name="scan_code_action_button">Capturar agora</string>
+    <string name="scan_another_code_action_button">Capturar novamente</string>
 </resources>

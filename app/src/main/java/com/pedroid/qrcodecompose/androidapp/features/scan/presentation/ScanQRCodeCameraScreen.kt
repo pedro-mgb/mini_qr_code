@@ -13,25 +13,24 @@ import com.pedroid.qrcode_compose_x.scan.QRCodeComposeXScanner
 import com.pedroid.qrcode_compose_x.scan.QRCodeScanResult
 
 @Composable
-fun ScanQRCodeCameraScreen() {
+fun ScanQRCodeCameraScreen(
+    onQRCodeResult: (QRCodeScanResult) -> Unit,
+) {
     val context = LocalContext.current
+    if (ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CAMERA
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+        // TODO display fatal error and/or navigate back
+        return
+    }
     Column(modifier = Modifier.fillMaxSize()) {
+        // TODO update UI with a back button and other useful information
         Text("Scan")
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO display fatal error and/or navigate back
-            return
-        }
         QRCodeComposeXScanner(
             modifier = Modifier.fillMaxSize(),
-            onResult = { result ->
-                if (result is QRCodeScanResult.Scanned) {
-                    // TODO return result
-                }
-            }
+            onResult = onQRCodeResult
         )
     }
 }
