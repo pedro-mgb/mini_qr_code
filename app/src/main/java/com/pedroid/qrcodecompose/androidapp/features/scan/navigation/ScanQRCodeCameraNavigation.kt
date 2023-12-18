@@ -44,6 +44,7 @@ private fun ScanQRCodeCamera(
         onQRCodeResult = {
             viewModel.onNewAction(QRCodeCameraUIAction.ResultUpdate(it))
         },
+        onBackInvoked = navigationListeners.onBackInvoked
     )
 }
 

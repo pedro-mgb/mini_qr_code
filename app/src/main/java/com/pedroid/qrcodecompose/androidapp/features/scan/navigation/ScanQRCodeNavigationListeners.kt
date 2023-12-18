@@ -5,5 +5,6 @@ data class ScanQRCodeInfoNavigationListeners(
 )
 
 data class ScanQRCodeCameraNavigationListeners(
-    val onCodeScanned: (String) -> Unit
+    val onCodeScanned: (String) -> Unit,
+    val onBackInvoked: () -> Unit
 )

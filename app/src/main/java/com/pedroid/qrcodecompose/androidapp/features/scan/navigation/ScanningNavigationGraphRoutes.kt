@@ -22,6 +22,9 @@ fun NavGraphBuilder.scanningFeatureNavigationRoutes(
                 navController.currentBackStackEntry
                     ?.savedStateHandle
                     ?.set(QR_CODE_SCANNED_KEY, it)
+            },
+            onBackInvoked = {
+                navController.popBackStack()
             }
         )
     )

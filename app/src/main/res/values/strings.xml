@@ -6,6 +6,7 @@
     <string name="bottom_navigation_item_history">History</string>
     <string name="bottom_navigation_item_settings">Settings</string>
 
+    <string name="action_back_button">Return</string>
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Scanning QR Codes is easy, just press the \'%s\' button to use the camera to scan QR Code</string>
@@ -13,4 +14,5 @@
     <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use the other existing features of this app</string>
     <string name="scan_code_action_button">Scan now</string>
     <string name="scan_another_code_action_button">Scan again</string>
+    <string name="scan_code_camera_toolbar_title">Scan with back camera</string>
 </resources>
