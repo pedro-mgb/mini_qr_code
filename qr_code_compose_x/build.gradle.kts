@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.pedroid.qrcode_compose_x"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -47,7 +47,11 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera2)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.foundation)
+    implementation(libs.foundation.layout)
     implementation(libs.ui)
+    implementation(libs.ui.tooling)
+    implementation(libs.ui.tooling.preview)
 
     // for QR Code scanning without google play services.
     implementation(libs.zxing)

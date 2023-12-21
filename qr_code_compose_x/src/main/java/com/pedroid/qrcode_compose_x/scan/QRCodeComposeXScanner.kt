@@ -9,52 +9,70 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.pedroid.qrcode_compose_x.scan.internal.QrCodeAnalyzer
+import com.pedroid.qrcode_compose_x.scan.internal.drawScannerFrame
 
 @Composable
 @RequiresPermission(android.Manifest.permission.CAMERA)
 fun QRCodeComposeXScanner(
     modifier: Modifier = Modifier,
+    frameColor: Color,
     onResult: (QRCodeScanResult) -> Unit,
+    frameVerticalPercent: Float = 0.5f,
     androidContext: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(androidContext)
     }
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            val cameraPreviewView = PreviewView(context)
-            val preview = Preview.Builder().build()
-            val selector = buildBackCameraSelector()
-            preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
-            val imageAnalysis = buildImageAnalysis(cameraPreviewView)
-            imageAnalysis.setAnalyzer(
-                ContextCompat.getMainExecutor(context),
-                QrCodeAnalyzer(onResult)
-            )
-            try {
-                cameraProviderFuture.get().bindToLifecycle(
-                    lifecycleOwner,
-                    selector,
-                    preview,
-                    imageAnalysis
+    Box(
+        modifier = modifier
+    ) {
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize(),
+            factory = { context ->
+                val cameraPreviewView = PreviewView(context)
+                val preview = Preview.Builder().build()
+                val selector = buildBackCameraSelector()
+                preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
+                val imageAnalysis = buildImageAnalysis(cameraPreviewView)
+                imageAnalysis.setAnalyzer(
+                    ContextCompat.getMainExecutor(context),
+                    QrCodeAnalyzer(onResult)
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
+                try {
+                    cameraProviderFuture.get().bindToLifecycle(
+                        lifecycleOwner,
+                        selector,
+                        preview,
+                        imageAnalysis
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                cameraPreviewView
             }
-            cameraPreviewView
-        }
-    )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent)
+                .drawScannerFrame(frameColor, frameVerticalPercent)
+        )
+    }
 }
 
 private fun buildBackCameraSelector() = CameraSelector.Builder()

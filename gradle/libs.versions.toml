@@ -30,6 +30,8 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 
 # region Compose BOM and associated dependencies
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+foundation = { group = "androidx.compose.foundation", name="foundation" }
+foundation-layout = { group = "androidx.compose.foundation", name="foundation-layout" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

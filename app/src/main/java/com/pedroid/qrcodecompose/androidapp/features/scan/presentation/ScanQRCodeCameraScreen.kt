@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.pedroid.qrcode_compose_x.scan.QRCodeComposeXScanner
@@ -27,11 +28,11 @@ fun ScanQRCodeCameraScreen(
             Manifest.permission.CAMERA
         ) != PackageManager.PERMISSION_GRANTED
     ) {
-        // TODO display fatal error and/or navigate back
+        // TODO possible display fatal error and/or navigate back
         return
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        // TODO update UI with a back button and other useful information
+        // TODO update UI with other useful information
         QRAppToolbar(
             modifier = Modifier.fillMaxWidth(),
             titleRes = R.string.scan_code_camera_toolbar_title,
@@ -39,7 +40,9 @@ fun ScanQRCodeCameraScreen(
         )
         QRCodeComposeXScanner(
             modifier = Modifier.fillMaxSize(),
-            onResult = onQRCodeResult
+            onResult = onQRCodeResult,
+            frameColor = Color.Green,
+            frameVerticalPercent = 0.4f
         )
     }
 }
