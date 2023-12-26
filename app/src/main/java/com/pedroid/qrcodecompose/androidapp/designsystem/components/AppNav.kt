@@ -2,7 +2,6 @@ package com.pedroid.qrcodecompose.androidapp.designsystem.components
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
@@ -17,7 +16,6 @@ fun QRAppBottomNavBar(
 ) {
     NavigationBar(
         modifier = modifier,
-        // contentColor = NavColorDefaults.navigationContentColor(),
         content = content,
     )
 }
@@ -46,7 +44,6 @@ fun QRAppNavRail(
 ) {
     NavigationRail(
         modifier = modifier,
-        // contentColor = NavColorDefaults.navigationContentColor(),
         content = content,
     )
 }
@@ -66,16 +63,4 @@ fun QRAppNavRailItem(
         icon = icon,
         modifier = modifier
     )
-}
-
-// TODO employ this customization for colors; otherwise, if not needed, delete this
-private object NavColorDefaults {
-    @Composable
-    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
-
-    @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
-
-    @Composable
-    fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
 }

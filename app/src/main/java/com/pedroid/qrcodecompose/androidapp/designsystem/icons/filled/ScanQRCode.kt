@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 /*
 Credits: Generated using https://github.com/DenisMondon/Svg2Compose
+Original Svg: https://materialui.co/icon/qr-code-scanner
  */
 
 val Icons.Filled.ScanQRCode: ImageVector

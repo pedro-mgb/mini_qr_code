@@ -6,14 +6,16 @@ import androidx.navigation.NavGraphBuilder
 const val QR_CODE_SCANNED_KEY = "QRCodeXValue"
 
 fun NavGraphBuilder.scanningFeatureNavigationRoutes(
-    navController: NavController
+    navController: NavController,
+    largeScreen: Boolean,
 ) {
     scanQRCodeInfoRoute(
         navigationListeners = ScanQRCodeInfoNavigationListeners(
             onGoScanQRCode = {
                 navController.navigateToScanQRCodeCamera()
             }
-        )
+        ),
+        largeScreen = largeScreen,
     )
     scanQRCodeCameraRoute(
         navigationListeners = ScanQRCodeCameraNavigationListeners(
