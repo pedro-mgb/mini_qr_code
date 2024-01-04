@@ -82,9 +82,9 @@ fun ScanQRCodeInfoScreen(
         ) {
             Text(
                 text = if (uiState is QRCodeInfoUIState.CodeScanned) {
-                    stringResource(id = R.string.scan_code_action_button)
-                } else {
                     stringResource(id = R.string.scan_another_code_action_button)
+                } else {
+                    stringResource(id = R.string.scan_code_action_button)
                 }
             )
         }
