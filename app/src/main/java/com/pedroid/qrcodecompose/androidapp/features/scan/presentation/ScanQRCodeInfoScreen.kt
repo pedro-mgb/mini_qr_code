@@ -48,7 +48,7 @@ fun ScanQRCodeInfoScreen(
     onScanCodePressed: () -> Unit,
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
     cameraPermissionStatus: PermissionStatus,
-    uiState: QRCodeInfoUIState = QRCodeInfoUIState.Initial,
+    uiState: QRCodeInfoUIState = QRCodeInfoUIState(),
     largeScreen: Boolean = false,
 ) {
     Column(
@@ -59,12 +59,12 @@ fun ScanQRCodeInfoScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when (uiState) {
-            is QRCodeInfoUIState.CodeScanned -> {
+        when (uiState.content) {
+            is QRCodeInfoContentUIState.CodeScanned -> {
                 QRCodeReadContent(
                     modifier = Modifier.fillMaxWidth(),
                     actionListeners = actionListeners,
-                    qrCode = uiState.qrCode,
+                    qrCode = uiState.content.qrCode,
                     largeScreen = largeScreen,
                 )
             }
@@ -81,7 +81,7 @@ fun ScanQRCodeInfoScreen(
             onClick = onScanCodePressed
         ) {
             Text(
-                text = if (uiState is QRCodeInfoUIState.CodeScanned) {
+                text = if (uiState.content is QRCodeInfoContentUIState.CodeScanned) {
                     stringResource(id = R.string.scan_another_code_action_button)
                 } else {
                     stringResource(id = R.string.scan_code_action_button)
@@ -298,7 +298,7 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
-            uiState = QRCodeInfoUIState.CodeScanned(qrCode = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+            uiState = QRCodeInfoUIState(QRCodeInfoContentUIState.CodeScanned(qrCode = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")),
             largeScreen = false
         )
     }
@@ -312,7 +312,7 @@ fun ScanQRCodeInfoScreenWithCodeReadTabletPreview() {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
-            uiState = QRCodeInfoUIState.CodeScanned("some_qr_code"),
+            uiState = QRCodeInfoUIState(QRCodeInfoContentUIState.CodeScanned("some_qr_code")),
             largeScreen = true
         )
     }

@@ -4,12 +4,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.pedroid.qrcodecompose.androidapp.core.presentation.LocalSnackbarHostState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBackground
 import com.pedroid.qrcodecompose.androidapp.home.navigation.QRCodeAppNavHost
@@ -25,37 +30,59 @@ fun QRCodeApp(
     // A surface container using the 'background' color from the theme
     //  TODO fix issue with background being white initially, could be specific to system using light background
     QRAppBackground {
-        Scaffold(
-            bottomBar = {
-                if (windowSizeClass.showPhoneUI()) {
-                    BottomNavigationItems(
-                        currentDestination = navController.currentDestination(),
-                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem
-                    )
-                }
-            }
-        ) { padding ->
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
-                if (!windowSizeClass.showPhoneUI()) {
-                    NavigationRailItems(
-                        currentDestination = navController.currentDestination(),
-                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem
-                    )
-                }
-
-                QRCodeAppNavHost(
-                    navHostController = navController,
-                    startDestination = defaultStartRoute,
-                    windowWidthSizeClass = windowSizeClass.widthSizeClass,
-                )
-            }
+        val snackbarHostState = remember { SnackbarHostState() }
+        CompositionLocalProvider(
+            LocalSnackbarHostState provides snackbarHostState
+        ) {
+            QRCodeAppFrame(
+                windowSizeClass = windowSizeClass,
+                snackbarHostState = snackbarHostState,
+                navController = navController
+            )
         }
     }
 }
+
+@Composable
+private fun QRCodeAppFrame(
+    windowSizeClass: WindowSizeClass,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    navController: NavHostController = rememberNavController()
+) {
+    Scaffold(
+        bottomBar = {
+            if (windowSizeClass.showPhoneUI()) {
+                BottomNavigationItems(
+                    currentDestination = navController.currentDestination(),
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem
+                )
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }
+    ) { padding ->
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            if (!windowSizeClass.showPhoneUI()) {
+                NavigationRailItems(
+                    currentDestination = navController.currentDestination(),
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem
+                )
+            }
+
+            QRCodeAppNavHost(
+                navHostController = navController,
+                startDestination = defaultStartRoute,
+                windowWidthSizeClass = windowSizeClass.widthSizeClass,
+            )
+        }
+    }
+}
+
 // endregion UI
 
 // region utils

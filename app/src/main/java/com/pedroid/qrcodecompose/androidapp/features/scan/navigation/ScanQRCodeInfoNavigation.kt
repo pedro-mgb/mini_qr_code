@@ -1,8 +1,10 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.navigation
 
 import android.Manifest
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -11,8 +13,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.Snackbar
+import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun
+import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
+import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
@@ -47,6 +54,7 @@ private fun ScanCodeHome(
         viewModel.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = it))
     }
     val uiState: QRCodeInfoUIState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     ScanQRCodeInfoScreen(
         onScanCodePressed = {
@@ -56,19 +64,28 @@ private fun ScanCodeHome(
         },
         actionListeners = ScannedQRCodeActionListeners(
             onCodeCopied = {
-                // TODO implement
+                context.copyTextToClipboard(it)
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.code_copied_success),
+                    Toast.LENGTH_SHORT
+                ).show()
             },
             onCodeOpen = {
-                // TODO implement
+                viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.openAppToView(it)))
             },
             onCodeShared = {
-                // TODO implement
+                viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.shareTextToAnotherApp(it)))
             }
         ),
         cameraPermissionStatus = cameraPermissionState.status,
         uiState = uiState,
         largeScreen = largeScreen,
     )
+
+    Snackbar(messageKey = uiState.errorMessageKey) {
+        viewModel.onNewAction(action = QRCodeInfoUIAction.ErrorShown)
+    }
 }
 
 fun NavController.navigateToScanQRCodeInfo(navOptions: NavOptions? = null) {

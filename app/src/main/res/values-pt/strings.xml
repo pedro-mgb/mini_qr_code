@@ -18,5 +18,10 @@
     <string name="scan_code_action_button">Capturar agora</string>
     <string name="scan_another_code_action_button">Capturar novamente</string>
     <string name="scan_code_camera_toolbar_title">Capturar com a câmara traseira</string>
+    <string name="scan_code_camera_instructions">Aponte a câmara de modo a que o QR Code se enquadre na moduldura verde no ecrã do seu telemóvel</string>
     <string name="scan_code_read_label">Código capturado</string>
+
+    <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code</string>
+    <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo</string>
+    <string name="code_copied_success">Copiado para o clipboard!</string>
 </resources>

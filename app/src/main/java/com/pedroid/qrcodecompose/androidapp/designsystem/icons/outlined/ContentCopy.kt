@@ -18,7 +18,7 @@ val Icons.Outlined.ContentCopy: ImageVector
         if (_contentCopy != null) {
             return _contentCopy!!
         }
-        _contentCopy = materialIcon(name = "ContentCopy") {
+        _contentCopy = materialIcon(name = "Outlined.ContentCopy") {
             materialPath {
                 moveTo(16.0F, 1.0F)
                 lineTo(4.0F, 1.0F)
