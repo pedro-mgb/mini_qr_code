@@ -17,15 +17,17 @@ const val SCAN_CAMERA_READER_ROUTE = "SCAN_QR_CODE_CAMERA_READER_ROUTE"
 
 fun NavGraphBuilder.scanQRCodeCameraRoute(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
+    largeScreen: Boolean,
 ) {
     composable(route = SCAN_CAMERA_READER_ROUTE) {
-        ScanQRCodeCamera(navigationListeners)
+        ScanQRCodeCamera(navigationListeners, largeScreen)
     }
 }
 
 @Composable
 private fun ScanQRCodeCamera(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
+    largeScreen: Boolean,
     viewModel: ScanQRCodeCameraViewModel = hiltViewModel()
 ) {
     val uiState: QRCodeCameraUIState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -44,7 +46,8 @@ private fun ScanQRCodeCamera(
         onQRCodeResult = {
             viewModel.onNewAction(QRCodeCameraUIAction.ResultUpdate(it))
         },
-        onBackInvoked = navigationListeners.onBackInvoked
+        onBackInvoked = navigationListeners.onBackInvoked,
+        largeScreen = largeScreen,
     )
 }
 

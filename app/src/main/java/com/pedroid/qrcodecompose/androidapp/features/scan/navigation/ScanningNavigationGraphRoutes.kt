@@ -28,6 +28,7 @@ fun NavGraphBuilder.scanningFeatureNavigationRoutes(
             onBackInvoked = {
                 navController.popBackStack()
             }
-        )
+        ),
+        largeScreen = largeScreen,
     )
 }

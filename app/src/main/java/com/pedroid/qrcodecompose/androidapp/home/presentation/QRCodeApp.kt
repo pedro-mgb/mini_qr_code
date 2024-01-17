@@ -28,7 +28,6 @@ fun QRCodeApp(
     navController: NavHostController = rememberNavController()
 ) {
     // A surface container using the 'background' color from the theme
-    //  TODO fix issue with background being white initially, could be specific to system using light background
     QRAppBackground {
         val snackbarHostState = remember { SnackbarHostState() }
         CompositionLocalProvider(
