@@ -34,7 +34,7 @@ class ScanQRCodeInfoViewModelTest {
     fun `given action with empty qr code is received, initial UI state remains`() {
         sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = ""))
 
-        assertEquals(sut.uiState.value.content, QRCodeInfoContentUIState.Initial)
+        assertEquals(QRCodeInfoContentUIState.Initial, sut.uiState.value.content)
     }
 
     @Test
@@ -42,8 +42,8 @@ class ScanQRCodeInfoViewModelTest {
         sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = "some_qr_code"))
 
         assertEquals(
-            sut.uiState.value.content,
-            QRCodeInfoContentUIState.CodeScanned("some_qr_code")
+            QRCodeInfoContentUIState.CodeScanned("some_qr_code"),
+            sut.uiState.value.content
         )
     }
 
@@ -55,7 +55,7 @@ class ScanQRCodeInfoViewModelTest {
             )
         )
 
-        assertEquals(sut.uiState.value.errorMessageKey, "")
+        assertEquals("", sut.uiState.value.errorMessageKey)
     }
 
     @Test
@@ -79,6 +79,6 @@ class ScanQRCodeInfoViewModelTest {
 
         sut.onNewAction(QRCodeInfoUIAction.ErrorShown)
 
-        assertEquals(sut.uiState.value.errorMessageKey, "")
+        assertEquals("", sut.uiState.value.errorMessageKey)
     }
 }

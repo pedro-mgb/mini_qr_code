@@ -16,20 +16,20 @@ class ScanQRCodeCameraViewModelTest {
 
     @Test
     fun `initial uiState is Idle`() {
-        assertEquals(sut.uiState.value, QRCodeCameraUIState.Idle)
+        assertEquals(QRCodeCameraUIState.Idle, sut.uiState.value)
     }
 
     @Test
     fun `given action ResultUpdate has success, ui state is updated`() {
         sut.onNewAction(QRCodeCameraUIAction.ResultUpdate(QRCodeScanResult.Scanned("someQRCode")))
 
-        assertEquals(sut.uiState.value, QRCodeCameraUIState.ScanComplete("someQRCode"))
+        assertEquals(QRCodeCameraUIState.ScanComplete("someQRCode"), sut.uiState.value)
     }
 
     @Test
     fun `given action ResultUpdate does not have success, ui state is not updated`() {
         sut.onNewAction(QRCodeCameraUIAction.ResultUpdate(QRCodeScanResult.Invalid))
 
-        assertEquals(sut.uiState.value, QRCodeCameraUIState.Idle)
+        assertEquals(QRCodeCameraUIState.Idle, sut.uiState.value)
     }
 }
