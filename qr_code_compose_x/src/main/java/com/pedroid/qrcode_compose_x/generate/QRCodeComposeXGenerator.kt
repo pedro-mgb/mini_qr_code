@@ -20,7 +20,8 @@ fun QRCodeComposeXGenerator(
     text: String,
     onResult: (QRCodeGenerateResult) -> Unit,
     alignment: Alignment = Alignment.Center,
-    qrCodePadding: Dp = DEFAULT_PADDING
+    qrCodePadding: Dp = DEFAULT_PADDING,
+    qrCodeAccessibilityContentDescription: String = text
 ) {
     val generateResult = remember(key1 = text) {
         generateQRCodeViaZxing(text = text, size = DEFAULT_QR_CODE_SIZE_PX)
@@ -35,7 +36,7 @@ fun QRCodeComposeXGenerator(
                     .matchParentSize()
                     .padding(qrCodePadding),
                 bitmap = generateResult.bitmap.asImageBitmap(),
-                contentDescription = "QRCode $text"
+                contentDescription = qrCodeAccessibilityContentDescription
             )
         }
     }
