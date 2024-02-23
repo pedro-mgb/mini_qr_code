@@ -4,7 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.generateFeatureNavigationRoutes(
-    navController: NavController
+    navController: NavController,
+    largeScreen: Boolean = false
 ) {
-    generateQRCodeRoute()
+    generateQRCodeRoute(largeScreen = largeScreen)
 }
