@@ -26,5 +26,8 @@ jobs:
       - name: Build Project
         run: ./gradlew assembleDebug
 
+      - name: Run lint
+        run: ./gradlew lintKotlin
+
       - name: Run unit test
         run: ./gradlew test
