@@ -21,10 +21,11 @@ fun QRCodeComposeXGenerator(
     onResult: (QRCodeGenerateResult) -> Unit,
     alignment: Alignment = Alignment.Center,
     qrCodePadding: Dp = DEFAULT_PADDING,
+    qrCodeImageSizePx: Int = DEFAULT_QR_CODE_SIZE_PX,
     qrCodeAccessibilityContentDescription: String = text
 ) {
     val generateResult = remember(key1 = text) {
-        generateQRCodeViaZxing(text = text, size = DEFAULT_QR_CODE_SIZE_PX)
+        generateQRCodeViaZxing(text = text, size = qrCodeImageSizePx)
     }
     Box(
         modifier = modifier,
