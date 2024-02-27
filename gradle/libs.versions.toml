@@ -3,9 +3,10 @@ androidGradlePlugin = "8.1.3"
 androidxActivityCompose = "1.8.1"
 androidxAppcompat = "1.6.1"
 androidxComposeBom = "2023.10.01"
+androidXConstraintLayoutCompose = "1.0.1"
 androidxCore = "1.12.0"
-androidxCameraX = "1.3.0"
 androidxCoreSplashscreen = "1.0.1"
+androidxCameraX = "1.3.0"
 androidxHiltNavigationCompose = "1.1.0"
 androidxLifecycle = "2.6.2"
 androidxTestExtJunit = "1.1.5"
@@ -28,11 +29,12 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCameraX" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-contraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidXConstraintLayoutCompose" }
 
 # region Compose BOM and associated dependencies
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-foundation = { group = "androidx.compose.foundation", name="foundation" }
-foundation-layout = { group = "androidx.compose.foundation", name="foundation-layout" }
+foundation = { group = "androidx.compose.foundation", name = "foundation" }
+foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

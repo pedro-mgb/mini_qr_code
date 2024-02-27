@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.pedroid.qrcode_compose_x.generate.QRCodeComposeXGenerator
 import com.pedroid.qrcode_compose_x.generate.QRCodeGenerateResult
 import com.pedroid.qrcodecompose.androidapp.R
@@ -78,19 +79,46 @@ fun GeneratedQRCodeContentLargeScreen(
     state: GenerateQRCodeContentState,
     onTextUpdated: (String) -> Unit,
 ) {
-    Row(
+    ConstraintLayout(
         modifier = modifier,
-
     ) {
+        val (textBox, qrCodeImage) = createRefs()
         QRAppLargeTextBox(
             modifier = Modifier
                 .fillMaxWidth(fraction = 0.4f)
-                .height(300.dp)
-                .padding(40.dp),
+                .padding(end = 40.dp)
+                .constrainAs(textBox) {
+                    start.linkTo(parent.start)
+                    end.linkTo(qrCodeImage.start)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.fillToConstraints
+                },
             textValue = state.inputText,
             onTextChanged = onTextUpdated,
             label = stringResource(id = R.string.generate_code_text_box_label),
             imeAction = ImeAction.Done,
+        )
+
+        QRCodeImageOrInfoScreen(
+            modifier = Modifier
+                .fillMaxWidth(fraction = 0.4f)
+                .aspectRatio(1f)
+                .border(
+                    width = 4.dp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    shape = qrCodeCornerShape
+                )
+                .constrainAs(qrCodeImage) {
+                    start.linkTo(textBox.end)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                },
+            qrCodeText = state.qrCodeText,
+            onResultUpdate = {
+                // TODO inform ViewModel of error or store bitmap to be shared
+            },
         )
     }
 }
