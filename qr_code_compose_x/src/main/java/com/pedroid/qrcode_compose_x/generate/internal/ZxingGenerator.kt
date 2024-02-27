@@ -28,7 +28,7 @@ internal fun generateQRCodeViaZxing(
         }
     } catch (wEx: WriterException) {
         wEx.printStackTrace()
-        QRCodeGenerateResult.Error
+        QRCodeGenerateResult.Error(wEx)
     }
 }
 
