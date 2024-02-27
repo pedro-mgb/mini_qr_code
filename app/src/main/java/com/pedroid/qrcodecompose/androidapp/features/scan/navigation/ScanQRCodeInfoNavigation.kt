@@ -32,13 +32,13 @@ fun NavGraphBuilder.scanQRCodeInfoRoute(
     largeScreen: Boolean
 ) {
     composable(route = SCAN_ROUTE) {
-        ScanCodeHome(navigationListeners, largeScreen, it.savedStateHandle)
+        ScanCodeHomeCoordinator(navigationListeners, largeScreen, it.savedStateHandle)
     }
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-private fun ScanCodeHome(
+private fun ScanCodeHomeCoordinator(
     navigationListeners: ScanQRCodeInfoNavigationListeners,
     largeScreen: Boolean,
     savedStateHandle: SavedStateHandle,

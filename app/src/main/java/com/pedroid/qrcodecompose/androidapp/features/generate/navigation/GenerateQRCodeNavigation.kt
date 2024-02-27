@@ -18,12 +18,12 @@ const val GENERATE_ROUTE = "GENERATE_QR_CODE_ROUTE"
 
 fun NavGraphBuilder.generateQRCodeRoute(largeScreen: Boolean = false) {
     composable(route = GENERATE_ROUTE) {
-        GenerateQRCode(largeScreen = largeScreen)
+        GenerateQRCodeCoordinator(largeScreen = largeScreen)
     }
 }
 
 @Composable
-private fun GenerateQRCode(
+private fun GenerateQRCodeCoordinator(
     largeScreen: Boolean,
     viewModel: GenerateQRCodeViewModel = hiltViewModel()
 ) {

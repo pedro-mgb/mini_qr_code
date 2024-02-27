@@ -20,12 +20,12 @@ fun NavGraphBuilder.scanQRCodeCameraRoute(
     largeScreen: Boolean,
 ) {
     composable(route = SCAN_CAMERA_READER_ROUTE) {
-        ScanQRCodeCamera(navigationListeners, largeScreen)
+        ScanQRCodeCameraCoordinator(navigationListeners, largeScreen)
     }
 }
 
 @Composable
-private fun ScanQRCodeCamera(
+private fun ScanQRCodeCameraCoordinator(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
     largeScreen: Boolean,
     viewModel: ScanQRCodeCameraViewModel = hiltViewModel()
