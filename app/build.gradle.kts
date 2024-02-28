@@ -52,6 +52,11 @@ android {
     }
 }
 
+kotlinter {
+    ignoreFailures = false
+    reporters = arrayOf("plain")
+}
+
 dependencies {
 
     implementation(project(":qr_code_compose_x"))

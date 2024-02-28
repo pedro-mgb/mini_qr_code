@@ -39,6 +39,11 @@ android {
     }
 }
 
+kotlinter {
+    ignoreFailures = false
+    reporters = arrayOf("plain")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
