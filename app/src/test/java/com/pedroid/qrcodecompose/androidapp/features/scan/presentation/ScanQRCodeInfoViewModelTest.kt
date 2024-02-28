@@ -7,9 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-
 class ScanQRCodeInfoViewModelTest {
-
     private lateinit var sut: ScanQRCodeInfoViewModel
 
     @Before
@@ -43,7 +41,7 @@ class ScanQRCodeInfoViewModelTest {
 
         assertEquals(
             sut.uiState.value.content,
-            QRCodeInfoContentUIState.CodeScanned("some_qr_code")
+            QRCodeInfoContentUIState.CodeScanned("some_qr_code"),
         )
     }
 
@@ -51,8 +49,8 @@ class ScanQRCodeInfoViewModelTest {
     fun `given action for external app was opened successfully, no error message is emitted`() {
         sut.onNewAction(
             QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.OpenApp(AppResponseStatus.SUCCESS)
-            )
+                ExternalAppStartResponse.OpenApp(AppResponseStatus.SUCCESS),
+            ),
         )
 
         assertEquals(sut.uiState.value.errorMessageKey, "")
@@ -62,8 +60,8 @@ class ScanQRCodeInfoViewModelTest {
     fun `given action for external app has error, error message is emitted in state`() {
         sut.onNewAction(
             QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP)
-            )
+                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+            ),
         )
 
         assertTrue(sut.uiState.value.errorMessageKey.isNotBlank())
@@ -73,8 +71,8 @@ class ScanQRCodeInfoViewModelTest {
     fun `given error shown action is sent after external app has error, error message is emitted in state`() {
         sut.onNewAction(
             QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP)
-            )
+                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+            ),
         )
 
         sut.onNewAction(QRCodeInfoUIAction.ErrorShown)

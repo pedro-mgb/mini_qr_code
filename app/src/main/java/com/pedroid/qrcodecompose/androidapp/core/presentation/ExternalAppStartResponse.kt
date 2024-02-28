@@ -4,12 +4,13 @@ sealed class ExternalAppStartResponse {
     abstract val status: AppResponseStatus
 
     data class OpenApp(override val status: AppResponseStatus) : ExternalAppStartResponse()
+
     data class ShareApp(override val status: AppResponseStatus) : ExternalAppStartResponse()
 }
 
 enum class AppResponseStatus {
     SUCCESS,
-    ERROR_NO_APP
+    ERROR_NO_APP,
 }
 
 fun ExternalAppStartResponse.getErrorMessageKey(): String? {

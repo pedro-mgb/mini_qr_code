@@ -6,7 +6,6 @@ import org.junit.Before
 import org.junit.Test
 
 class ScanQRCodeCameraViewModelTest {
-
     private lateinit var sut: ScanQRCodeCameraViewModel
 
     @Before

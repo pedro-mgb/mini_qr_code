@@ -8,31 +8,33 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ScanQRCodeCameraViewModel @Inject constructor() : ViewModel() {
+class ScanQRCodeCameraViewModel
+    @Inject
+    constructor() : ViewModel() {
+        private val _uiState = MutableStateFlow<QRCodeCameraUIState>(QRCodeCameraUIState.Idle)
+        val uiState: StateFlow<QRCodeCameraUIState>
+            get() = _uiState
 
-    private val _uiState = MutableStateFlow<QRCodeCameraUIState>(QRCodeCameraUIState.Idle)
-    val uiState: StateFlow<QRCodeCameraUIState>
-        get() = _uiState
+        fun onNewAction(action: QRCodeCameraUIAction) {
+            when (action) {
+                is QRCodeCameraUIAction.ResultUpdate -> {
+                    when (action.result) {
+                        is QRCodeScanResult.Scanned -> {
+                            _uiState.value = QRCodeCameraUIState.ScanComplete(action.result.qrCode)
+                        }
 
-    fun onNewAction(action: QRCodeCameraUIAction) {
-        when (action) {
-            is QRCodeCameraUIAction.ResultUpdate -> {
-                when (action.result) {
-                    is QRCodeScanResult.Scanned -> {
-                        _uiState.value = QRCodeCameraUIState.ScanComplete(action.result.qrCode)
-                    }
-
-                    else -> {
-                        // not handling any other result type
+                        else -> {
+                            // not handling any other result type
+                        }
                     }
                 }
             }
         }
     }
-}
 
 sealed interface QRCodeCameraUIState {
     data object Idle : QRCodeCameraUIState
+
     data class ScanComplete(val qrCode: String) : QRCodeCameraUIState
 }
 

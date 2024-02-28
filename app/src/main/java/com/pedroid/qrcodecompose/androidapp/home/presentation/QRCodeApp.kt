@@ -25,18 +25,18 @@ import com.pedroid.qrcodecompose.androidapp.home.navigation.navigateToHomeDestin
 @Composable
 fun QRCodeApp(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
     // A surface container using the 'background' color from the theme
     QRAppBackground {
         val snackbarHostState = remember { SnackbarHostState() }
         CompositionLocalProvider(
-            LocalSnackbarHostState provides snackbarHostState
+            LocalSnackbarHostState provides snackbarHostState,
         ) {
             QRCodeAppFrame(
                 windowSizeClass = windowSizeClass,
                 snackbarHostState = snackbarHostState,
-                navController = navController
+                navController = navController,
             )
         }
     }
@@ -46,30 +46,31 @@ fun QRCodeApp(
 private fun QRCodeAppFrame(
     windowSizeClass: WindowSizeClass,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
     Scaffold(
         bottomBar = {
             if (windowSizeClass.showPhoneUI()) {
                 BottomNavigationItems(
                     currentDestination = navController.currentDestination(),
-                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
                 )
             }
         },
         snackbarHost = {
             SnackbarHost(snackbarHostState)
-        }
+        },
     ) { padding ->
         Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
         ) {
             if (!windowSizeClass.showPhoneUI()) {
                 NavigationRailItems(
                     currentDestination = navController.currentDestination(),
-                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
                 )
             }
 
@@ -86,6 +87,5 @@ private fun QRCodeAppFrame(
 
 // region utils
 @Composable
-fun NavHostController.currentDestination() =
-    currentBackStackEntryAsState().value?.destination
+fun NavHostController.currentDestination() = currentBackStackEntryAsState().value?.destination
 // endregion utils

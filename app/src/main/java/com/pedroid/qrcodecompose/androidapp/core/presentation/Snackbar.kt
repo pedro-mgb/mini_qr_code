@@ -7,7 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun Snackbar(
     messageKey: String,
-    onSnackbarShown: () -> Unit = {}
+    onSnackbarShown: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val snackbarHostState = LocalSnackbarHostState.current

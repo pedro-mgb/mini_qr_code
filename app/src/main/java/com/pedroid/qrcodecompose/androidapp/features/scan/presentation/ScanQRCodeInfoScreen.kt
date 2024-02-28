@@ -52,12 +52,13 @@ fun ScanQRCodeInfoScreen(
     largeScreen: Boolean = false,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         when (uiState.content) {
             is QRCodeInfoContentUIState.CodeScanned -> {
@@ -78,14 +79,15 @@ fun ScanQRCodeInfoScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
-            onClick = onScanCodePressed
+            onClick = onScanCodePressed,
         ) {
             Text(
-                text = if (uiState.content is QRCodeInfoContentUIState.CodeScanned) {
-                    stringResource(id = R.string.scan_another_code_action_button)
-                } else {
-                    stringResource(id = R.string.scan_code_action_button)
-                }
+                text =
+                    if (uiState.content is QRCodeInfoContentUIState.CodeScanned) {
+                        stringResource(id = R.string.scan_another_code_action_button)
+                    } else {
+                        stringResource(id = R.string.scan_code_action_button)
+                    },
             )
         }
     }
@@ -95,10 +97,11 @@ fun ScanQRCodeInfoScreen(
 private fun InitialInfoHeader() {
     Text(
         modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-        text = stringResource(
-            id = R.string.scan_code_header,
-            stringResource(id = R.string.scan_code_action_button)
-        ),
+        text =
+            stringResource(
+                id = R.string.scan_code_header,
+                stringResource(id = R.string.scan_code_action_button),
+            ),
         style = MaterialTheme.typography.titleLarge,
     )
 }
@@ -112,23 +115,26 @@ private fun QRCodeReadContent(
 ) {
     Column(modifier = modifier) {
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
             text = stringResource(id = R.string.scan_code_read_label),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge.copy(
-                textDecoration = TextDecoration.Underline,
-                fontWeight = FontWeight.Bold
-            ),
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            style =
+                MaterialTheme.typography.titleLarge.copy(
+                    textDecoration = TextDecoration.Underline,
+                    fontWeight = FontWeight.Bold,
+                ),
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Divider(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 5.dp),
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp),
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.primaryContainer
+            color = MaterialTheme.colorScheme.primaryContainer,
         )
         if (largeScreen) {
             QRCodeContentLargeScreen(qrCode = qrCode, actionListeners = actionListeners)
@@ -142,15 +148,16 @@ private fun QRCodeReadContent(
 private fun QRCodeContentLargeScreen(
     modifier: Modifier = Modifier,
     qrCode: String,
-    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners()
+    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
 ) {
     Row(modifier = modifier) {
         QRCodeDataContent(
-            modifier = Modifier
-                .weight(1f)
-                .heightIn(min = 200.dp, max = 500.dp),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .heightIn(min = 200.dp, max = 500.dp),
             qrCode = qrCode,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.size(20.dp))
         Card {
@@ -165,20 +172,21 @@ private fun QRCodeContentLargeScreen(
 private fun QRCodeContentPortrait(
     modifier: Modifier = Modifier,
     qrCode: String,
-    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners()
+    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         QRCodeDataContent(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 100.dp, max = 200.dp),
-            qrCode = qrCode
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 100.dp, max = 200.dp),
+            qrCode = qrCode,
         )
         Spacer(modifier = Modifier.size(10.dp))
         Card {
             Row(
                 modifier = Modifier.padding(vertical = 5.dp, horizontal = 24.dp),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
             }
@@ -195,12 +203,13 @@ private fun QRCodeDataContent(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onBackground)
+        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onBackground),
     ) {
         Text(
-            modifier = Modifier
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
             text = qrCode,
             textAlign = textAlign,
         )
@@ -210,13 +219,13 @@ private fun QRCodeDataContent(
 @Composable
 private fun QRCodeActionButtons(
     qrCode: String,
-    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners()
+    actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
 ) {
     IconButton(onClick = { actionListeners.onCodeOpen(qrCode) }) {
         Icon(
             modifier = Modifier.size(48.dp),
             imageVector = Icons.Filled.ExitToApp,
-            contentDescription = stringResource(id = R.string.action_open)
+            contentDescription = stringResource(id = R.string.action_open),
         )
     }
     Spacer(modifier = Modifier.size(20.dp))
@@ -224,7 +233,7 @@ private fun QRCodeActionButtons(
         Icon(
             modifier = Modifier.size(48.dp),
             imageVector = Icons.Filled.Share,
-            contentDescription = stringResource(id = R.string.action_share)
+            contentDescription = stringResource(id = R.string.action_share),
         )
     }
     Spacer(modifier = Modifier.size(20.dp))
@@ -232,16 +241,14 @@ private fun QRCodeActionButtons(
         Icon(
             modifier = Modifier.size(48.dp),
             imageVector = Icons.Outlined.ContentCopy,
-            contentDescription = stringResource(id = R.string.action_copy)
+            contentDescription = stringResource(id = R.string.action_copy),
         )
     }
 }
 
 @ExperimentalPermissionsApi
 @Composable
-private fun CameraPermissionContent(
-    cameraPermissionStatus: PermissionStatus
-) {
+private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
     when (cameraPermissionStatus) {
         PermissionStatus.Granted -> {
             // nothing to show here, as permission has already been granted
@@ -251,13 +258,15 @@ private fun CameraPermissionContent(
         is PermissionStatus.Denied -> {
             Text(
                 modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-                text = stringResource(
-                    id = if (cameraPermissionStatus.shouldShowRationale) {
-                        R.string.scan_code_permission_denied_info
-                    } else {
-                        R.string.scan_code_permission_info
-                    }
-                ),
+                text =
+                    stringResource(
+                        id =
+                            if (cameraPermissionStatus.shouldShowRationale) {
+                                R.string.scan_code_permission_denied_info
+                            } else {
+                                R.string.scan_code_permission_info
+                            },
+                    ),
             )
             Spacer(modifier = Modifier.height(40.dp))
         }
@@ -298,8 +307,20 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
-            uiState = QRCodeInfoUIState(QRCodeInfoContentUIState.CodeScanned(qrCode = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")),
-            largeScreen = false
+            uiState =
+                QRCodeInfoUIState(
+                    QRCodeInfoContentUIState.CodeScanned(
+                        qrCode =
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
+                                "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
+                                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
+                                "pariatur. Excepteur sint occaecat cupidatat non proident, " +
+                                "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    ),
+                ),
+            largeScreen = false,
         )
     }
 }
@@ -313,7 +334,7 @@ fun ScanQRCodeInfoScreenWithCodeReadTabletPreview() {
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
             uiState = QRCodeInfoUIState(QRCodeInfoContentUIState.CodeScanned("some_qr_code")),
-            largeScreen = true
+            largeScreen = true,
         )
     }
 }

@@ -15,42 +15,43 @@ Original Svg: https://materialui.co/material-icons-outlined/content-copy
 
 val Icons.Outlined.ContentCopy: ImageVector
     get() {
-        if (_contentCopy != null) {
-            return _contentCopy!!
+        if (contentCopy != null) {
+            return contentCopy!!
         }
-        _contentCopy = materialIcon(name = "Outlined.ContentCopy") {
-            materialPath {
-                moveTo(16.0F, 1.0F)
-                lineTo(4.0F, 1.0F)
-                curveToRelative(-1.1F, 0.0F, -2.0F, 0.9F, -2.0F, 2.0F)
-                verticalLineToRelative(14.0F)
-                horizontalLineToRelative(2.0F)
-                lineTo(4.0F, 3.0F)
-                horizontalLineToRelative(12.0F)
-                lineTo(16.0F, 1.0F)
+        contentCopy =
+            materialIcon(name = "Outlined.ContentCopy") {
+                materialPath {
+                    moveTo(16.0F, 1.0F)
+                    lineTo(4.0F, 1.0F)
+                    curveToRelative(-1.1F, 0.0F, -2.0F, 0.9F, -2.0F, 2.0F)
+                    verticalLineToRelative(14.0F)
+                    horizontalLineToRelative(2.0F)
+                    lineTo(4.0F, 3.0F)
+                    horizontalLineToRelative(12.0F)
+                    lineTo(16.0F, 1.0F)
 
-                moveTo(19.0F, 5.0F)
-                lineTo(8.0F, 5.0F)
-                curveToRelative(-1.1F, 0.0F, -2.0F, 0.9F, -2.0F, 2.0F)
-                verticalLineToRelative(14.0F)
-                curveToRelative(0.0F, 1.1F, 0.9F, 2.0F, 2.0F, 2.0F)
-                horizontalLineToRelative(11.0F)
-                curveToRelative(1.1F, 0.0F, 2.0F, -0.9F, 2.0F, -2.0F)
-                lineTo(21.0F, 7.0F)
-                curveToRelative(0.0F, -1.1F, -0.9F, -2.0F, -2.0F, -2.0F)
+                    moveTo(19.0F, 5.0F)
+                    lineTo(8.0F, 5.0F)
+                    curveToRelative(-1.1F, 0.0F, -2.0F, 0.9F, -2.0F, 2.0F)
+                    verticalLineToRelative(14.0F)
+                    curveToRelative(0.0F, 1.1F, 0.9F, 2.0F, 2.0F, 2.0F)
+                    horizontalLineToRelative(11.0F)
+                    curveToRelative(1.1F, 0.0F, 2.0F, -0.9F, 2.0F, -2.0F)
+                    lineTo(21.0F, 7.0F)
+                    curveToRelative(0.0F, -1.1F, -0.9F, -2.0F, -2.0F, -2.0F)
 
-                moveTo(19.0F, 21.0F)
-                lineTo(8.0F, 21.0F)
-                lineTo(8.0F, 7.0F)
-                horizontalLineToRelative(11.0F)
-                verticalLineToRelative(14.0F)
-                close()
+                    moveTo(19.0F, 21.0F)
+                    lineTo(8.0F, 21.0F)
+                    lineTo(8.0F, 7.0F)
+                    horizontalLineToRelative(11.0F)
+                    verticalLineToRelative(14.0F)
+                    close()
+                }
             }
-        }
-        return _contentCopy!!
+        return contentCopy!!
     }
 
-private var _contentCopy: ImageVector? = null
+private var contentCopy: ImageVector? = null
 
 @Preview
 @Composable

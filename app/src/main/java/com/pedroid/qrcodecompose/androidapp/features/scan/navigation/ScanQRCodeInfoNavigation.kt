@@ -29,7 +29,7 @@ const val SCAN_ROUTE = "SCAN_QR_CODE_ROUTE"
 
 fun NavGraphBuilder.scanQRCodeInfoRoute(
     navigationListeners: ScanQRCodeInfoNavigationListeners,
-    largeScreen: Boolean
+    largeScreen: Boolean,
 ) {
     composable(route = SCAN_ROUTE) {
         ScanCodeHome(navigationListeners, largeScreen, it.savedStateHandle)
@@ -42,14 +42,15 @@ private fun ScanCodeHome(
     navigationListeners: ScanQRCodeInfoNavigationListeners,
     largeScreen: Boolean,
     savedStateHandle: SavedStateHandle,
-    viewModel: ScanQRCodeInfoViewModel = hiltViewModel()
+    viewModel: ScanQRCodeInfoViewModel = hiltViewModel(),
 ) {
-    val cameraPermissionState = rememberPermissionState(
-        permission = Manifest.permission.CAMERA,
-        onPermissionGranted = {
-            navigationListeners.onGoScanQRCode()
-        }
-    )
+    val cameraPermissionState =
+        rememberPermissionState(
+            permission = Manifest.permission.CAMERA,
+            onPermissionGranted = {
+                navigationListeners.onGoScanQRCode()
+            },
+        )
     (savedStateHandle.get<String>(QR_CODE_SCANNED_KEY)).let {
         viewModel.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = it))
     }
@@ -62,22 +63,23 @@ private fun ScanCodeHome(
                 navigationListeners.onGoScanQRCode()
             }
         },
-        actionListeners = ScannedQRCodeActionListeners(
-            onCodeCopied = {
-                context.copyTextToClipboard(it)
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.code_copied_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            onCodeOpen = {
-                viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.openAppToView(it)))
-            },
-            onCodeShared = {
-                viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.shareTextToAnotherApp(it)))
-            }
-        ),
+        actionListeners =
+            ScannedQRCodeActionListeners(
+                onCodeCopied = {
+                    context.copyTextToClipboard(it)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.code_copied_success),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                onCodeOpen = {
+                    viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.openAppToView(it)))
+                },
+                onCodeShared = {
+                    viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.shareTextToAnotherApp(it)))
+                },
+            ),
         cameraPermissionStatus = cameraPermissionState.status,
         uiState = uiState,
         largeScreen = largeScreen,

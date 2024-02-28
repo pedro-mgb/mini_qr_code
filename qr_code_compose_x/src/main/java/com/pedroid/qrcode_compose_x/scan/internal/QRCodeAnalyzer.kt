@@ -25,7 +25,7 @@ private val supportedImageFormats: List<Int> by lazy {
         )
     } else {
         listOf(
-            ImageFormat.YUV_420_888
+            ImageFormat.YUV_420_888,
         )
     }
 }
@@ -39,9 +39,8 @@ private val qrCodeReader: Reader by lazy {
 private const val LOG_TAG = "QrCodeAnalyzer"
 
 internal class QrCodeAnalyzer(
-    private val onQrCodeStatus: (QRCodeScanResult) -> Unit
+    private val onQrCodeStatus: (QRCodeScanResult) -> Unit,
 ) : ImageAnalysis.Analyzer {
-
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
             val binaryBmp = image.convertToBitmap()
@@ -53,7 +52,7 @@ internal class QrCodeAnalyzer(
                 Log.v(
                     LOG_TAG,
                     "Obtained error decoding image for qr code, most likely this means there was no qr code in image (hence why it was not found",
-                    nfe
+                    nfe,
                 )
                 onQrCodeStatus(QRCodeScanResult.Invalid)
             } finally {
@@ -67,16 +66,17 @@ internal class QrCodeAnalyzer(
 
     private fun ImageProxy.convertToBitmap(): BinaryBitmap {
         val bytes = planes.first().buffer.toByteArray()
-        val source = PlanarYUVLuminanceSource(
-            bytes,
-            width,
-            height,
-            0,
-            0,
-            width,
-            height,
-            false
-        )
+        val source =
+            PlanarYUVLuminanceSource(
+                bytes,
+                width,
+                height,
+                0,
+                0,
+                width,
+                height,
+                false,
+            )
         return BinaryBitmap(HybridBinarizer(source))
     }
 

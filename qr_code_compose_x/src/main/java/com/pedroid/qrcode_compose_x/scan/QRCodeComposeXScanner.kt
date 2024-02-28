@@ -33,15 +33,17 @@ fun QRCodeComposeXScanner(
     androidContext: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
-    val cameraProviderFuture = remember {
-        ProcessCameraProvider.getInstance(androidContext)
-    }
+    val cameraProviderFuture =
+        remember {
+            ProcessCameraProvider.getInstance(androidContext)
+        }
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         AndroidView(
-            modifier = Modifier
-                .matchParentSize(),
+            modifier =
+                Modifier
+                    .matchParentSize(),
             factory = { context ->
                 val cameraPreviewView = PreviewView(context)
                 val preview = Preview.Builder().build()
@@ -50,40 +52,45 @@ fun QRCodeComposeXScanner(
                 val imageAnalysis = buildImageAnalysis(cameraPreviewView)
                 imageAnalysis.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
-                    QrCodeAnalyzer(onResult)
+                    QrCodeAnalyzer(onResult),
                 )
                 try {
                     cameraProviderFuture.get().bindToLifecycle(
                         lifecycleOwner,
                         selector,
                         preview,
-                        imageAnalysis
+                        imageAnalysis,
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
                 cameraPreviewView
-            }
+            },
         )
         Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(Color.Transparent)
-                .drawScannerFrame(frameColor, frameVerticalPercent)
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .background(Color.Transparent)
+                    .drawScannerFrame(frameColor, frameVerticalPercent),
         )
     }
 }
 
-private fun buildBackCameraSelector() = CameraSelector.Builder()
-    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-    .build()
+val string = "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring"
 
-private fun buildImageAnalysis(previewView: View) = ImageAnalysis.Builder()
-    .setTargetResolution(
-        Size(
-            previewView.width,
-            previewView.height
+private fun buildBackCameraSelector() =
+    CameraSelector.Builder()
+        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+        .build()
+
+private fun buildImageAnalysis(previewView: View) =
+    ImageAnalysis.Builder()
+        .setTargetResolution(
+            Size(
+                previewView.width,
+                previewView.height,
+            ),
         )
-    )
-    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-    .build()
+        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+        .build()
