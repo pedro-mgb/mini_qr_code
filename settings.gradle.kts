@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "QR CodeCompose CameraX"
 include(":app")
-include(":qr-code-compose-camerax")
+include(":qr_code_compose_x")
