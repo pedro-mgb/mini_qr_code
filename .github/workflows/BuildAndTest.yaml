@@ -23,11 +23,11 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build Project
-        run: ./gradlew assembleDebug
-
       - name: Run lint
         run: ./gradlew lintKotlin
+
+      - name: Build Project
+        run: ./gradlew assembleDebug
 
       - name: Run unit test
         run: ./gradlew test
