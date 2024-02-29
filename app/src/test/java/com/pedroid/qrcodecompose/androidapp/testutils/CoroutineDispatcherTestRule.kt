@@ -14,7 +14,7 @@ import org.junit.runner.Description
  *  Source: https://developer.android.com/kotlin/coroutines/test#setting-main-dispatcher
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainDispatcherRule(
+class CoroutineDispatcherTestRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
     override fun starting(description: Description) {

@@ -25,7 +25,7 @@ fun NavGraphBuilder.generateQRCodeRoute(largeScreen: Boolean = false) {
 @Composable
 private fun GenerateQRCodeCoordinator(
     largeScreen: Boolean,
-    viewModel: GenerateQRCodeViewModel = hiltViewModel()
+    viewModel: GenerateQRCodeViewModel = hiltViewModel(),
 ) {
     val uiState: GenerateQRCodeUIState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -34,7 +34,7 @@ private fun GenerateQRCodeCoordinator(
         onTextUpdated = {
             viewModel.onNewAction(GenerateQRCodeUIAction.UpdateText(it))
         },
-        largeScreen = largeScreen
+        largeScreen = largeScreen,
     )
 
     Snackbar(messageKey = uiState.errorMessageKey) {

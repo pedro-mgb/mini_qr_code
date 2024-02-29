@@ -29,7 +29,7 @@ fun QRCodeAppNavHost(
         )
         generateFeatureNavigationRoutes(
             navHostController,
-            largeScreen = !windowWidthSizeClass.showPhoneUI()
+            largeScreen = !windowWidthSizeClass.showPhoneUI(),
         )
         historyFeatureNavigationRoutes(navHostController)
         settingsFeatureNavigationRoutes(navHostController)

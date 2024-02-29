@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.core._di
+package com.pedroid.qrcodecompose.androidapp.core.di
 
 import com.pedroid.qrcodecompose.androidapp.core.logging.AndroidLogger
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface LoggingModule {
+interface LoggingBinds {
     @Binds
     fun bindsAndroidLogger(logger: AndroidLogger): Logger
 }

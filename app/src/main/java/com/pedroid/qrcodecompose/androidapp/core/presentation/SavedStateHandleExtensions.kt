@@ -10,7 +10,7 @@ import androidx.lifecycle.SavedStateHandle
 @MainThread
 fun <T> SavedStateHandle.update(
     key: String,
-    updateDelegate: (T?) -> T?
+    updateDelegate: (T?) -> T?,
 ) {
     updateDelegate(this[key])?.let {
         this[key] = it

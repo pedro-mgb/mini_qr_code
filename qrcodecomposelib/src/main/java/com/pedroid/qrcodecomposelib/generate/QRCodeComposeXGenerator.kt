@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Dp
-import com.pedroid.qrcode_compose_x.generate.internal.DEFAULT_PADDING
-import com.pedroid.qrcode_compose_x.generate.internal.DEFAULT_QR_CODE_SIZE_PX
-import com.pedroid.qrcode_compose_x.generate.internal.generateQRCodeViaZxing
+import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_PADDING
+import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_SIZE_PX
+import com.pedroid.qrcodecomposelib.generate.internal.generateQRCodeViaZxing
 
 @Composable
 fun QRCodeComposeXGenerator(
@@ -22,22 +22,24 @@ fun QRCodeComposeXGenerator(
     alignment: Alignment = Alignment.Center,
     qrCodePadding: Dp = DEFAULT_PADDING,
     qrCodeImageSizePx: Int = DEFAULT_QR_CODE_SIZE_PX,
-    qrCodeAccessibilityContentDescription: String = text
+    qrCodeAccessibilityContentDescription: String = text,
 ) {
-    val generateResult = remember(key1 = text) {
-        generateQRCodeViaZxing(text = text, size = qrCodeImageSizePx)
-    }
+    val generateResult =
+        remember(key1 = text) {
+            generateQRCodeViaZxing(text = text, size = qrCodeImageSizePx)
+        }
     Box(
         modifier = modifier,
-        contentAlignment = alignment
+        contentAlignment = alignment,
     ) {
         if (generateResult is QRCodeGenerateResult.Generated) {
             Image(
-                modifier = Modifier
-                    .matchParentSize()
-                    .padding(qrCodePadding),
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .padding(qrCodePadding),
                 bitmap = generateResult.bitmap.asImageBitmap(),
-                contentDescription = qrCodeAccessibilityContentDescription
+                contentDescription = qrCodeAccessibilityContentDescription,
             )
         }
     }

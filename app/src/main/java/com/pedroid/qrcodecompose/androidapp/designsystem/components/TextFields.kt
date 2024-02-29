@@ -50,16 +50,17 @@ fun LargeTextBoxPreview() {
     BaseQRCodeAppPreview {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             QRAppLargeTextBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(40.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .padding(40.dp),
                 textValue = text,
                 onTextChanged = { text = it },
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             )
         }
     }

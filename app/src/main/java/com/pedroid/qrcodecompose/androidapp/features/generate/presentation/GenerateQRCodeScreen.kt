@@ -27,11 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.pedroid.qrcode_compose_x.generate.QRCodeComposeXGenerator
-import com.pedroid.qrcode_compose_x.generate.QRCodeGenerateResult
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppLargeTextBox
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXGenerator
+import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
 val qrCodeCornerShape = RoundedCornerShape(16.dp)
 
@@ -43,18 +43,20 @@ fun GenerateQRCodeScreen(
     largeScreen: Boolean = false,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
             text = stringResource(id = R.string.generate_code_header),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(20.dp))
         if (largeScreen) {
@@ -84,16 +86,17 @@ fun GeneratedQRCodeContentLargeScreen(
     ) {
         val (textBox, qrCodeImage) = createRefs()
         QRAppLargeTextBox(
-            modifier = Modifier
-                .fillMaxWidth(fraction = 0.4f)
-                .padding(end = 40.dp)
-                .constrainAs(textBox) {
-                    start.linkTo(parent.start)
-                    end.linkTo(qrCodeImage.start)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth(fraction = 0.4f)
+                    .padding(end = 40.dp)
+                    .constrainAs(textBox) {
+                        start.linkTo(parent.start)
+                        end.linkTo(qrCodeImage.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        height = Dimension.fillToConstraints
+                    },
             textValue = state.inputText,
             onTextChanged = onTextUpdated,
             label = stringResource(id = R.string.generate_code_text_box_label),
@@ -101,20 +104,21 @@ fun GeneratedQRCodeContentLargeScreen(
         )
 
         QRCodeImageOrInfoScreen(
-            modifier = Modifier
-                .fillMaxWidth(fraction = 0.4f)
-                .aspectRatio(1f)
-                .border(
-                    width = 4.dp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    shape = qrCodeCornerShape
-                )
-                .constrainAs(qrCodeImage) {
-                    start.linkTo(textBox.end)
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth(fraction = 0.4f)
+                    .aspectRatio(1f)
+                    .border(
+                        width = 4.dp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        shape = qrCodeCornerShape,
+                    )
+                    .constrainAs(qrCodeImage) {
+                        start.linkTo(textBox.end)
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    },
             qrCodeText = state.qrCodeText,
             onResultUpdate = {
                 // TODO inform ViewModel of error or store bitmap to be shared
@@ -131,17 +135,18 @@ private fun GeneratedQRCodeContentPortrait(
 ) {
     Column(
         modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         QRCodeImageOrInfoScreen(
-            modifier = Modifier
-                .fillMaxWidth(fraction = 0.6f)
-                .aspectRatio(1f)
-                .border(
-                    width = 4.dp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    shape = qrCodeCornerShape
-                ),
+            modifier =
+                Modifier
+                    .fillMaxWidth(fraction = 0.6f)
+                    .aspectRatio(1f)
+                    .border(
+                        width = 4.dp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        shape = qrCodeCornerShape,
+                    ),
             qrCodeText = state.qrCodeText,
             onResultUpdate = {
                 // TODO inform ViewModel of error or store bitmap to be shared
@@ -149,24 +154,24 @@ private fun GeneratedQRCodeContentPortrait(
         )
 
         QRAppLargeTextBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(20.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(20.dp),
             textValue = state.inputText,
             onTextChanged = onTextUpdated,
             label = stringResource(id = R.string.generate_code_text_box_label),
             imeAction = ImeAction.Done,
         )
     }
-
 }
 
 @Composable
 private fun QRCodeImageOrInfoScreen(
     modifier: Modifier = Modifier,
     qrCodeText: String,
-    onResultUpdate: (QRCodeGenerateResult) -> Unit
+    onResultUpdate: (QRCodeGenerateResult) -> Unit,
 ) {
     if (qrCodeText.isBlank()) {
         Box(
@@ -176,18 +181,19 @@ private fun QRCodeImageOrInfoScreen(
             Text(
                 modifier = Modifier.padding(20.dp),
                 text = stringResource(id = R.string.generate_code_will_appear_here),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     } else {
         QRCodeComposeXGenerator(
-            modifier = modifier.background(
-                color = Color.White,
-                shape = qrCodeCornerShape
-            ),
+            modifier =
+                modifier.background(
+                    color = Color.White,
+                    shape = qrCodeCornerShape,
+                ),
             alignment = Alignment.Center,
             text = qrCodeText,
-            onResult = onResultUpdate
+            onResult = onResultUpdate,
         )
     }
 }

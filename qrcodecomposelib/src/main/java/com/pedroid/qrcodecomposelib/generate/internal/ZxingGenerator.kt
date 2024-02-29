@@ -6,7 +6,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import com.pedroid.qrcode_compose_x.generate.QRCodeGenerateResult
+import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
 /**
  * Returns the generated QR Code bitmap, or null if
@@ -14,7 +14,7 @@ import com.pedroid.qrcode_compose_x.generate.QRCodeGenerateResult
 internal fun generateQRCodeViaZxing(
     text: String,
     size: Int,
-    @ColorInt colorFill: Int = DEFAULT_FILL_COLOR
+    @ColorInt colorFill: Int = DEFAULT_FILL_COLOR,
 ): QRCodeGenerateResult {
     return try {
         val multiFormatWriter = MultiFormatWriter()
@@ -22,7 +22,7 @@ internal fun generateQRCodeViaZxing(
         createQRCodeBitmap(
             bitMatrix,
             size,
-            colorFill
+            colorFill,
         ).let {
             QRCodeGenerateResult.Generated(it)
         }
@@ -35,11 +35,12 @@ internal fun generateQRCodeViaZxing(
 private fun createQRCodeBitmap(
     matrix: BitMatrix,
     size: Int,
-    @ColorInt colorFill: Int
+    @ColorInt colorFill: Int,
 ): Bitmap {
-    val pixels: IntArray = List(matrix.width * matrix.height) {
-        if (matrix.get(it % matrix.width, it / matrix.height)) colorFill else DEFAULT_BLANK_COLOR
-    }.toIntArray()
+    val pixels: IntArray =
+        List(matrix.width * matrix.height) {
+            if (matrix.get(it % matrix.width, it / matrix.height)) colorFill else DEFAULT_BLANK_COLOR
+        }.toIntArray()
     val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
     bitmap.setPixels(pixels, 0, size, 0, 0, matrix.width, matrix.height)
     return bitmap
