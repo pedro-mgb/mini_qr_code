@@ -36,10 +36,10 @@ private val qrCodeReader: Reader by lazy {
     }
 }
 
-private const val LOG_TAG = "QrCodeAnalyzer"
+private const val LOG_TAG = "QRCodeAnalyzer"
 
-internal class QrCodeAnalyzer(
-    private val onQrCodeStatus: (QRCodeScanResult) -> Unit,
+internal class QRCodeAnalyzer(
+    private val onQRCodeStatus: (QRCodeScanResult) -> Unit,
 ) : ImageAnalysis.Analyzer {
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
@@ -47,20 +47,22 @@ internal class QrCodeAnalyzer(
             try {
                 val result = qrCodeReader.decode(binaryBmp)
                 Log.d(LOG_TAG, "Scanned $result")
-                onQrCodeStatus(QRCodeScanResult.Scanned(result.text))
+                onQRCodeStatus(QRCodeScanResult.Scanned(result.text))
             } catch (nfe: NotFoundException) {
                 Log.v(
                     LOG_TAG,
-                    "Obtained error decoding image for qr code, most likely this means there was no qr code in image (hence why it was not found",
+                    "Obtained error decoding image for qr code, " +
+                        "most likely this means there was no qr code in image " +
+                        "(hence why it was not found",
                     nfe,
                 )
-                onQrCodeStatus(QRCodeScanResult.Invalid)
+                onQRCodeStatus(QRCodeScanResult.Invalid)
             } finally {
                 image.close()
             }
         } else {
-            Log.d(LOG_TAG, "Got ${image.format}, but it's not on supported image list: $onQrCodeStatus")
-            onQrCodeStatus(QRCodeScanResult.Invalid)
+            Log.d(LOG_TAG, "Got ${image.format}, but it's not on supported image list: $onQRCodeStatus")
+            onQRCodeStatus(QRCodeScanResult.Invalid)
         }
     }
 

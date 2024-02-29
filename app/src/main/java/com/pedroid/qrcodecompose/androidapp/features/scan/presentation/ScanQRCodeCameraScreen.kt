@@ -20,10 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
-import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
+import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 
 @Composable
 fun ScanQRCodeCameraScreen(
