@@ -10,25 +10,27 @@ fun NavGraphBuilder.scanningFeatureNavigationRoutes(
     largeScreen: Boolean,
 ) {
     scanQRCodeInfoRoute(
-        navigationListeners = ScanQRCodeInfoNavigationListeners(
-            onGoScanQRCode = {
-                navController.navigateToScanQRCodeCamera()
-            }
-        ),
+        navigationListeners =
+            ScanQRCodeInfoNavigationListeners(
+                onGoScanQRCode = {
+                    navController.navigateToScanQRCodeCamera()
+                },
+            ),
         largeScreen = largeScreen,
     )
     scanQRCodeCameraRoute(
-        navigationListeners = ScanQRCodeCameraNavigationListeners(
-            onCodeScanned = {
-                navController.popBackStack()
-                navController.currentBackStackEntry
-                    ?.savedStateHandle
-                    ?.set(QR_CODE_SCANNED_KEY, it)
-            },
-            onBackInvoked = {
-                navController.popBackStack()
-            }
-        ),
+        navigationListeners =
+            ScanQRCodeCameraNavigationListeners(
+                onCodeScanned = {
+                    navController.popBackStack()
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set(QR_CODE_SCANNED_KEY, it)
+                },
+                onBackInvoked = {
+                    navController.popBackStack()
+                },
+            ),
         largeScreen = largeScreen,
     )
 }

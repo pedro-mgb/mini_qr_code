@@ -22,43 +22,45 @@ sealed class HomeDestinationItem(
     @StringRes val itemTextId: Int,
     val itemIcon: ImageVector,
     val routeLabel: String,
-    val encompassingRoutes: List<String> = listOf(routeLabel)
+    val encompassingRoutes: List<String> = listOf(routeLabel),
 ) {
     data object Scan : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_scan,
         itemIcon = Icons.Filled.ScanQRCode,
         routeLabel = SCAN_ROUTE,
-        encompassingRoutes = listOf(
-            SCAN_ROUTE,
-            SCAN_CAMERA_READER_ROUTE
-        )
+        encompassingRoutes =
+            listOf(
+                SCAN_ROUTE,
+                SCAN_CAMERA_READER_ROUTE,
+            ),
     )
 
     data object Generate : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_generate,
         itemIcon = Icons.Filled.AddCircle,
-        routeLabel = GENERATE_ROUTE
+        routeLabel = GENERATE_ROUTE,
     )
 
     data object History : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_history,
         itemIcon = Icons.Filled.DateRange,
-        routeLabel = HISTORY_LIST_ROUTE
+        routeLabel = HISTORY_LIST_ROUTE,
     )
 
     data object Settings : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_settings,
         itemIcon = Icons.Rounded.Settings,
-        routeLabel = SETTINGS_ROUTE
+        routeLabel = SETTINGS_ROUTE,
     )
 
     companion object {
-        val values: List<HomeDestinationItem> = listOf(
-            Scan,
-            Generate,
-            History,
-            Settings
-        )
+        val values: List<HomeDestinationItem> =
+            listOf(
+                Scan,
+                Generate,
+                History,
+                Settings,
+            )
     }
 }
 

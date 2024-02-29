@@ -20,21 +20,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.pedroid.qrcode_compose_x.scan.QRCodeComposeXScanner
-import com.pedroid.qrcode_compose_x.scan.QRCodeScanResult
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
+import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 
 @Composable
 fun ScanQRCodeCameraScreen(
     onQRCodeResult: (QRCodeScanResult) -> Unit,
     onBackInvoked: () -> Unit,
-    largeScreen: Boolean = false
+    largeScreen: Boolean = false,
 ) {
     val context = LocalContext.current
     if (ContextCompat.checkSelfPermission(
             context,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
         ) != PackageManager.PERMISSION_GRANTED
     ) {
         // should return to home screen because we cannot scan with permission
@@ -51,7 +51,7 @@ fun ScanQRCodeCameraScreen(
             modifier = modifier,
             onResult = onQRCodeResult,
             frameColor = Color.Green,
-            frameVerticalPercent = 0.4f
+            frameVerticalPercent = 0.4f,
         )
     }
 }
@@ -68,11 +68,11 @@ private fun ScanQRCodeCameraContent(
         QRAppToolbar(
             modifier = Modifier.fillMaxWidth(),
             titleRes = R.string.scan_code_camera_toolbar_title,
-            onNavigationIconClick = onBackInvoked
+            onNavigationIconClick = onBackInvoked,
         )
         Box(
             modifier = modifier,
-            contentAlignment = if (largeScreen) Alignment.TopCenter else Alignment.BottomCenter
+            contentAlignment = if (largeScreen) Alignment.TopCenter else Alignment.BottomCenter,
         ) {
             cameraContent(Modifier.matchParentSize())
             InformativeLabel()
@@ -83,20 +83,22 @@ private fun ScanQRCodeCameraContent(
 @Composable
 private fun InformativeLabel() {
     Card(
-        modifier = Modifier
-            .fillMaxWidth(fraction = 0.8f)
-            .padding(bottom = 20.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth(fraction = 0.8f)
+                .padding(bottom = 20.dp),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 5.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 5.dp),
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = stringResource(id = R.string.scan_code_camera_instructions),
                 textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelMedium,
             )
         }
     }

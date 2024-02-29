@@ -19,7 +19,7 @@ fun HistoryListScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(stringResource(id = R.string.bottom_navigation_item_history))
         Spacer(modifier = Modifier.height(20.dp))

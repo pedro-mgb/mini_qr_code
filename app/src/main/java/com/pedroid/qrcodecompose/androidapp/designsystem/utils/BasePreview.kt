@@ -16,12 +16,12 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.theme.QRCodeComposeCame
 @Composable
 fun BaseQRCodeAppPreview(
     modifier: Modifier = Modifier,
-    previewContent: @Composable () -> Unit
+    previewContent: @Composable () -> Unit,
 ) {
     QRCodeComposeCameraXTheme {
         QRAppBackground(
             modifier,
-            content = previewContent
+            content = previewContent,
         )
     }
 }
