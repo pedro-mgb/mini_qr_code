@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pedroid.qrcode_compose_x"
+    namespace = "com.pedroid.qrcodecomposelib"
     compileSdk = 34
 
     defaultConfig {

@@ -1,7 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
-import com.pedroid.qrcode_compose_x.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

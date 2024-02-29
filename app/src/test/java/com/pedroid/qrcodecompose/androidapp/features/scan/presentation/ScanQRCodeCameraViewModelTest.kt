@@ -1,6 +1,6 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
-import com.pedroid.qrcode_compose_x.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

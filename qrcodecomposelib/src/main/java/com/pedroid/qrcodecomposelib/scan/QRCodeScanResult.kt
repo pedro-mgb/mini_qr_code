@@ -1,4 +1,4 @@
-package com.pedroid.qrcode_compose_x.scan
+package com.pedroid.qrcodecomposelib.scan
 
 sealed interface QRCodeScanResult {
     data object Ready : QRCodeScanResult

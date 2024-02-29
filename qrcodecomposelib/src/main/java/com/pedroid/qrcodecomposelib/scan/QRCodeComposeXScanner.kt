@@ -1,4 +1,4 @@
-package com.pedroid.qrcode_compose_x.scan
+package com.pedroid.qrcodecomposelib.scan
 
 import android.content.Context
 import android.util.Size
@@ -20,8 +20,8 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.pedroid.qrcode_compose_x.scan.internal.QrCodeAnalyzer
-import com.pedroid.qrcode_compose_x.scan.internal.drawScannerFrame
+import com.pedroid.qrcodecomposelib.scan.internal.QrCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.internal.drawScannerFrame
 
 @Composable
 @RequiresPermission(android.Manifest.permission.CAMERA)

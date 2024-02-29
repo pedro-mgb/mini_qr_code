@@ -1,4 +1,4 @@
-package com.pedroid.qrcode_compose_x.scan.internal
+package com.pedroid.qrcodecomposelib.scan.internal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

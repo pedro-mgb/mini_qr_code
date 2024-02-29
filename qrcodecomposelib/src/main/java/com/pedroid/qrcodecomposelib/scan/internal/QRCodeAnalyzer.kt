@@ -1,4 +1,4 @@
-package com.pedroid.qrcode_compose_x.scan.internal
+package com.pedroid.qrcodecomposelib.scan.internal
 
 import android.graphics.ImageFormat
 import android.os.Build
@@ -13,7 +13,7 @@ import com.google.zxing.NotFoundException
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.Reader
 import com.google.zxing.common.HybridBinarizer
-import com.pedroid.qrcode_compose_x.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import java.nio.ByteBuffer
 
 private val supportedImageFormats: List<Int> by lazy {

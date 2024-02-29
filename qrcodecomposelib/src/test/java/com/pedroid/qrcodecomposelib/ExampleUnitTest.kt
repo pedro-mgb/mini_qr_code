@@ -1,4 +1,4 @@
-package com.pedroid.qrcode_compose_x
+package com.pedroid.qrcodecomposelib
 
 import org.junit.Assert
 import org.junit.Test
