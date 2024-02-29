@@ -50,7 +50,7 @@ class GenerateQRCodeViewModelTest {
         }
 
     @Test
-    fun `given multiple update text actions are sent with less than 600 ms, only input text is updated in state`() =
+    fun `given multiple update text actions are sent with less than 400 ms, only input text is updated in state`() =
         runTest {
             sut.uiState.test {
                 // Initial state
@@ -83,7 +83,7 @@ class GenerateQRCodeViewModelTest {
         }
 
     @Test
-    fun `given multiple update text actions are sent with more than 600 ms, input text and qr code text are updated in state`() =
+    fun `given multiple update text actions are sent with more than 400 ms, input text and qr code text are updated in state`() =
         runTest {
             sut.uiState.test {
                 // Initial state
@@ -93,7 +93,7 @@ class GenerateQRCodeViewModelTest {
                 )
 
                 sut.onNewAction(GenerateQRCodeUIAction.UpdateText("FIRST_EMISSION"))
-                testScheduler.advanceTimeBy(601L)
+                testScheduler.advanceTimeBy(401L)
                 sut.onNewAction(GenerateQRCodeUIAction.UpdateText("SECOND_EMISSION"))
 
                 assertEquals(

@@ -22,7 +22,7 @@ private const val LOG_TAG = "GenerateQRCode"
 private const val GENERATE_UI_STATE_KEY: String = "GENERATE_QR_CODE_UI_STATE"
 
 // time in milliseconds to wait until there is no additional typing, and start generating code
-private const val AWAIT_INPUT_STOP_INTERVAL = 600L
+private const val AWAIT_INPUT_STOP_INTERVAL = 400L
 
 @HiltViewModel
 class GenerateQRCodeViewModel
