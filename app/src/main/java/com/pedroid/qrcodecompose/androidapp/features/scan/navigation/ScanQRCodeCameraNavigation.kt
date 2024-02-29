@@ -28,7 +28,7 @@ fun NavGraphBuilder.scanQRCodeCameraRoute(
 private fun ScanQRCodeCamera(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
     largeScreen: Boolean,
-    viewModel: ScanQRCodeCameraViewModel = hiltViewModel()
+    viewModel: ScanQRCodeCameraViewModel = hiltViewModel(),
 ) {
     val uiState: QRCodeCameraUIState by viewModel.uiState.collectAsStateWithLifecycle()
     uiState.apply {
@@ -52,9 +52,10 @@ private fun ScanQRCodeCamera(
 }
 
 fun NavController.navigateToScanQRCodeCamera(
-    navOptions: NavOptions = androidx.navigation.navOptions {
-        launchSingleTop = true
-    }
+    navOptions: NavOptions =
+        androidx.navigation.navOptions {
+            launchSingleTop = true
+        },
 ) {
     this.navigate(SCAN_CAMERA_READER_ROUTE, navOptions)
 }

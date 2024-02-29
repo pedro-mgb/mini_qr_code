@@ -19,7 +19,7 @@ fun BottomNavigationItems(
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
     onNavigateToHomeItem: (HomeDestinationItem) -> Unit,
-    items: List<HomeDestinationItem> = HomeDestinationItem.values
+    items: List<HomeDestinationItem> = HomeDestinationItem.values,
 ) {
     QRAppBottomNavBar(modifier = modifier) {
         items.forEach { item ->
@@ -39,7 +39,7 @@ fun NavigationRailItems(
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
     onNavigateToHomeItem: (HomeDestinationItem) -> Unit,
-    items: List<HomeDestinationItem> = HomeDestinationItem.values
+    items: List<HomeDestinationItem> = HomeDestinationItem.values,
 ) {
     QRAppNavRail(modifier = modifier) {
         items.forEach { item ->

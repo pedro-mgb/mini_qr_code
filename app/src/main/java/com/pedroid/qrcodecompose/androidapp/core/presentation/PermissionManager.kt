@@ -7,9 +7,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalPermissionsApi::class)
-fun PermissionState.launchPermissionRequestOrRun(
-    onPermissionGranted: () -> Unit
-) {
+fun PermissionState.launchPermissionRequestOrRun(onPermissionGranted: () -> Unit) {
     if (status.isGranted) {
         onPermissionGranted()
     } else {
@@ -21,12 +19,12 @@ fun PermissionState.launchPermissionRequestOrRun(
 @Composable
 fun rememberPermissionState(
     permission: String,
-    onPermissionGranted: () -> Unit
+    onPermissionGranted: () -> Unit,
 ) = rememberPermissionState(
     permission = permission,
     onPermissionResult = { granted ->
         if (granted) {
             onPermissionGranted()
         }
-    }
+    },
 )

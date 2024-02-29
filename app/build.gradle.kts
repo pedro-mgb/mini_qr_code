@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlinter)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
@@ -42,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -51,9 +52,14 @@ android {
     }
 }
 
+kotlinter {
+    ignoreFailures = false
+    reporters = arrayOf("plain")
+}
+
 dependencies {
 
-    implementation(project(":qr_code_compose_x"))
+    implementation(project(":qrcodecomposelib"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)

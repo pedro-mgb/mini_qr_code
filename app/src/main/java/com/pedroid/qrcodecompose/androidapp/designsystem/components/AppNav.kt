@@ -33,7 +33,7 @@ fun RowScope.QRAppBottomNavBarItem(
         onClick = onClick,
         label = label,
         icon = icon,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -61,6 +61,6 @@ fun QRAppNavRailItem(
         onClick = onClick,
         label = label,
         icon = icon,
-        modifier = modifier
+        modifier = modifier,
     )
 }

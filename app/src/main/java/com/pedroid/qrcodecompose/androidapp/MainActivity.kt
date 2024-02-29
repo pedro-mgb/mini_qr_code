@@ -12,13 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             QRCodeComposeCameraXTheme {
                 QRCodeApp(
-                    windowSizeClass = calculateWindowSizeClass(this)
+                    windowSizeClass = calculateWindowSizeClass(this),
                 )
             }
         }

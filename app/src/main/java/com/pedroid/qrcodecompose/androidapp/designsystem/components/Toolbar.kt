@@ -37,7 +37,7 @@ fun QRAppToolbar(
             }
         },
         colors = colors,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -47,6 +47,6 @@ fun QRAppToolbar(
 fun QRAppToolbarPreview() {
     QRAppToolbar(
         titleRes = android.R.string.untitled,
-        onNavigationIconClick = { }
+        onNavigationIconClick = { },
     )
 }

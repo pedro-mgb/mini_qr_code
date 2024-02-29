@@ -20,13 +20,14 @@ fun Context.openAppToView(content: String): ExternalAppStartResponse.OpenApp {
 
 fun Context.shareTextToAnotherApp(
     content: String,
-    shareTitle: String? = null
+    shareTitle: String? = null,
 ): ExternalAppStartResponse.ShareApp {
     return try {
-        val sendIntent: Intent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_TEXT, content)
-            type = "text/plain"
-        }
+        val sendIntent: Intent =
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, content)
+                type = "text/plain"
+            }
         val shareIntent = Intent.createChooser(sendIntent, shareTitle)
         startActivity(shareIntent)
         ExternalAppStartResponse.ShareApp(AppResponseStatus.SUCCESS)
@@ -37,14 +38,14 @@ fun Context.shareTextToAnotherApp(
 
 fun Context.copyTextToClipboard(
     text: String,
-    auxiliaryLabel: String = ""
+    auxiliaryLabel: String = "",
 ) {
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).copyText(text, auxiliaryLabel)
 }
 
 fun ClipboardManager.copyText(
     text: String,
-    auxiliaryLabel: String = ""
+    auxiliaryLabel: String = "",
 ) {
     val clip = ClipData.newPlainText(auxiliaryLabel, text)
     setPrimaryClip(clip)

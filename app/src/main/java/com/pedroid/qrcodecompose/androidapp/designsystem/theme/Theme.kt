@@ -29,52 +29,54 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.compose.material3.MaterialTheme.colorScheme as cs
 
-private val darkColorScheme = darkColorScheme(
-    primary = md_theme_dark_primary,
-    onPrimary = md_theme_dark_onPrimary,
-    primaryContainer = md_theme_dark_primaryContainer,
-    onPrimaryContainer = md_theme_dark_onPrimaryContainer,
-    secondary = md_theme_dark_secondary,
-    onSecondary = md_theme_dark_onSecondary,
-    secondaryContainer = md_theme_dark_secondaryContainer,
-    onSecondaryContainer = md_theme_dark_onSecondaryContainer,
-    tertiary = md_theme_dark_tertiary,
-    onTertiary = md_theme_dark_onTertiary,
-    tertiaryContainer = md_theme_dark_tertiaryContainer,
-    onTertiaryContainer = md_theme_dark_onTertiaryContainer,
-    error = md_theme_dark_error,
-    errorContainer = md_theme_dark_errorContainer,
-    onError = md_theme_dark_onError,
-    onErrorContainer = md_theme_dark_onErrorContainer,
-    background = md_theme_dark_background,
-    onBackground = md_theme_dark_onBackground,
-    surface = md_theme_dark_surface,
-    onSurface = md_theme_dark_onSurface,
-    surfaceVariant = md_theme_dark_surfaceVariant,
-    onSurfaceVariant = md_theme_dark_onSurfaceVariant,
-    outline = md_theme_dark_outline,
-    inverseOnSurface = md_theme_dark_inverseOnSurface,
-    inverseSurface = md_theme_dark_inverseSurface,
-    inversePrimary = md_theme_dark_inversePrimary,
-    surfaceTint = md_theme_dark_surfaceTint,
-    outlineVariant = md_theme_dark_outlineVariant,
-    scrim = md_theme_dark_scrim,
-)
+private val darkColorScheme =
+    darkColorScheme(
+        primary = md_theme_dark_primary,
+        onPrimary = md_theme_dark_onPrimary,
+        primaryContainer = md_theme_dark_primaryContainer,
+        onPrimaryContainer = md_theme_dark_onPrimaryContainer,
+        secondary = md_theme_dark_secondary,
+        onSecondary = md_theme_dark_onSecondary,
+        secondaryContainer = md_theme_dark_secondaryContainer,
+        onSecondaryContainer = md_theme_dark_onSecondaryContainer,
+        tertiary = md_theme_dark_tertiary,
+        onTertiary = md_theme_dark_onTertiary,
+        tertiaryContainer = md_theme_dark_tertiaryContainer,
+        onTertiaryContainer = md_theme_dark_onTertiaryContainer,
+        error = md_theme_dark_error,
+        errorContainer = md_theme_dark_errorContainer,
+        onError = md_theme_dark_onError,
+        onErrorContainer = md_theme_dark_onErrorContainer,
+        background = md_theme_dark_background,
+        onBackground = md_theme_dark_onBackground,
+        surface = md_theme_dark_surface,
+        onSurface = md_theme_dark_onSurface,
+        surfaceVariant = md_theme_dark_surfaceVariant,
+        onSurfaceVariant = md_theme_dark_onSurfaceVariant,
+        outline = md_theme_dark_outline,
+        inverseOnSurface = md_theme_dark_inverseOnSurface,
+        inverseSurface = md_theme_dark_inverseSurface,
+        inversePrimary = md_theme_dark_inversePrimary,
+        surfaceTint = md_theme_dark_surfaceTint,
+        outlineVariant = md_theme_dark_outlineVariant,
+        scrim = md_theme_dark_scrim,
+    )
 
 @Composable
 fun QRCodeComposeCameraXTheme(
     // Dynamic color is available on Android 12+; for now only dark theme available without dynamic color
     dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            dynamicDarkColorScheme(context)
-        }
+    val colorScheme =
+        when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                dynamicDarkColorScheme(context)
+            }
 
-        else -> darkColorScheme
-    }
+            else -> darkColorScheme
+        }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -88,7 +90,7 @@ fun QRCodeComposeCameraXTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
     )
 }
 
@@ -96,32 +98,38 @@ fun QRCodeComposeCameraXTheme(
 @Composable
 fun ThemeColorsPreview() {
     @Composable
-    fun ColorItem(text: String, color: Color) {
+    fun ColorItem(
+        text: String,
+        color: Color,
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
         ) {
+            // Magenta to have ok contrast with both light and dark background
             Text(
                 modifier = Modifier.width(200.dp),
                 text = text,
-                color = Color.Magenta  // to have ok contrast with both light and dark background
+                color = Color.Magenta,
             )
             Box(
-                modifier = Modifier
-                    .padding(end = 40.dp, top = 4.dp, bottom = 4.dp)
-                    .width(100.dp)
-                    .height(25.dp)
-                    .background(color)
+                modifier =
+                    Modifier
+                        .padding(end = 40.dp, top = 4.dp, bottom = 4.dp)
+                        .width(100.dp)
+                        .height(25.dp)
+                        .background(color),
             ) { }
         }
     }
 
     QRCodeComposeCameraXTheme {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .verticalScroll(rememberScrollState())
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .verticalScroll(rememberScrollState()),
         ) {
             ColorItem(text = "Primary", color = cs.primary)
             ColorItem(text = "On Primary", color = cs.onPrimary)
