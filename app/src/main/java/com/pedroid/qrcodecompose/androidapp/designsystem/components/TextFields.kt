@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 
 @Composable
-fun QRAppLargeTextBox(
+fun QRAppTextBox(
     modifier: Modifier = Modifier,
     textValue: String,
     onTextChanged: (String) -> Unit,
@@ -44,7 +44,7 @@ fun QRAppLargeTextBox(
 
 @Preview
 @Composable
-fun LargeTextBoxPreview() {
+fun TextBoxPreview() {
     var text by remember { mutableStateOf("") }
 
     BaseQRCodeAppPreview {
@@ -52,7 +52,7 @@ fun LargeTextBoxPreview() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            QRAppLargeTextBox(
+            QRAppTextBox(
                 modifier =
                     Modifier
                         .fillMaxWidth()

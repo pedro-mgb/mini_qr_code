@@ -10,6 +10,7 @@
     <string name="action_copy">Copiar</string>
     <string name="action_open">Abrir com uma app</string>
     <string name="action_share">Partilhar</string>
+    <string name="action_save_to_file">Guardar num ficheiro</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Scan de QR codes é fácil, basta pressionares o botão \'%s\' para usar a tua câmara para capturar códigos</string>

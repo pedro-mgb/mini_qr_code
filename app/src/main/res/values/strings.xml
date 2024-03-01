@@ -10,6 +10,7 @@
     <string name="action_copy">Copy</string>
     <string name="action_open">Open with an app</string>
     <string name="action_share">Share</string>
+    <string name="action_save_to_file">Save to file</string>
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Scanning QR Codes is easy, just press the \'%s\' button to use the camera to scan a code</string>
