@@ -40,15 +40,10 @@ fun Context.copyTextToClipboard(
     text: String,
     auxiliaryLabel: String = "",
 ) {
-    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).copyText(text, auxiliaryLabel)
-}
-
-fun ClipboardManager.copyText(
-    text: String,
-    auxiliaryLabel: String = "",
-) {
-    val clip = ClipData.newPlainText(auxiliaryLabel, text)
-    setPrimaryClip(clip)
+    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).apply {
+        val clip = ClipData.newPlainText(auxiliaryLabel, text)
+        setPrimaryClip(clip)
+    }
 }
 
 @SuppressLint("DiscouragedApi")
