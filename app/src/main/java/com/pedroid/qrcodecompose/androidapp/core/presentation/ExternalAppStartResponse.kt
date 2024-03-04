@@ -10,21 +10,28 @@ sealed class ExternalAppStartResponse {
 
 enum class AppResponseStatus {
     SUCCESS,
+    ERROR_FILE,
     ERROR_NO_APP,
 }
 
 fun ExternalAppStartResponse.getErrorMessageKey(): String? {
-    return if (this.status == AppResponseStatus.ERROR_NO_APP) {
-        when (this) {
-            is ExternalAppStartResponse.OpenApp -> {
-                "code_open_app_error"
-            }
+    return when (this.status) {
+        AppResponseStatus.ERROR_NO_APP -> {
+            when (this) {
+                is ExternalAppStartResponse.OpenApp -> {
+                    "code_open_app_error"
+                }
 
-            is ExternalAppStartResponse.ShareApp -> {
-                "code_share_app_error"
+                is ExternalAppStartResponse.ShareApp -> {
+                    "code_share_app_error"
+                }
             }
         }
-    } else {
-        null
+        AppResponseStatus.ERROR_FILE -> {
+            "code_saved_to_file_error"
+        }
+        else -> {
+            null
+        }
     }
 }

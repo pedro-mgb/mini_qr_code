@@ -2,6 +2,8 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
 import com.pedroid.qrcodecompose.androidapp.testutils.CoroutineDispatcherTestRule
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -129,11 +131,39 @@ class GenerateQRCodeViewModelTest {
         }
 
     @Test
-    fun `given error actions are sent, state errorMessageKey is updated`() =
+    fun `given generate error actions are sent, state errorMessageKey is updated`() =
         runTest {
             sut.uiState.test {
                 awaitItem() // initial state
-                sut.onNewAction(GenerateQRCodeUIAction.ErrorReceived(IllegalStateException()))
+                sut.onNewAction(GenerateQRCodeUIAction.GenerateErrorReceived(IllegalStateException()))
+                assertTrue(awaitItem().errorMessageKey.isNotBlank())
+                sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
+                assertTrue(awaitItem().errorMessageKey.isEmpty())
+            }
+        }
+
+    @Test
+    fun `given file save error actions are sent, state errorMessageKey is updated`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                sut.onNewAction(GenerateQRCodeUIAction.ErrorSavingToFile)
+                assertTrue(awaitItem().errorMessageKey.isNotBlank())
+                sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
+                assertTrue(awaitItem().errorMessageKey.isEmpty())
+            }
+        }
+
+    @Test
+    fun `given image share error actions are sent, state errorMessageKey is updated`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                sut.onNewAction(
+                    GenerateQRCodeUIAction.AppStarted(
+                        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+                    ),
+                )
                 assertTrue(awaitItem().errorMessageKey.isNotBlank())
                 sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
                 assertTrue(awaitItem().errorMessageKey.isEmpty())

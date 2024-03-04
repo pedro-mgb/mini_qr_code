@@ -1,7 +1,6 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.navigation
 
 import android.Manifest
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -20,6 +19,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRe
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
+import com.pedroid.qrcodecompose.androidapp.core.presentation.showToast
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
@@ -67,11 +67,7 @@ private fun ScanCodeHomeCoordinator(
             ScannedQRCodeActionListeners(
                 onCodeCopied = {
                     context.copyTextToClipboard(it)
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.code_copied_success),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    context.showToast(R.string.code_copied_success)
                 },
                 onCodeOpen = {
                     viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.openAppToView(it)))

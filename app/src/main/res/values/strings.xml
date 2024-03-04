@@ -25,9 +25,11 @@
     <string name="code_open_app_error">There are no apps on the phone that are able to open the code\'s content</string>
     <string name="code_share_app_error">There are no apps on the phone to share the content</string>
     <string name="code_copied_success">Copied to clipboard!</string>
+    <string name="code_saved_to_file_success">Successfully saved to file!</string>
+    <string name="code_saved_to_file_error">There was an error trying to save the image, please try again</string>
 
     <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created</string>
-    <string name="generate_code_text_box_label">QR Code text</string>
-    <string name="generate_code_will_appear_here">QR Code will appear here</string>
+    <string name="generate_code_text_box_label">Input QR Code text</string>
+    <string name="generate_code_will_appear_here">Image will appear here</string>
     <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again</string>
 </resources>

@@ -5,6 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.getErrorMessageKey
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -50,7 +52,7 @@ class GenerateQRCodeViewModel
                 .asStateFlow()
                 .onEach { action ->
                     logger.debug(LOG_TAG, "Received action $action")
-                    savedStateHandle.update<GenerateQRCodeUIState>(GENERATE_UI_STATE_KEY) {
+                    savedStateHandle.updateState {
                         it?.copy(content = it.content.copy(inputText = action.text))
                     }
                 }
@@ -58,7 +60,7 @@ class GenerateQRCodeViewModel
                 .onEach { action ->
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     // only update qrcode to generate if user as stopped typing for a small interval
-                    savedStateHandle.update<GenerateQRCodeUIState>(GENERATE_UI_STATE_KEY) {
+                    savedStateHandle.updateState {
                         it?.copy(content = it.content.copy(qrCodeText = action.text))
                     }
                 }
@@ -72,20 +74,39 @@ class GenerateQRCodeViewModel
                         updateTextActionFlow.emit(action)
                     }
 
-                    is GenerateQRCodeUIAction.ErrorReceived -> {
+                    is GenerateQRCodeUIAction.GenerateErrorReceived -> {
                         logger.error(LOG_TAG, "Error in generating qr code", action.exception)
-                        savedStateHandle.update<GenerateQRCodeUIState>(GENERATE_UI_STATE_KEY) {
+                        savedStateHandle.updateState {
                             it?.copy(errorMessageKey = "generate_code_error")
                         }
                     }
 
+                    is GenerateQRCodeUIAction.AppStarted -> {
+                        action.response.getErrorMessageKey()?.let { errorStringKey ->
+                            savedStateHandle.updateState {
+                                it?.copy(errorMessageKey = errorStringKey)
+                            }
+                        }
+                    }
+
+                    GenerateQRCodeUIAction.ErrorSavingToFile -> {
+                        logger.error(LOG_TAG, "Error in saving qr code to file")
+                        savedStateHandle.updateState {
+                            it?.copy(errorMessageKey = "code_saved_to_file_success")
+                        }
+                    }
+
                     GenerateQRCodeUIAction.ErrorShown -> {
-                        savedStateHandle.update<GenerateQRCodeUIState>(GENERATE_UI_STATE_KEY) {
+                        savedStateHandle.updateState {
                             it?.copy(errorMessageKey = "")
                         }
                     }
                 }
             }
+        }
+
+        private fun SavedStateHandle.updateState(updateDelegate: (GenerateQRCodeUIState?) -> GenerateQRCodeUIState?) {
+            update(GENERATE_UI_STATE_KEY, updateDelegate)
         }
     }
 
@@ -104,7 +125,11 @@ data class GenerateQRCodeContentState(
 sealed interface GenerateQRCodeUIAction {
     data class UpdateText(val text: String) : GenerateQRCodeUIAction
 
-    data class ErrorReceived(val exception: Exception) : GenerateQRCodeUIAction
+    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction
+
+    data class AppStarted(val response: ExternalAppStartResponse) : GenerateQRCodeUIAction
+
+    data object ErrorSavingToFile : GenerateQRCodeUIAction
 
     data object ErrorShown : GenerateQRCodeUIAction
 }
