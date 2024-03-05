@@ -1,7 +1,9 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
+import app.cash.turbine.test
 import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -32,7 +34,7 @@ class ScanQRCodeInfoViewModelTest {
     fun `given action with empty qr code is received, initial UI state remains`() {
         sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = ""))
 
-        assertEquals(sut.uiState.value.content, QRCodeInfoContentUIState.Initial)
+        assertEquals(QRCodeInfoContentUIState.Initial, sut.uiState.value.content)
     }
 
     @Test
@@ -40,8 +42,8 @@ class ScanQRCodeInfoViewModelTest {
         sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = "some_qr_code"))
 
         assertEquals(
-            sut.uiState.value.content,
             QRCodeInfoContentUIState.CodeScanned("some_qr_code"),
+            sut.uiState.value.content,
         )
     }
 
@@ -53,7 +55,7 @@ class ScanQRCodeInfoViewModelTest {
             ),
         )
 
-        assertEquals(sut.uiState.value.errorMessageKey, "")
+        assertEquals("", sut.uiState.value.errorMessageKey)
     }
 
     @Test
@@ -68,15 +70,18 @@ class ScanQRCodeInfoViewModelTest {
     }
 
     @Test
-    fun `given error shown action is sent after external app has error, error message is emitted in state`() {
-        sut.onNewAction(
-            QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
-            ),
-        )
-
-        sut.onNewAction(QRCodeInfoUIAction.ErrorShown)
-
-        assertEquals(sut.uiState.value.errorMessageKey, "")
-    }
+    fun `given error shown action is sent after external app has error, error message is emitted in state`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                sut.onNewAction(
+                    QRCodeInfoUIAction.AppStarted(
+                        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+                    ),
+                )
+                assertTrue(awaitItem().errorMessageKey.isNotBlank())
+                sut.onNewAction(QRCodeInfoUIAction.ErrorShown)
+                assertTrue(awaitItem().errorMessageKey.isEmpty())
+            }
+        }
 }

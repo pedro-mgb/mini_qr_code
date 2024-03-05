@@ -14,12 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -128,7 +128,7 @@ private fun QRCodeReadContent(
                 ),
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
-        Divider(
+        HorizontalDivider(
             modifier =
                 modifier
                     .fillMaxWidth()
@@ -224,7 +224,7 @@ private fun QRCodeActionButtons(
     IconButton(onClick = { actionListeners.onCodeOpen(qrCode) }) {
         Icon(
             modifier = Modifier.size(48.dp),
-            imageVector = Icons.Filled.ExitToApp,
+            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = stringResource(id = R.string.action_open),
         )
     }

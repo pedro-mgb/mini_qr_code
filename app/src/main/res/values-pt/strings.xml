@@ -10,6 +10,7 @@
     <string name="action_copy">Copiar</string>
     <string name="action_open">Abrir com uma app</string>
     <string name="action_share">Partilhar</string>
+    <string name="action_save_to_file">Guardar num ficheiro</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Scan de QR codes é fácil, basta pressionares o botão \'%s\' para usar a tua câmara para capturar códigos</string>
@@ -24,4 +25,11 @@
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo</string>
     <string name="code_copied_success">Copiado para o clipboard!</string>
+    <string name="code_saved_to_file_success">Guardado no ficheiro com successo!</string>
+    <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tente de novo</string>
+
+    <string name="generate_code_header">Escreva o texto na caixa abaixo, e o QR Code será automaticamente criado</string>
+    <string name="generate_code_text_box_label">Inserir Texto para QR Code</string>
+    <string name="generate_code_will_appear_here">Imagem aparecerá aqui</string>
+    <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tente de novo</string>
 </resources>
