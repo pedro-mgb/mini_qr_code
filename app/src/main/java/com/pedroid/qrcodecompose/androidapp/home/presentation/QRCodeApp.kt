@@ -28,7 +28,7 @@ fun QRCodeApp(
     navController: NavHostController = rememberNavController(),
 ) {
     // A surface container using the 'background' color from the theme
-    QRAppBackground {
+    QRAppBackground(modifier = Modifier.fillMaxSize()) {
         val snackbarHostState = remember { SnackbarHostState() }
         CompositionLocalProvider(
             LocalSnackbarHostState provides snackbarHostState,

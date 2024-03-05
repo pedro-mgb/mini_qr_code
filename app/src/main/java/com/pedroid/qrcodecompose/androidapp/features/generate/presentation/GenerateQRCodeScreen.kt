@@ -302,7 +302,7 @@ private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState)
 @Preview
 @Composable
 fun GenerateQRCodeEmptyScreenPreview() {
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("", ""),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
@@ -317,7 +317,7 @@ fun GenerateQRCodeEmptyScreenPreview() {
 @Composable
 fun GenerateQRCodeWithContentScreenPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("qrCode", "qrCode"),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),

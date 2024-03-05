@@ -284,7 +284,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
@@ -296,7 +296,7 @@ fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Denied(shouldShowRationale = true),
