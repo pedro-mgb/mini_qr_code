@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 
@@ -86,13 +86,13 @@ private fun InformativeLabel() {
         modifier =
             Modifier
                 .fillMaxWidth(fraction = 0.8f)
-                .padding(bottom = 20.dp),
+                .padding(bottom = Dimens.spacingMedium),
     ) {
         Box(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 5.dp),
+                    .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingExtraSmall),
             contentAlignment = Alignment.Center,
         ) {
             Text(

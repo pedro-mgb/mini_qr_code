@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 
 @Composable
 fun HistoryListScreen() {
@@ -22,7 +22,7 @@ fun HistoryListScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(stringResource(id = R.string.bottom_navigation_item_history))
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         Text(stringResource(id = R.string.to_be_implemented))
     }
 }

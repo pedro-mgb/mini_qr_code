@@ -41,6 +41,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
@@ -59,7 +60,7 @@ fun ScanQRCodeInfoScreen(
         modifier =
             Modifier
                 .fillMaxSize()
-                .padding(20.dp)
+                .padding(Dimens.spacingMedium)
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,9 +79,9 @@ fun ScanQRCodeInfoScreen(
                 InitialInfoHeader()
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         Button(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
             onClick = onScanCodePressed,
@@ -122,7 +123,7 @@ private fun QRCodeReadContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = Dimens.spacingMedium),
             text = stringResource(id = R.string.scan_code_read_label),
             textAlign = TextAlign.Center,
             style =
@@ -136,8 +137,8 @@ private fun QRCodeReadContent(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp),
-            thickness = 2.dp,
+                    .padding(vertical = Dimens.spacingExtraSmall),
+            thickness = Dimens.borderWidthSmall,
             color = MaterialTheme.colorScheme.primaryContainer,
         )
         if (largeScreen) {
@@ -163,9 +164,9 @@ private fun QRCodeContentLargeScreen(
             qrCode = qrCode,
             textAlign = TextAlign.Center,
         )
-        Spacer(modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(Dimens.spacingMedium))
         Card {
-            Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 10.dp)) {
+            Column(modifier = Modifier.padding(vertical = Dimens.spacingMedium, horizontal = Dimens.spacingSmall)) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
             }
         }
@@ -186,10 +187,10 @@ private fun QRCodeContentPortrait(
                     .heightIn(min = 100.dp, max = 200.dp),
             qrCode = qrCode,
         )
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(Dimens.spacingSmall))
         Card {
             Row(
-                modifier = Modifier.padding(vertical = 5.dp, horizontal = 24.dp),
+                modifier = Modifier.padding(vertical = Dimens.spacingExtraSmall, horizontal = Dimens.spacingMedium),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
@@ -207,12 +208,12 @@ private fun QRCodeDataContent(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onBackground),
+        border = BorderStroke(width = Dimens.borderWidthSmall, color = MaterialTheme.colorScheme.onBackground),
     ) {
         Text(
             modifier =
                 Modifier
-                    .padding(16.dp)
+                    .padding(Dimens.spacingMedium)
                     .verticalScroll(rememberScrollState()),
             text = qrCode,
             textAlign = textAlign,
@@ -227,23 +228,23 @@ private fun QRCodeActionButtons(
 ) {
     IconButton(onClick = { actionListeners.onCodeOpen(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = stringResource(id = R.string.action_open),
         )
     }
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(Dimens.spacingMedium))
     IconButton(onClick = { actionListeners.onCodeShared(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.Filled.Share,
             contentDescription = stringResource(id = R.string.action_share),
         )
     }
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(Dimens.spacingMedium))
     IconButton(onClick = { actionListeners.onCodeCopied(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.Outlined.ContentCopy,
             contentDescription = stringResource(id = R.string.action_copy),
         )
@@ -256,7 +257,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
     when (cameraPermissionStatus) {
         PermissionStatus.Granted -> {
             // nothing to show here, as permission has already been granted
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         }
 
         is PermissionStatus.Denied -> {
@@ -272,7 +273,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
                             },
                     ),
             )
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Dimens.spacingExtraLarge))
         }
     }
 }
