@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 
 @Composable
 fun QRAppTextBox(
@@ -46,22 +45,19 @@ fun QRAppTextBox(
 @Composable
 fun TextBoxPreview() {
     var text by remember { mutableStateOf("") }
-
-    BaseQRCodeAppPreview {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            QRAppTextBox(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .padding(40.dp),
-                textValue = text,
-                onTextChanged = { text = it },
-                imeAction = ImeAction.Done,
-            )
-        }
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        QRAppTextBox(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .padding(40.dp),
+            textValue = text,
+            onTextChanged = { text = it },
+            imeAction = ImeAction.Done,
+        )
     }
 }

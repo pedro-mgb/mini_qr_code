@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
@@ -35,14 +36,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppTextBox
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.SaveAlt
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GeneratedQRCodeUpdateListeners
 import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXGenerator
@@ -307,41 +311,17 @@ fun GenerateQRCodeEmptyScreenPreview() {
     }
 }
 
-@Preview(name = "tablet", device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480")
-@Composable
-fun GenerateQRCodeEmptyScreenTabletPreview() {
-    BaseQRCodeAppPreview {
-        GenerateQRCodeScreen(
-            state = GenerateQRCodeContentState("", ""),
-            qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
-            qrCodeActionListeners = GenerateQRCodeActionListeners(),
-            largeScreen = true,
-        )
-    }
-}
-
-@Preview
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@PreviewScreenSizes
 @Composable
 fun GenerateQRCodeWithContentScreenPreview() {
+    val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
     BaseQRCodeAppPreview {
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("qrCode", "qrCode"),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
-            largeScreen = false,
-        )
-    }
-}
-
-@Preview(name = "tablet", device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480")
-@Composable
-fun GenerateQRCodeWithContentScreenTabletPreview() {
-    BaseQRCodeAppPreview {
-        GenerateQRCodeScreen(
-            state = GenerateQRCodeContentState("qrCode large Screen", "qrCode Large Screen"),
-            qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
-            qrCodeActionListeners = GenerateQRCodeActionListeners(),
-            largeScreen = true,
+            largeScreen = !phoneUI,
         )
     }
 }
