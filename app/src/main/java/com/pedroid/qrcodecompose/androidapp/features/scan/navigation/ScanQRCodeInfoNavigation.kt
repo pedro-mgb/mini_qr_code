@@ -13,7 +13,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.core.presentation.Snackbar
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
@@ -81,8 +81,8 @@ private fun ScanCodeHomeCoordinator(
         largeScreen = largeScreen,
     )
 
-    Snackbar(messageKey = uiState.errorMessageKey) {
-        viewModel.onNewAction(action = QRCodeInfoUIAction.ErrorShown)
+    TemporaryMessage(data = uiState.temporaryMessage) {
+        viewModel.onNewAction(action = QRCodeInfoUIAction.TmpMessageShown)
     }
 }
 

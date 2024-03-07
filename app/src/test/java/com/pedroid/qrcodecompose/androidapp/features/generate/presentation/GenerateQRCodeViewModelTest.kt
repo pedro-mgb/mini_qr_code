@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.testutils.CoroutineDispatcherTestRule
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,7 +37,7 @@ class GenerateQRCodeViewModelTest {
         assertEquals(
             GenerateQRCodeUIState(
                 content = GenerateQRCodeContentState(inputText = ""),
-                errorMessageKey = "",
+                temporaryMessage = null,
             ),
             sut.uiState.value,
         )
@@ -136,9 +138,9 @@ class GenerateQRCodeViewModelTest {
             sut.uiState.test {
                 awaitItem() // initial state
                 sut.onNewAction(GenerateQRCodeUIAction.GenerateErrorReceived(IllegalStateException()))
-                assertTrue(awaitItem().errorMessageKey.isNotBlank())
-                sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
-                assertTrue(awaitItem().errorMessageKey.isEmpty())
+                awaitItem().temporaryMessage.assertHasError()
+                sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
+                assertTrue(awaitItem().temporaryMessage == null)
             }
         }
 
@@ -148,9 +150,9 @@ class GenerateQRCodeViewModelTest {
             sut.uiState.test {
                 awaitItem() // initial state
                 sut.onNewAction(GenerateQRCodeUIAction.ErrorSavingToFile)
-                assertTrue(awaitItem().errorMessageKey.isNotBlank())
-                sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
-                assertTrue(awaitItem().errorMessageKey.isEmpty())
+                awaitItem().temporaryMessage.assertHasError()
+                sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
+                assertTrue(awaitItem().temporaryMessage == null)
             }
         }
 
@@ -164,9 +166,15 @@ class GenerateQRCodeViewModelTest {
                         ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
                     ),
                 )
-                assertTrue(awaitItem().errorMessageKey.isNotBlank())
-                sut.onNewAction(GenerateQRCodeUIAction.ErrorShown)
-                assertTrue(awaitItem().errorMessageKey.isEmpty())
+                awaitItem().temporaryMessage.assertHasError()
+                sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
+                assertTrue(awaitItem().temporaryMessage == null)
             }
         }
+
+    private fun TemporaryMessageData?.assertHasError() {
+        assertTrue(this != null)
+        assertTrue(this!!.text.isNotBlank())
+        assertEquals(TemporaryMessageType.ERROR_SNACKBAR, this.type)
+    }
 }

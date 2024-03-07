@@ -86,16 +86,25 @@ fun Context.showToast(
     Toast.makeText(this, stringId, Toast.LENGTH_SHORT).show()
 }
 
+fun Context.showToast(string: String) {
+    Toast.makeText(this, getString(string), Toast.LENGTH_SHORT).show()
+}
+
+/**
+ * @return string in resources associated with supplied key, or the actual key if the resource is not found
+ *
+ * useful if the caller is uncertain that the current string is a key or an actual text
+ */
 @SuppressLint("DiscouragedApi")
-fun Context.getString(key: String): String? {
+fun Context.getString(key: String): String {
     val resId: Int = resources.getIdentifier(key, "string", packageName)
     return if (resId > 0) {
         try {
             getString(resId)
         } catch (e: Resources.NotFoundException) {
-            null
+            key
         }
     } else {
-        null
+        key
     }
 }

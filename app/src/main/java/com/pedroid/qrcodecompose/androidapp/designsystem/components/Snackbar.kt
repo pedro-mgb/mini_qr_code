@@ -11,6 +11,8 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarVisuals
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,31 +20,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 
 // region composables
 @Composable
-fun QRAppSnackbar(
-    text: String,
-    type: SnackbarType,
-) {
-    Snackbar(containerColor = type.backgroundColor()) {
+fun QRAppSnackbar(visuals: QRAppSnackbarVisuals) {
+    Snackbar(
+        modifier = Modifier.padding(Dimens.spacingLarge),
+        containerColor = visuals.type.backgroundColor(),
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 modifier = Modifier.padding(end = Dimens.spacingSmall),
-                imageVector = type.icon,
-                tint = type.contentColor(),
+                imageVector = visuals.type.icon,
+                tint = visuals.type.contentColor(),
                 contentDescription = null,
             )
-            Text(text, color = type.contentColor())
+            Text(visuals.message, color = visuals.type.contentColor())
         }
     }
 }
 // endregion composables
 
 // region data
+data class QRAppSnackbarVisuals(
+    val type: SnackbarType,
+    override val message: String,
+) : SnackbarVisuals {
+    override val actionLabel: String? = null
+    override val duration: SnackbarDuration = SnackbarDuration.Short
+    override val withDismissAction: Boolean = false
+}
+
 enum class SnackbarType(
     val backgroundColor: @Composable () -> Color,
     val contentColor: @Composable () -> Color,
@@ -71,15 +81,12 @@ enum class SnackbarType(
 @Composable
 fun QRAppSnackbarInfoPreview() {
     BaseQRCodeAppPreview {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             QRAppSnackbar(
-                text = "This is an informative snackbar, not to be used for critical messages",
-                type = SnackbarType.INFO,
+                QRAppSnackbarVisuals(
+                    type = SnackbarType.INFO,
+                    message = "This is an informative snackbar, not to be used for critical messages",
+                ),
             )
         }
     }
@@ -89,15 +96,12 @@ fun QRAppSnackbarInfoPreview() {
 @Composable
 fun QRAppSnackbarSuccessPreview() {
     BaseQRCodeAppPreview {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             QRAppSnackbar(
-                text = "This is a success snackbar, when an action the user takes is successful",
-                type = SnackbarType.SUCCESS,
+                QRAppSnackbarVisuals(
+                    type = SnackbarType.SUCCESS,
+                    message = "This is a success snackbar, when an action the user takes is successful",
+                ),
             )
         }
     }
@@ -107,17 +111,14 @@ fun QRAppSnackbarSuccessPreview() {
 @Composable
 fun QRAppSnackbarErrorPreview() {
     BaseQRCodeAppPreview {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             QRAppSnackbar(
-                text =
-                    "This is an error snackbar, when an action the user takes is NOT successful," +
-                        " or just something going wrong in general",
-                type = SnackbarType.ERROR,
+                QRAppSnackbarVisuals(
+                    type = SnackbarType.ERROR,
+                    message =
+                        "This is an error snackbar, when an action the user takes is NOT successful," +
+                            " or just something going wrong in general",
+                ),
             )
         }
     }

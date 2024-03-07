@@ -14,21 +14,30 @@ enum class AppResponseStatus {
     ERROR_NO_APP,
 }
 
-fun ExternalAppStartResponse.getErrorMessageKey(): String? {
+fun ExternalAppStartResponse.asTemporaryMessage(): TemporaryMessageData? {
     return when (this.status) {
         AppResponseStatus.ERROR_NO_APP -> {
             when (this) {
                 is ExternalAppStartResponse.OpenApp -> {
-                    "code_open_app_error"
+                    TemporaryMessageData(
+                        text = "code_open_app_error",
+                        type = TemporaryMessageType.ERROR_SNACKBAR,
+                    )
                 }
 
                 is ExternalAppStartResponse.ShareApp -> {
-                    "code_share_app_error"
+                    TemporaryMessageData(
+                        text = "code_share_app_error",
+                        type = TemporaryMessageType.ERROR_SNACKBAR,
+                    )
                 }
             }
         }
         AppResponseStatus.ERROR_FILE -> {
-            "code_saved_to_file_error"
+            TemporaryMessageData(
+                text = "code_saved_to_file_error",
+                type = TemporaryMessageType.ERROR_SNACKBAR,
+            )
         }
         else -> {
             null

@@ -18,7 +18,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.presentation.IMAGE_MIME_TYPE
-import com.pedroid.qrcodecompose.androidapp.core.presentation.Snackbar
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.saveBitmap
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp
@@ -92,8 +92,8 @@ private fun GenerateQRCodeCoordinator(
         largeScreen = largeScreen,
     )
 
-    Snackbar(messageKey = uiState.errorMessageKey) {
-        viewModel.onNewAction(action = GenerateQRCodeUIAction.ErrorShown)
+    TemporaryMessage(data = uiState.temporaryMessage) {
+        viewModel.onNewAction(action = GenerateQRCodeUIAction.TmpMessageShown)
     }
 }
 
