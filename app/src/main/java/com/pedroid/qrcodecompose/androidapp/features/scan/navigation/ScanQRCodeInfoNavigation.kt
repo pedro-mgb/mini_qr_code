@@ -12,14 +12,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
-import com.pedroid.qrcodecompose.androidapp.core.presentation.showToast
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
@@ -67,13 +67,19 @@ private fun ScanCodeHomeCoordinator(
             ScannedQRCodeActionListeners(
                 onCodeCopied = {
                     context.copyTextToClipboard(it)
-                    context.showToast(R.string.code_copied_success)
+                    viewModel.onNewAction(
+                        QRCodeInfoUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)),
+                    )
                 },
                 onCodeOpen = {
-                    viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.openAppToView(it)))
+                    viewModel.onNewAction(QRCodeInfoUIAction.QRActionComplete(context.openAppToView(it)))
                 },
                 onCodeShared = {
-                    viewModel.onNewAction(QRCodeInfoUIAction.AppStarted(context.shareTextToAnotherApp(it)))
+                    viewModel.onNewAction(
+                        QRCodeInfoUIAction.QRActionComplete(
+                            context.shareTextToAnotherApp(it),
+                        ),
+                    )
                 },
             ),
         cameraPermissionStatus = cameraPermissionState.status,

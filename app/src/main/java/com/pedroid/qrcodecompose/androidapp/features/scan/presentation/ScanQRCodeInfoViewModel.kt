@@ -1,7 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,8 +32,8 @@ class ScanQRCodeInfoViewModel
                     }
                 }
 
-                is QRCodeInfoUIAction.AppStarted -> {
-                    action.response.asTemporaryMessage()?.let { tmpMessage ->
+                is QRCodeInfoUIAction.QRActionComplete -> {
+                    action.action.asTemporaryMessage()?.let { tmpMessage ->
                         _uiState.update { it.copy(temporaryMessage = tmpMessage) }
                     }
                 }
@@ -59,7 +59,7 @@ sealed interface QRCodeInfoContentUIState {
 sealed interface QRCodeInfoUIAction {
     data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction
 
-    data class AppStarted(val response: ExternalAppStartResponse) : QRCodeInfoUIAction
+    data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction
 
     data object TmpMessageShown : QRCodeInfoUIAction
 }

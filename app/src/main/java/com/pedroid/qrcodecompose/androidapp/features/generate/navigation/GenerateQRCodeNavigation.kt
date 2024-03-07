@@ -16,13 +16,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.IMAGE_MIME_TYPE
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.saveBitmap
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp
-import com.pedroid.qrcodecompose.androidapp.core.presentation.showToast
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeScreen
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeUIAction
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeUIState
@@ -49,7 +49,13 @@ private fun GenerateQRCodeCoordinator(
         rememberSaveBitmapActivityResult(
             context = context,
             retrieveBitmap = { currentQRCodeBitmap },
-            onErrorSaving = { viewModel.onNewAction(GenerateQRCodeUIAction.ErrorSavingToFile) },
+            onResult = {
+                viewModel.onNewAction(
+                    GenerateQRCodeUIAction.QRActionComplete(
+                        QRAppActions.SaveToFile(it),
+                    ),
+                )
+            },
         )
 
     GenerateQRCodeScreen(
@@ -78,15 +84,21 @@ private fun GenerateQRCodeCoordinator(
                 },
                 onImageShare = {
                     val result = context.shareImageToAnotherApp(currentQRCodeBitmap, "QR Code")
-                    viewModel.onNewAction(GenerateQRCodeUIAction.AppStarted(result))
+                    viewModel.onNewAction(GenerateQRCodeUIAction.QRActionComplete(result))
                 },
                 onImageCopyToClipboard = {
                     val copySuccess = context.copyImageToClipboard(currentQRCodeBitmap)
-                    if (!copySuccess) {
-                        viewModel.onNewAction(GenerateQRCodeUIAction.ErrorSavingToFile)
-                    } else {
-                        context.showToast(R.string.code_copied_success)
-                    }
+                    val copyActionStatus =
+                        if (copySuccess) {
+                            ActionStatus.SUCCESS
+                        } else {
+                            ActionStatus.ERROR_FILE
+                        }
+                    viewModel.onNewAction(
+                        GenerateQRCodeUIAction.QRActionComplete(
+                            QRAppActions.Copy(copyActionStatus),
+                        ),
+                    )
                 },
             ),
         largeScreen = largeScreen,
@@ -101,14 +113,14 @@ private fun GenerateQRCodeCoordinator(
 private fun rememberSaveBitmapActivityResult(
     context: Context,
     retrieveBitmap: () -> Bitmap?,
-    onErrorSaving: () -> Unit,
+    onResult: (ActionStatus) -> Unit,
 ) = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(IMAGE_MIME_TYPE)) {
-    it.let { uri ->
+    it?.let { uri ->
         val bitmapSaved = uri.saveBitmap(context, retrieveBitmap())
         if (bitmapSaved) {
-            context.showToast(R.string.code_saved_to_file_success)
+            onResult(ActionStatus.SUCCESS)
         } else {
-            onErrorSaving()
+            onResult(ActionStatus.ERROR_FILE)
         }
     }
 }

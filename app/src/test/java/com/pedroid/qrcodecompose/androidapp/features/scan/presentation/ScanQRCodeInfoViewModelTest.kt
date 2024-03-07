@@ -1,8 +1,8 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import app.cash.turbine.test
-import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import kotlinx.coroutines.test.runTest
@@ -52,8 +52,8 @@ class ScanQRCodeInfoViewModelTest {
     @Test
     fun `given action for external app was opened successfully, no error message is emitted`() {
         sut.onNewAction(
-            QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.OpenApp(AppResponseStatus.SUCCESS),
+            QRCodeInfoUIAction.QRActionComplete(
+                QRAppActions.OpenApp(ActionStatus.SUCCESS),
             ),
         )
 
@@ -63,8 +63,8 @@ class ScanQRCodeInfoViewModelTest {
     @Test
     fun `given action for external app has error, error message is emitted in state`() {
         sut.onNewAction(
-            QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+            QRCodeInfoUIAction.QRActionComplete(
+                QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP),
             ),
         )
 
@@ -77,8 +77,8 @@ class ScanQRCodeInfoViewModelTest {
             sut.uiState.test {
                 awaitItem() // initial state
                 sut.onNewAction(
-                    QRCodeInfoUIAction.AppStarted(
-                        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+                    QRCodeInfoUIAction.QRActionComplete(
+                        QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP),
                     ),
                 )
                 awaitItem().temporaryMessage.assertHasError()

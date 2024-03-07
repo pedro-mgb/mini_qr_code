@@ -9,11 +9,11 @@ const val IMAGE_MIME_TYPE = "image/png"
 private const val IMAGE_FILE_EXTENSION = ".png"
 private const val CACHED_IMAGES_DIRECTORY = "images"
 
-fun Uri?.saveBitmap(
+fun Uri.saveBitmap(
     context: Context,
     bitmap: Bitmap?,
 ): Boolean {
-    return if (this == null || bitmap == null) {
+    return if (bitmap == null) {
         false
     } else {
         this.saveFile(context) {

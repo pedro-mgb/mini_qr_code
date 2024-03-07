@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
@@ -82,18 +82,11 @@ class GenerateQRCodeViewModel
                         }
                     }
 
-                    is GenerateQRCodeUIAction.AppStarted -> {
-                        action.response.asTemporaryMessage()?.let { temporaryMessage ->
+                    is GenerateQRCodeUIAction.QRActionComplete -> {
+                        action.action.asTemporaryMessage()?.let { temporaryMessage ->
                             savedStateHandle.updateState {
                                 it?.copy(temporaryMessage = temporaryMessage)
                             }
-                        }
-                    }
-
-                    GenerateQRCodeUIAction.ErrorSavingToFile -> {
-                        logger.error(LOG_TAG, "Error in saving qr code to file")
-                        savedStateHandle.updateState {
-                            it?.copy(temporaryMessage = TemporaryMessageData.error("code_saved_to_file_success"))
                         }
                     }
 
@@ -128,9 +121,7 @@ sealed interface GenerateQRCodeUIAction {
 
     data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction
 
-    data class AppStarted(val response: ExternalAppStartResponse) : GenerateQRCodeUIAction
-
-    data object ErrorSavingToFile : GenerateQRCodeUIAction
+    data class QRActionComplete(val action: QRAppActions) : GenerateQRCodeUIAction
 
     data object TmpMessageShown : GenerateQRCodeUIAction
 }

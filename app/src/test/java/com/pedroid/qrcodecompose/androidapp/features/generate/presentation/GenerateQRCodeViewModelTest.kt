@@ -2,8 +2,8 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.testutils.CoroutineDispatcherTestRule
@@ -145,25 +145,13 @@ class GenerateQRCodeViewModelTest {
         }
 
     @Test
-    fun `given file save error actions are sent, state errorMessageKey is updated`() =
-        runTest {
-            sut.uiState.test {
-                awaitItem() // initial state
-                sut.onNewAction(GenerateQRCodeUIAction.ErrorSavingToFile)
-                awaitItem().temporaryMessage.assertHasError()
-                sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
-                assertTrue(awaitItem().temporaryMessage == null)
-            }
-        }
-
-    @Test
     fun `given image share error actions are sent, state errorMessageKey is updated`() =
         runTest {
             sut.uiState.test {
                 awaitItem() // initial state
                 sut.onNewAction(
-                    GenerateQRCodeUIAction.AppStarted(
-                        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+                    GenerateQRCodeUIAction.QRActionComplete(
+                        QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP),
                     ),
                 )
                 awaitItem().temporaryMessage.assertHasError()
