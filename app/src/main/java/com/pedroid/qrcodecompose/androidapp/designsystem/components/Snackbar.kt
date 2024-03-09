@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.onSuccessContainer
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.successContainer
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 
 // region composables
@@ -64,8 +66,8 @@ enum class SnackbarType(
         icon = Icons.Filled.Info,
     ),
     SUCCESS(
-        backgroundColor = { MaterialTheme.colorScheme.tertiaryContainer },
-        contentColor = { MaterialTheme.colorScheme.onTertiaryContainer },
+        backgroundColor = { MaterialTheme.colorScheme.successContainer },
+        contentColor = { MaterialTheme.colorScheme.onSuccessContainer },
         icon = Icons.Filled.CheckCircle,
     ),
     ERROR(

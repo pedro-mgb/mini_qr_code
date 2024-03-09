@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
@@ -94,6 +96,17 @@ fun QRCodeComposeCameraXTheme(
     )
 }
 
+// currently these extension colors are hardcoded, if the app ever has light + dark theme, these should be made such
+//  that the colors are retrieved via theme (e.g. saving the extra colors via composition local
+val ColorScheme.success: Color
+    get() = dark_Success
+val ColorScheme.onSuccess: Color
+    get() = dark_onSuccess
+val ColorScheme.successContainer: Color
+    get() = dark_SuccessContainer
+val ColorScheme.onSuccessContainer: Color
+    get() = dark_onSuccessContainer
+
 @Preview
 @Composable
 fun ThemeColorsPreview() {
@@ -160,6 +173,11 @@ fun ThemeColorsPreview() {
             ColorItem(text = "Surface Tint", color = cs.surfaceTint)
             ColorItem(text = "Outline Variant", color = cs.outlineVariant)
             ColorItem(text = "Scrim", color = cs.scrim)
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+            ColorItem(text = "Success", color = cs.success)
+            ColorItem(text = "On Success", color = cs.onSuccess)
+            ColorItem(text = "Success Container", color = cs.successContainer)
+            ColorItem(text = "On Success Container", color = cs.onSuccessContainer)
         }
     }
 }
