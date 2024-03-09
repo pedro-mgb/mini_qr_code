@@ -13,8 +13,8 @@
     <string name="action_save_to_file">Guardar num ficheiro</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
-    <string name="scan_code_header">Scan de QR codes é fácil, basta pressionares o botão \'%s\' para usar a tua câmara para capturar códigos</string>
-    <string name="scan_code_permission_info">Precisas de conceder acesso à câmara. É necessário para ler QR Codes</string>
+    <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes</string>
+    <string name="scan_code_permission_info">É necessário conceder acesso à tua câmara.</string>
     <string name="scan_code_permission_denied_info">Negaste o acesso à câmara. Esta app necessita de acesso à câmara para ler QR Codes. Alternativamente, podes usar as outras features desta app</string>
     <string name="scan_code_action_button">Capturar agora</string>
     <string name="scan_another_code_action_button">Capturar novamente</string>

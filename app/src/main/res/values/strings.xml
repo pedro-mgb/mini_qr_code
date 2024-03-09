@@ -13,8 +13,8 @@
     <string name="action_save_to_file">Save to file</string>
     <string name="to_be_implemented">Available soon…</string>
 
-    <string name="scan_code_header">Scanning QR Codes is easy, just press the \'%s\' button to use the camera to scan a code</string>
-    <string name="scan_code_permission_info">You\'ll need to grant camera permission. It is necessary to scan QR Codes</string>
+    <string name="scan_code_header">Press the \'%s\' button to scan QR Codes</string>
+    <string name="scan_code_permission_info">You\'ll need to grant access to your camera</string>
     <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use the other existing features of this app</string>
     <string name="scan_code_action_button">Scan now</string>
     <string name="scan_another_code_action_button">Scan again</string>
