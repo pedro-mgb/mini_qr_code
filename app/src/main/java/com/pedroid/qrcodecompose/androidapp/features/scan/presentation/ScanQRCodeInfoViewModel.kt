@@ -50,16 +50,16 @@ data class QRCodeInfoUIState(
     val temporaryMessage: TemporaryMessageData? = null,
 )
 
-sealed interface QRCodeInfoContentUIState {
-    data object Initial : QRCodeInfoContentUIState
+sealed class QRCodeInfoContentUIState {
+    data object Initial : QRCodeInfoContentUIState()
 
-    data class CodeScanned(val qrCode: String) : QRCodeInfoContentUIState
+    data class CodeScanned(val qrCode: String) : QRCodeInfoContentUIState()
 }
 
-sealed interface QRCodeInfoUIAction {
-    data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction
+sealed class QRCodeInfoUIAction {
+    data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction()
 
-    data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction
+    data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction()
 
-    data object TmpMessageShown : QRCodeInfoUIAction
+    data object TmpMessageShown : QRCodeInfoUIAction()
 }

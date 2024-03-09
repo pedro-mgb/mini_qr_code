@@ -116,12 +116,12 @@ data class GenerateQRCodeContentState(
     val qrCodeText: String = "",
 ) : Parcelable
 
-sealed interface GenerateQRCodeUIAction {
-    data class UpdateText(val text: String) : GenerateQRCodeUIAction
+sealed class GenerateQRCodeUIAction {
+    data class UpdateText(val text: String) : GenerateQRCodeUIAction()
 
-    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction
+    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction()
 
-    data class QRActionComplete(val action: QRAppActions) : GenerateQRCodeUIAction
+    data class QRActionComplete(val action: QRAppActions) : GenerateQRCodeUIAction()
 
-    data object TmpMessageShown : GenerateQRCodeUIAction
+    data object TmpMessageShown : GenerateQRCodeUIAction()
 }

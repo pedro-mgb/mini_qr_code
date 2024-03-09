@@ -32,12 +32,12 @@ class ScanQRCodeCameraViewModel
         }
     }
 
-sealed interface QRCodeCameraUIState {
-    data object Idle : QRCodeCameraUIState
+sealed class QRCodeCameraUIState {
+    data object Idle : QRCodeCameraUIState()
 
-    data class ScanComplete(val qrCode: String) : QRCodeCameraUIState
+    data class ScanComplete(val qrCode: String) : QRCodeCameraUIState()
 }
 
-sealed interface QRCodeCameraUIAction {
-    data class ResultUpdate(val result: QRCodeScanResult) : QRCodeCameraUIAction
+sealed class QRCodeCameraUIAction {
+    data class ResultUpdate(val result: QRCodeScanResult) : QRCodeCameraUIAction()
 }
