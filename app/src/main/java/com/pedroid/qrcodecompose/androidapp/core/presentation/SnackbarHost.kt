@@ -15,7 +15,7 @@ fun QRAppSnackbarHost(
     SnackbarHost(snackbarHostState, modifier) { snackbarData ->
         val qrAppVisuals = snackbarData.visuals as? QRAppSnackbarVisuals
         if (qrAppVisuals == null) {
-            throw IllegalStateException("The snackbar shown in QRAppSnackbarHost must gave QRAppSnackbarVisuals")
+            throw IllegalStateException("The snackbar shown in QRAppSnackbarHost must have QRAppSnackbarVisuals")
         } else {
             QRAppSnackbar(visuals = qrAppVisuals)
         }

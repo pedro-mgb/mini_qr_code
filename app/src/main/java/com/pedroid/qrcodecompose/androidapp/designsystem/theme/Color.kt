@@ -3,7 +3,8 @@ package com.pedroid.qrcodecompose.androidapp.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
 // Color palette created using https://m3.material.io/theme-builder#/custom
-//  with primary colour #89CFF0 + additional success color #FFADCFAE
+//  with primary colour #89CFF0 + extended success color #ADCFAE
+//  Currently only dark theme is supported, who wants bright white anyways
 val md_theme_dark_primary = Color(0xFF6AD3FF)
 val md_theme_dark_onPrimary = Color(0xFF003546)
 val md_theme_dark_primaryContainer = Color(0xFF004D65)
