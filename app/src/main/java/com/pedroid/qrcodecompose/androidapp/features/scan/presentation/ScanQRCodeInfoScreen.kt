@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,12 +34,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
 
 // region screen composables
@@ -55,7 +60,7 @@ fun ScanQRCodeInfoScreen(
         modifier =
             Modifier
                 .fillMaxSize()
-                .padding(20.dp)
+                .padding(Dimens.spacingMedium)
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,9 +79,9 @@ fun ScanQRCodeInfoScreen(
                 InitialInfoHeader()
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         Button(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
             onClick = onScanCodePressed,
@@ -118,7 +123,7 @@ private fun QRCodeReadContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = Dimens.spacingMedium),
             text = stringResource(id = R.string.scan_code_read_label),
             textAlign = TextAlign.Center,
             style =
@@ -132,8 +137,8 @@ private fun QRCodeReadContent(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = 5.dp),
-            thickness = 2.dp,
+                    .padding(vertical = Dimens.spacingExtraSmall),
+            thickness = Dimens.borderWidthSmall,
             color = MaterialTheme.colorScheme.primaryContainer,
         )
         if (largeScreen) {
@@ -159,9 +164,9 @@ private fun QRCodeContentLargeScreen(
             qrCode = qrCode,
             textAlign = TextAlign.Center,
         )
-        Spacer(modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(Dimens.spacingMedium))
         Card {
-            Column(modifier = Modifier.padding(vertical = 24.dp, horizontal = 10.dp)) {
+            Column(modifier = Modifier.padding(vertical = Dimens.spacingMedium, horizontal = Dimens.spacingSmall)) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
             }
         }
@@ -182,10 +187,10 @@ private fun QRCodeContentPortrait(
                     .heightIn(min = 100.dp, max = 200.dp),
             qrCode = qrCode,
         )
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(Dimens.spacingSmall))
         Card {
             Row(
-                modifier = Modifier.padding(vertical = 5.dp, horizontal = 24.dp),
+                modifier = Modifier.padding(vertical = Dimens.spacingExtraSmall, horizontal = Dimens.spacingMedium),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
@@ -203,12 +208,12 @@ private fun QRCodeDataContent(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onBackground),
+        border = BorderStroke(width = Dimens.borderWidthSmall, color = MaterialTheme.colorScheme.onBackground),
     ) {
         Text(
             modifier =
                 Modifier
-                    .padding(16.dp)
+                    .padding(Dimens.spacingMedium)
                     .verticalScroll(rememberScrollState()),
             text = qrCode,
             textAlign = textAlign,
@@ -223,23 +228,23 @@ private fun QRCodeActionButtons(
 ) {
     IconButton(onClick = { actionListeners.onCodeOpen(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = stringResource(id = R.string.action_open),
         )
     }
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(Dimens.spacingMedium))
     IconButton(onClick = { actionListeners.onCodeShared(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.Filled.Share,
             contentDescription = stringResource(id = R.string.action_share),
         )
     }
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(Dimens.spacingMedium))
     IconButton(onClick = { actionListeners.onCodeCopied(qrCode) }) {
         Icon(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.Outlined.ContentCopy,
             contentDescription = stringResource(id = R.string.action_copy),
         )
@@ -252,7 +257,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
     when (cameraPermissionStatus) {
         PermissionStatus.Granted -> {
             // nothing to show here, as permission has already been granted
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         }
 
         is PermissionStatus.Denied -> {
@@ -268,7 +273,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
                             },
                     ),
             )
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(Dimens.spacingExtraLarge))
         }
     }
 }
@@ -279,7 +284,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
@@ -291,7 +296,7 @@ fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
-    BaseQRCodeAppPreview {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Denied(shouldShowRationale = true),
@@ -299,11 +304,15 @@ fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
-@Preview
+@OptIn(
+    ExperimentalPermissionsApi::class,
+    ExperimentalMaterial3WindowSizeClassApi::class,
+)
+@PreviewScreenSizes
 @Composable
 fun ScanQRCodeInfoScreenWithCodeReadPreview() {
-    BaseQRCodeAppPreview {
+    val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
             onScanCodePressed = { },
             cameraPermissionStatus = PermissionStatus.Granted,
@@ -320,21 +329,7 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
                                 "sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     ),
                 ),
-            largeScreen = false,
-        )
-    }
-}
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Preview(name = "tablet", device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480")
-@Composable
-fun ScanQRCodeInfoScreenWithCodeReadTabletPreview() {
-    BaseQRCodeAppPreview {
-        ScanQRCodeInfoScreen(
-            onScanCodePressed = { },
-            cameraPermissionStatus = PermissionStatus.Granted,
-            uiState = QRCodeInfoUIState(QRCodeInfoContentUIState.CodeScanned("some_qr_code")),
-            largeScreen = true,
+            largeScreen = !phoneUI,
         )
     }
 }

@@ -1,8 +1,9 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
-import com.pedroid.qrcodecompose.androidapp.core.presentation.getErrorMessageKey
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
+import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,14 +32,14 @@ class ScanQRCodeInfoViewModel
                     }
                 }
 
-                is QRCodeInfoUIAction.AppStarted -> {
-                    action.response.getErrorMessageKey()?.let { stringKey ->
-                        _uiState.update { it.copy(errorMessageKey = stringKey) }
+                is QRCodeInfoUIAction.QRActionComplete -> {
+                    action.action.asTemporaryMessage()?.let { tmpMessage ->
+                        _uiState.update { it.copy(temporaryMessage = tmpMessage) }
                     }
                 }
 
-                is QRCodeInfoUIAction.ErrorShown -> {
-                    _uiState.update { it.copy(errorMessageKey = "") }
+                is QRCodeInfoUIAction.TmpMessageShown -> {
+                    _uiState.update { it.copy(temporaryMessage = null) }
                 }
             }
         }
@@ -46,19 +47,19 @@ class ScanQRCodeInfoViewModel
 
 data class QRCodeInfoUIState(
     val content: QRCodeInfoContentUIState = QRCodeInfoContentUIState.Initial,
-    val errorMessageKey: String = "",
+    val temporaryMessage: TemporaryMessageData? = null,
 )
 
-sealed interface QRCodeInfoContentUIState {
-    data object Initial : QRCodeInfoContentUIState
+sealed class QRCodeInfoContentUIState {
+    data object Initial : QRCodeInfoContentUIState()
 
-    data class CodeScanned(val qrCode: String) : QRCodeInfoContentUIState
+    data class CodeScanned(val qrCode: String) : QRCodeInfoContentUIState()
 }
 
-sealed interface QRCodeInfoUIAction {
-    data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction
+sealed class QRCodeInfoUIAction {
+    data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction()
 
-    data class AppStarted(val response: ExternalAppStartResponse) : QRCodeInfoUIAction
+    data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction()
 
-    data object ErrorShown : QRCodeInfoUIAction
+    data object TmpMessageShown : QRCodeInfoUIAction()
 }

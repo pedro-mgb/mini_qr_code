@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material3.adaptive)
     implementation(libs.material3.windowSizeClass)
     // endregion compose bom
     implementation(libs.androidx.hilt.navigation.compose)

@@ -12,19 +12,19 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
 
-fun Context.openAppToView(content: String): ExternalAppStartResponse.OpenApp {
+fun Context.openAppToView(content: String): QRAppActions.OpenApp {
     return try {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(content)))
-        ExternalAppStartResponse.OpenApp(AppResponseStatus.SUCCESS)
+        QRAppActions.OpenApp(ActionStatus.SUCCESS)
     } catch (e: ActivityNotFoundException) {
-        ExternalAppStartResponse.OpenApp(AppResponseStatus.ERROR_NO_APP)
+        QRAppActions.OpenApp(ActionStatus.ERROR_NO_APP)
     }
 }
 
 fun Context.shareTextToAnotherApp(
     content: String,
     shareTitle: String? = null,
-): ExternalAppStartResponse.ShareApp {
+): QRAppActions.ShareApp {
     return try {
         val sendIntent: Intent =
             Intent(Intent.ACTION_SEND).apply {
@@ -33,17 +33,20 @@ fun Context.shareTextToAnotherApp(
             }
         val shareIntent = Intent.createChooser(sendIntent, shareTitle)
         startActivity(shareIntent)
-        ExternalAppStartResponse.ShareApp(AppResponseStatus.SUCCESS)
+        QRAppActions.ShareApp(ActionStatus.SUCCESS)
     } catch (e: ActivityNotFoundException) {
-        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP)
+        QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP)
     }
 }
 
 fun Context.shareImageToAnotherApp(
     content: Bitmap?,
     shareTitle: String,
-): ExternalAppStartResponse.ShareApp {
-    val cachedImageUri = saveImageInCache(content, shareTitle) ?: return ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_FILE)
+): QRAppActions.ShareApp {
+    val cachedImageUri =
+        saveImageInCache(content, shareTitle) ?: return QRAppActions.ShareApp(
+            ActionStatus.ERROR_FILE,
+        )
     return try {
         val sendIntent: Intent =
             Intent(Intent.ACTION_SEND).apply {
@@ -52,9 +55,9 @@ fun Context.shareImageToAnotherApp(
             }
         val shareIntent = Intent.createChooser(sendIntent, shareTitle)
         startActivity(shareIntent)
-        ExternalAppStartResponse.ShareApp(AppResponseStatus.SUCCESS)
+        QRAppActions.ShareApp(ActionStatus.SUCCESS)
     } catch (e: ActivityNotFoundException) {
-        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP)
+        QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP)
     }
 }
 
@@ -86,16 +89,25 @@ fun Context.showToast(
     Toast.makeText(this, stringId, Toast.LENGTH_SHORT).show()
 }
 
+fun Context.showToast(string: String) {
+    Toast.makeText(this, getString(string), Toast.LENGTH_SHORT).show()
+}
+
+/**
+ * @return string in resources associated with supplied key, or the actual key if the resource is not found
+ *
+ * useful if the caller is uncertain that the current string is a key or an actual text
+ */
 @SuppressLint("DiscouragedApi")
-fun Context.getString(key: String): String? {
+fun Context.getString(key: String): String {
     val resId: Int = resources.getIdentifier(key, "string", packageName)
     return if (resId > 0) {
         try {
             getString(resId)
         } catch (e: Resources.NotFoundException) {
-            null
+            key
         }
     } else {
-        null
+        key
     }
 }

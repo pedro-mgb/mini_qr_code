@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -15,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pedroid.qrcodecompose.androidapp.core.presentation.LocalSnackbarHostState
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppSnackbarHost
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBackground
 import com.pedroid.qrcodecompose.androidapp.home.navigation.QRCodeAppNavHost
@@ -28,7 +28,7 @@ fun QRCodeApp(
     navController: NavHostController = rememberNavController(),
 ) {
     // A surface container using the 'background' color from the theme
-    QRAppBackground {
+    QRAppBackground(modifier = Modifier.fillMaxSize()) {
         val snackbarHostState = remember { SnackbarHostState() }
         CompositionLocalProvider(
             LocalSnackbarHostState provides snackbarHostState,
@@ -58,7 +58,7 @@ private fun QRCodeAppFrame(
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarHostState)
+            QRAppSnackbarHost(snackbarHostState)
         },
     ) { padding ->
         Row(

@@ -1,8 +1,10 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import app.cash.turbine.test
-import com.pedroid.qrcodecompose.androidapp.core.presentation.AppResponseStatus
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
+import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -19,15 +21,15 @@ class ScanQRCodeInfoViewModelTest {
 
     @Test
     fun `given sut is created, state is initial`() {
-        assertEquals(sut.uiState.value.content, QRCodeInfoContentUIState.Initial)
-        assertEquals(sut.uiState.value.errorMessageKey, "")
+        assertEquals(QRCodeInfoContentUIState.Initial, sut.uiState.value.content)
+        assertEquals(null, sut.uiState.value.temporaryMessage)
     }
 
     @Test
     fun `given action without qr code is received, initial UI state remains`() {
         sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = null))
 
-        assertEquals(sut.uiState.value.content, QRCodeInfoContentUIState.Initial)
+        assertEquals(QRCodeInfoContentUIState.Initial, sut.uiState.value.content)
     }
 
     @Test
@@ -50,23 +52,23 @@ class ScanQRCodeInfoViewModelTest {
     @Test
     fun `given action for external app was opened successfully, no error message is emitted`() {
         sut.onNewAction(
-            QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.OpenApp(AppResponseStatus.SUCCESS),
+            QRCodeInfoUIAction.QRActionComplete(
+                QRAppActions.OpenApp(ActionStatus.SUCCESS),
             ),
         )
 
-        assertEquals("", sut.uiState.value.errorMessageKey)
+        assertEquals(null, sut.uiState.value.temporaryMessage)
     }
 
     @Test
     fun `given action for external app has error, error message is emitted in state`() {
         sut.onNewAction(
-            QRCodeInfoUIAction.AppStarted(
-                ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+            QRCodeInfoUIAction.QRActionComplete(
+                QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP),
             ),
         )
 
-        assertTrue(sut.uiState.value.errorMessageKey.isNotBlank())
+        sut.uiState.value.temporaryMessage.assertHasError()
     }
 
     @Test
@@ -75,13 +77,19 @@ class ScanQRCodeInfoViewModelTest {
             sut.uiState.test {
                 awaitItem() // initial state
                 sut.onNewAction(
-                    QRCodeInfoUIAction.AppStarted(
-                        ExternalAppStartResponse.ShareApp(AppResponseStatus.ERROR_NO_APP),
+                    QRCodeInfoUIAction.QRActionComplete(
+                        QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP),
                     ),
                 )
-                assertTrue(awaitItem().errorMessageKey.isNotBlank())
-                sut.onNewAction(QRCodeInfoUIAction.ErrorShown)
-                assertTrue(awaitItem().errorMessageKey.isEmpty())
+                awaitItem().temporaryMessage.assertHasError()
+                sut.onNewAction(QRCodeInfoUIAction.TmpMessageShown)
+                assertTrue(awaitItem().temporaryMessage == null)
             }
         }
+
+    private fun TemporaryMessageData?.assertHasError() {
+        assertTrue(this != null)
+        assertTrue(this!!.text.isNotBlank())
+        assertEquals(TemporaryMessageType.ERROR_SNACKBAR, this.type)
+    }
 }

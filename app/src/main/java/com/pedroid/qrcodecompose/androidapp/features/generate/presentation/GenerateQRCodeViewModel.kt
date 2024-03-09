@@ -5,8 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ExternalAppStartResponse
-import com.pedroid.qrcodecompose.androidapp.core.presentation.getErrorMessageKey
+import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
+import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -36,7 +37,7 @@ class GenerateQRCodeViewModel
         val uiState: StateFlow<GenerateQRCodeUIState> =
             savedStateHandle.getStateFlow(
                 key = GENERATE_UI_STATE_KEY,
-                initialValue = GenerateQRCodeUIState(GenerateQRCodeContentState(), ""),
+                initialValue = GenerateQRCodeUIState(GenerateQRCodeContentState(), null),
             )
 
         private val updateTextActionFlow: MutableStateFlow<GenerateQRCodeUIAction.UpdateText> =
@@ -77,28 +78,21 @@ class GenerateQRCodeViewModel
                     is GenerateQRCodeUIAction.GenerateErrorReceived -> {
                         logger.error(LOG_TAG, "Error in generating qr code", action.exception)
                         savedStateHandle.updateState {
-                            it?.copy(errorMessageKey = "generate_code_error")
+                            it?.copy(temporaryMessage = TemporaryMessageData.error("generate_code_error"))
                         }
                     }
 
-                    is GenerateQRCodeUIAction.AppStarted -> {
-                        action.response.getErrorMessageKey()?.let { errorStringKey ->
+                    is GenerateQRCodeUIAction.QRActionComplete -> {
+                        action.action.asTemporaryMessage()?.let { temporaryMessage ->
                             savedStateHandle.updateState {
-                                it?.copy(errorMessageKey = errorStringKey)
+                                it?.copy(temporaryMessage = temporaryMessage)
                             }
                         }
                     }
 
-                    GenerateQRCodeUIAction.ErrorSavingToFile -> {
-                        logger.error(LOG_TAG, "Error in saving qr code to file")
+                    GenerateQRCodeUIAction.TmpMessageShown -> {
                         savedStateHandle.updateState {
-                            it?.copy(errorMessageKey = "code_saved_to_file_success")
-                        }
-                    }
-
-                    GenerateQRCodeUIAction.ErrorShown -> {
-                        savedStateHandle.updateState {
-                            it?.copy(errorMessageKey = "")
+                            it?.copy(temporaryMessage = null)
                         }
                     }
                 }
@@ -113,7 +107,7 @@ class GenerateQRCodeViewModel
 @Parcelize
 data class GenerateQRCodeUIState(
     val content: GenerateQRCodeContentState = GenerateQRCodeContentState(),
-    val errorMessageKey: String = "",
+    val temporaryMessage: TemporaryMessageData? = null,
 ) : Parcelable
 
 @Parcelize
@@ -122,14 +116,12 @@ data class GenerateQRCodeContentState(
     val qrCodeText: String = "",
 ) : Parcelable
 
-sealed interface GenerateQRCodeUIAction {
-    data class UpdateText(val text: String) : GenerateQRCodeUIAction
+sealed class GenerateQRCodeUIAction {
+    data class UpdateText(val text: String) : GenerateQRCodeUIAction()
 
-    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction
+    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction()
 
-    data class AppStarted(val response: ExternalAppStartResponse) : GenerateQRCodeUIAction
+    data class QRActionComplete(val action: QRAppActions) : GenerateQRCodeUIAction()
 
-    data object ErrorSavingToFile : GenerateQRCodeUIAction
-
-    data object ErrorShown : GenerateQRCodeUIAction
+    data object TmpMessageShown : GenerateQRCodeUIAction()
 }
