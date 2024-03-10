@@ -16,7 +16,7 @@ android {
         minSdk = 21
         targetSdk = 34
         versionCode = 1
-        versionName = "0.1"
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,13 +24,23 @@ android {
         }
     }
 
+    signingConfigs {
+        create("qr_app_release") {
+            keyAlias = System.getenv("PEDROID_QR_CODE_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("PEDROID_QR_CODE_KEY_PW") ?: ""
+            storeFile = file(System.getenv("PEDROID_QR_CODE_KEYSTORE_FILE_NAME") ?: "invalidPath")
+            storePassword = System.getenv("PEDROID_QR_CODE_KEY_STORE_PW") ?: ""
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("qr_app_release")
         }
     }
     compileOptions {
