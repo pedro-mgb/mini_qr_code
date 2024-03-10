@@ -6,6 +6,9 @@ on:
     tags:
     - 'v*.*.*'
 
+env:
+  PEDROID_QR_CODE_KEYSTORE_FILE_NAME: pedroid_qr_code.jks
+
 jobs:
   build-apk-release:
     runs-on: ubuntu-latest
@@ -25,9 +28,8 @@ jobs:
       - name: Create Key Store File
         env:
           PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED }}
-          # PEDROID_QR_CODE_KEYSTORE_FILE_NAME meant to be defined as a project-wide variable
         run: |
-          echo $PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED | base64 --decode > app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME
+          echo $PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED | base64 --decode > "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
 
       - name: Generate release apk
         env:
@@ -37,7 +39,7 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Remove Key Store file
-        run: rm app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME
+        run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
 
       - name: Create Release in Github
         id: create_release
