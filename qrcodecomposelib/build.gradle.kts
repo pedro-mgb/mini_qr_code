@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.androidx.camera2)
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera2)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.foundation)
     implementation(libs.foundation.layout)
