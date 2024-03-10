@@ -71,6 +71,7 @@ kotlinter {
 dependencies {
 
     implementation(project(":qrcodecomposelib"))
+    implementation(project(":qrcodecomposelibmlkit"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
