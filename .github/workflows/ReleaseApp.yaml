@@ -1,0 +1,64 @@
+# Generate an app to be released, when a tag like v1.0.0 is generated
+name: ReleaseApp
+
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+
+env:
+  PEDROID_QR_CODE_KEYSTORE_FILE_NAME: pedroid_qr_code.jks
+
+jobs:
+  build-apk-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Create Key Store File
+        env:
+          PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED }}
+        run: |
+          echo $PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED | base64 --decode > "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
+
+      - name: Generate release apk
+        env:
+          PEDROID_QR_CODE_KEY_ALIAS: ${{ secrets.PEDROID_QR_CODE_KEY_ALIAS }}
+          PEDROID_QR_CODE_KEY_STORE_PW: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_PW }}
+          PEDROID_QR_CODE_KEY_PW: ${{ secrets.PEDROID_QR_CODE_KEY_PW }}
+        run: ./gradlew assembleRelease
+
+      - name: Remove Key Store file
+        run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
+
+      - name: Create Release in Github
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+
+      - name: Upload apk to Github
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/app-release.apk
+          asset_name: qr-code-app-${{ github.ref_name }}.apk
+          asset_content_type: application/vnd.android.package-archive
+
+

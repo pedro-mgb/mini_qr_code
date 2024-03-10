@@ -1,3 +1,4 @@
+# Checks that code can be compiled, complies with lint, and that all tests pass
 name: BuildAndTest
 
 on:
