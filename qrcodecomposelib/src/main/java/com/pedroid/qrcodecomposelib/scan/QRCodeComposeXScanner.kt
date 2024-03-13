@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.pedroid.qrcodecomposelib.scan.internal.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.internal.ZxingAnalyzer
 import com.pedroid.qrcodecomposelib.scan.internal.drawScannerFrame
 
 @Composable
@@ -29,6 +29,7 @@ fun QRCodeComposeXScanner(
     modifier: Modifier = Modifier,
     frameColor: Color,
     onResult: (QRCodeScanResult) -> Unit,
+    analyzer: QRCodeAnalyzer = defaultQRCodeAnalyzer(onResult),
     frameVerticalPercent: Float = 0.5f,
     androidContext: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
@@ -52,7 +53,7 @@ fun QRCodeComposeXScanner(
                 val imageAnalysis = buildImageAnalysis(cameraPreviewView)
                 imageAnalysis.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
-                    QRCodeAnalyzer(onResult),
+                    analyzer,
                 )
                 try {
                     cameraProviderFuture.get().bindToLifecycle(
@@ -76,6 +77,8 @@ fun QRCodeComposeXScanner(
         )
     }
 }
+
+fun defaultQRCodeAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeAnalyzer = ZxingAnalyzer(onResult)
 
 private fun buildBackCameraSelector() =
     CameraSelector.Builder()

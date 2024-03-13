@@ -36,9 +36,9 @@ private val qrCodeReader: Reader by lazy {
     }
 }
 
-private const val LOG_TAG = "QRCodeAnalyzer"
+private const val LOG_TAG = "ZxingAnalyzer"
 
-internal class QRCodeAnalyzer(
+internal class ZxingAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
 ) : QRCodeAnalyzer {
     override fun analyze(image: ImageProxy) {
@@ -61,7 +61,10 @@ internal class QRCodeAnalyzer(
                 image.close()
             }
         } else {
-            Log.d(LOG_TAG, "Got ${image.format}, but it's not on supported image list: $onQRCodeStatus")
+            Log.d(
+                LOG_TAG,
+                "Got ${image.format}, but it's not on supported image list: $onQRCodeStatus",
+            )
             onQRCodeStatus(QRCodeScanResult.Invalid)
         }
     }
