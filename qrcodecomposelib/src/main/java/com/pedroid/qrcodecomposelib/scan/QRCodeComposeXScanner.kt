@@ -1,8 +1,6 @@
 package com.pedroid.qrcodecomposelib.scan
 
 import android.content.Context
-import android.util.Size
-import android.view.View
 import androidx.annotation.RequiresPermission
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -50,7 +48,7 @@ fun QRCodeComposeXScanner(
                 val preview = Preview.Builder().build()
                 val selector = buildBackCameraSelector()
                 preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
-                val imageAnalysis = buildImageAnalysis(cameraPreviewView)
+                val imageAnalysis = buildImageAnalysis()
                 imageAnalysis.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
                     analyzer,
@@ -85,13 +83,7 @@ private fun buildBackCameraSelector() =
         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
         .build()
 
-private fun buildImageAnalysis(previewView: View) =
+private fun buildImageAnalysis() =
     ImageAnalysis.Builder()
-        .setTargetResolution(
-            Size(
-                previewView.width,
-                previewView.height,
-            ),
-        )
         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
         .build()
