@@ -17,10 +17,10 @@ private const val LOG_TAG = "MLKitAnalyzer"
 class MLKitImageAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
 ) : QRCodeAnalyzer {
-
-    private val scanningOptions = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-        .build()
+    private val scanningOptions =
+        BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .build()
 
     private val barcodeScanner by lazy { BarcodeScanning.getClient(scanningOptions) }
 
@@ -52,12 +52,13 @@ class MLKitImageAnalyzer(
         Log.d(LOG_TAG, "scanned barcodes: $barcodes")
         if (barcodes.isNotEmpty()) {
             // prioritize QR Codes
-            val barcodeReturn = barcodes.firstOrNull {
-                it.format == Barcode.FORMAT_QR_CODE
-            } ?: barcodes.first()
+            val barcodeReturn =
+                barcodes.firstOrNull {
+                    it.format == Barcode.FORMAT_QR_CODE
+                } ?: barcodes.first()
             Log.d(
                 LOG_TAG,
-                "returning barcode: $barcodeReturn, value=${barcodeReturn.rawValue}"
+                "returning barcode: $barcodeReturn, value=${barcodeReturn.rawValue}",
             )
             barcodeReturn.rawValue?.let { value ->
                 onQRCodeStatus(QRCodeScanResult.Scanned(value))
