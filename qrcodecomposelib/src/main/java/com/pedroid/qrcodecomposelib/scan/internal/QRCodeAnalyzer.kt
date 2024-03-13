@@ -3,7 +3,6 @@ package com.pedroid.qrcodecomposelib.scan.internal
 import android.graphics.ImageFormat
 import android.os.Build
 import android.util.Log
-import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
@@ -13,6 +12,7 @@ import com.google.zxing.NotFoundException
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.Reader
 import com.google.zxing.common.HybridBinarizer
+import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import java.nio.ByteBuffer
 
@@ -39,8 +39,8 @@ private val qrCodeReader: Reader by lazy {
 private const val LOG_TAG = "QRCodeAnalyzer"
 
 internal class QRCodeAnalyzer(
-    private val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : ImageAnalysis.Analyzer {
+    override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
+) : QRCodeAnalyzer {
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
             val binaryBmp = image.convertToBitmap()

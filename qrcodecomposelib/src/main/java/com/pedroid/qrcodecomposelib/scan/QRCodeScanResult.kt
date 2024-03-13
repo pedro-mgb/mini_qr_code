@@ -7,5 +7,7 @@ sealed class QRCodeScanResult {
 
     data object Invalid : QRCodeScanResult()
 
+    data object Cancelled : QRCodeScanResult()
+
     data object UnrecoverableError : QRCodeScanResult()
 }
