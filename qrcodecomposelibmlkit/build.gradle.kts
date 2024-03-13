@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pedroid.qrcodecomposelib"
+    namespace = "com.pedroid.qrcodecomposelib.extensions.mlkit"
     compileSdk = 34
 
     defaultConfig {
@@ -24,12 +24,6 @@ android {
             )
         }
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -39,30 +33,14 @@ android {
     }
 }
 
-kotlinter {
-    ignoreFailures = false
-    reporters = arrayOf("plain")
-}
-
 dependencies {
+    implementation(project(":qrcodecomposelib"))
+    implementation(libs.mlkit.barcodescanning)
 
+    implementation(libs.androidx.camera2)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.camera2)
-    implementation(libs.androidx.camera.view)
-    implementation(libs.androidx.camera.lifecycle)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.foundation)
-    implementation(libs.foundation.layout)
-    implementation(libs.ui)
-    implementation(libs.ui.tooling)
-    implementation(libs.ui.tooling.preview)
-
-    // for QR Code scanning without google play services.
-    implementation(libs.zxing)
-
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

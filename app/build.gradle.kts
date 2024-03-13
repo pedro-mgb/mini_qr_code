@@ -71,10 +71,12 @@ kotlinter {
 dependencies {
 
     implementation(project(":qrcodecomposelib"))
+    implementation(project(":qrcodecomposelibmlkit"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.camera2)
     implementation(libs.androidx.contraintlayout.compose)
     // region compose bom
     implementation(platform(libs.androidx.compose.bom))

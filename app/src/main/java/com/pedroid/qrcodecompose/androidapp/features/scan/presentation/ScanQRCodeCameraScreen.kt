@@ -2,6 +2,7 @@ package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.camera.core.ExperimentalGetImage
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,9 +13,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,9 +23,12 @@ import androidx.core.content.ContextCompat
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
+import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
 
+@androidx.annotation.OptIn(ExperimentalGetImage::class)
 @Composable
 fun ScanQRCodeCameraScreen(
     onQRCodeResult: (QRCodeScanResult) -> Unit,
@@ -42,6 +46,7 @@ fun ScanQRCodeCameraScreen(
         onBackInvoked()
         return
     }
+    val qrCodeAnalyzer = rememberMLKitAnalyzer(onQRCodeResult)
     ScanQRCodeCameraContent(
         modifier = Modifier.fillMaxSize(),
         onBackInvoked = onBackInvoked,
@@ -50,8 +55,9 @@ fun ScanQRCodeCameraScreen(
         QRCodeComposeXScanner(
             modifier = modifier,
             onResult = onQRCodeResult,
-            frameColor = Color.Green,
+            frameColor = MaterialTheme.colorScheme.secondary,
             frameVerticalPercent = 0.4f,
+            analyzer = qrCodeAnalyzer,
         )
     }
 }
@@ -103,3 +109,10 @@ private fun InformativeLabel() {
         }
     }
 }
+
+@androidx.annotation.OptIn(ExperimentalGetImage::class)
+@Composable
+fun rememberMLKitAnalyzer(callback: (QRCodeScanResult) -> Unit): QRCodeAnalyzer =
+    remember {
+        MLKitImageAnalyzer(callback)
+    }

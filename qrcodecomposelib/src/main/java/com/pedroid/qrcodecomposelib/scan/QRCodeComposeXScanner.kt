@@ -1,8 +1,6 @@
 package com.pedroid.qrcodecomposelib.scan
 
 import android.content.Context
-import android.util.Size
-import android.view.View
 import androidx.annotation.RequiresPermission
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -20,7 +18,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.pedroid.qrcodecomposelib.scan.internal.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.internal.ZxingAnalyzer
 import com.pedroid.qrcodecomposelib.scan.internal.drawScannerFrame
 
 @Composable
@@ -29,6 +27,7 @@ fun QRCodeComposeXScanner(
     modifier: Modifier = Modifier,
     frameColor: Color,
     onResult: (QRCodeScanResult) -> Unit,
+    analyzer: QRCodeAnalyzer = defaultQRCodeAnalyzer(onResult),
     frameVerticalPercent: Float = 0.5f,
     androidContext: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
@@ -49,10 +48,10 @@ fun QRCodeComposeXScanner(
                 val preview = Preview.Builder().build()
                 val selector = buildBackCameraSelector()
                 preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
-                val imageAnalysis = buildImageAnalysis(cameraPreviewView)
+                val imageAnalysis = buildImageAnalysis()
                 imageAnalysis.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
-                    QRCodeAnalyzer(onResult),
+                    analyzer,
                 )
                 try {
                     cameraProviderFuture.get().bindToLifecycle(
@@ -77,18 +76,14 @@ fun QRCodeComposeXScanner(
     }
 }
 
+fun defaultQRCodeAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeAnalyzer = ZxingAnalyzer(onResult)
+
 private fun buildBackCameraSelector() =
     CameraSelector.Builder()
         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
         .build()
 
-private fun buildImageAnalysis(previewView: View) =
+private fun buildImageAnalysis() =
     ImageAnalysis.Builder()
-        .setTargetResolution(
-            Size(
-                previewView.width,
-                previewView.height,
-            ),
-        )
         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
         .build()
