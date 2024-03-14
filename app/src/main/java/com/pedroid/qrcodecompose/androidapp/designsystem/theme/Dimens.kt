@@ -15,6 +15,7 @@ object Dimens {
     val borderWidthSmall = 2.dp
     val borderWidthMedium = 4.dp
     val roundedCornerMedium = 16.dp
+    val roundedCornerLarge = 32.dp
     // endregion shapes
 
     // region for components
