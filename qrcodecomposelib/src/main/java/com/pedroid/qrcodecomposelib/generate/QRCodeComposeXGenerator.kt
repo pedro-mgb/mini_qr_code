@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Dp
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_PADDING
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_SIZE_PX
+import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_TEXT_ENCODING
 import com.pedroid.qrcodecomposelib.generate.internal.generateQRCodeViaZxing
 
 @Composable
@@ -23,10 +24,15 @@ fun QRCodeComposeXGenerator(
     qrCodePadding: Dp = DEFAULT_PADDING,
     qrCodeImageSizePx: Int = DEFAULT_QR_CODE_SIZE_PX,
     qrCodeAccessibilityContentDescription: String = text,
+    qrCodeTextEncoding: String = DEFAULT_QR_CODE_TEXT_ENCODING,
 ) {
     val generateResult =
-        remember(key1 = text) {
-            generateQRCodeViaZxing(text = text, size = qrCodeImageSizePx)
+        remember(key1 = text, key2 = qrCodeImageSizePx, key3 = qrCodeTextEncoding) {
+            generateQRCodeViaZxing(
+                text = text,
+                size = qrCodeImageSizePx,
+                encoding = qrCodeTextEncoding,
+            )
         }
     Box(
         modifier = modifier,

@@ -3,6 +3,7 @@ package com.pedroid.qrcodecomposelib.generate.internal
 import android.graphics.Bitmap
 import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
@@ -15,15 +16,13 @@ internal fun generateQRCodeViaZxing(
     text: String,
     size: Int,
     @ColorInt colorFill: Int = DEFAULT_FILL_COLOR,
+    encoding: String = DEFAULT_QR_CODE_TEXT_ENCODING,
 ): QRCodeGenerateResult {
     return try {
         val multiFormatWriter = MultiFormatWriter()
-        val bitMatrix: BitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, size, size)
-        createQRCodeBitmap(
-            bitMatrix,
-            size,
-            colorFill,
-        ).let {
+        val encodingHint = mapOf(EncodeHintType.CHARACTER_SET to encoding)
+        val bitMatrix: BitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, size, size, encodingHint)
+        createQRCodeBitmap(bitMatrix, size, colorFill).let {
             QRCodeGenerateResult.Generated(it)
         }
     } catch (wEx: WriterException) {
