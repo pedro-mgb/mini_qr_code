@@ -5,6 +5,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -16,7 +17,9 @@ class ScanQRCodeInfoViewModelTest {
 
     @Before
     fun setUp() {
-        sut = ScanQRCodeInfoViewModel()
+        sut = ScanQRCodeInfoViewModel(
+            logger = mockk(relaxed = true)
+        )
     }
 
     @Test

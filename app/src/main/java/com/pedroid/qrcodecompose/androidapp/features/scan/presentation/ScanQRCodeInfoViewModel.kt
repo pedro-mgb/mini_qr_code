@@ -1,6 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
+import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
@@ -10,15 +11,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+private const val LOG_TAG = "ScanQRCodeInfoVM"
+
 @HiltViewModel
 class ScanQRCodeInfoViewModel
     @Inject
-    constructor() : ViewModel() {
+    constructor(
+        private val logger: Logger
+    ) : ViewModel() {
         private val _uiState = MutableStateFlow(QRCodeInfoUIState())
         val uiState: StateFlow<QRCodeInfoUIState>
             get() = _uiState
 
         fun onNewAction(action: QRCodeInfoUIAction) {
+            logger.debug(LOG_TAG, "onNewAction -> $action")
             when (action) {
                 is QRCodeInfoUIAction.CodeReceived -> {
                     if (action.qrCode.isNullOrEmpty()) {
