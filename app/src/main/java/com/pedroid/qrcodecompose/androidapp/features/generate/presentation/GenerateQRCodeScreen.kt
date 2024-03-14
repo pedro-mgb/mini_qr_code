@@ -53,7 +53,7 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.Generat
 import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXGenerator
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
-val qrCodeCornerShape = RoundedCornerShape(Dimens.roundedCornerMedium)
+val qrCodeCornerShape = RoundedCornerShape(Dimens.roundedCornerLarge)
 
 // region screen composables
 @Composable
