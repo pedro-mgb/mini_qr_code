@@ -16,7 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -45,12 +44,13 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.StartScanActionListeners
 
 // region screen composables
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScanQRCodeInfoScreen(
-    onScanCodePressed: () -> Unit,
+    buttonListeners: StartScanActionListeners = StartScanActionListeners(),
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
     cameraPermissionStatus: PermissionStatus,
     uiState: QRCodeInfoUIState = QRCodeInfoUIState(),
@@ -82,19 +82,17 @@ fun ScanQRCodeInfoScreen(
         Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
         Spacer(modifier = Modifier.height(Dimens.spacingMedium))
-        Button(
+        ScanFromCameraButton(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
-            onClick = onScanCodePressed,
-        ) {
-            Text(
-                text =
-                    if (uiState.content is QRCodeInfoContentUIState.CodeScanned) {
-                        stringResource(id = R.string.scan_another_code_action_button)
-                    } else {
-                        stringResource(id = R.string.scan_code_action_button)
-                    },
-            )
-        }
+            onClick = buttonListeners.onStartScanFromCamera,
+            hasScanned = uiState.content is QRCodeInfoContentUIState.CodeScanned,
+        )
+        Spacer(modifier = Modifier.height(Dimens.spacingSmall))
+        ScanFromImageFileButton(
+            modifier = Modifier.fillMaxWidth(fraction = 0.6f),
+            onClick = buttonListeners.onStartScanFromImageFile,
+            hasScanned = uiState.content is QRCodeInfoContentUIState.CodeScanned,
+        )
     }
 }
 
@@ -105,7 +103,7 @@ private fun InitialInfoHeader() {
         text =
             stringResource(
                 id = R.string.scan_code_header,
-                stringResource(id = R.string.scan_code_action_button),
+                stringResource(id = R.string.scan_code_camera_action_button),
             ),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -166,7 +164,13 @@ private fun QRCodeContentLargeScreen(
         )
         Spacer(modifier = Modifier.size(Dimens.spacingMedium))
         Card {
-            Column(modifier = Modifier.padding(vertical = Dimens.spacingMedium, horizontal = Dimens.spacingSmall)) {
+            Column(
+                modifier =
+                    Modifier.padding(
+                        vertical = Dimens.spacingMedium,
+                        horizontal = Dimens.spacingSmall,
+                    ),
+            ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
             }
         }
@@ -190,7 +194,11 @@ private fun QRCodeContentPortrait(
         Spacer(modifier = Modifier.size(Dimens.spacingSmall))
         Card {
             Row(
-                modifier = Modifier.padding(vertical = Dimens.spacingExtraSmall, horizontal = Dimens.spacingMedium),
+                modifier =
+                    Modifier.padding(
+                        vertical = Dimens.spacingExtraSmall,
+                        horizontal = Dimens.spacingMedium,
+                    ),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
@@ -208,7 +216,11 @@ private fun QRCodeDataContent(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(width = Dimens.borderWidthSmall, color = MaterialTheme.colorScheme.onBackground),
+        border =
+            BorderStroke(
+                width = Dimens.borderWidthSmall,
+                color = MaterialTheme.colorScheme.onBackground,
+            ),
     ) {
         Text(
             modifier =
@@ -271,6 +283,12 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
                             } else {
                                 R.string.scan_code_permission_info
                             },
+                        formatArgs =
+                            if (cameraPermissionStatus.shouldShowRationale) {
+                                arrayOf(stringResource(id = R.string.scan_code_image_action_button))
+                            } else {
+                                emptyArray()
+                            },
                     ),
             )
             Spacer(modifier = Modifier.height(Dimens.spacingExtraLarge))
@@ -286,7 +304,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
 fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
-            onScanCodePressed = { },
+            buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Granted,
         )
     }
@@ -298,7 +316,7 @@ fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
 fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
-            onScanCodePressed = { },
+            buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Denied(shouldShowRationale = true),
         )
     }
@@ -314,7 +332,7 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeInfoScreen(
-            onScanCodePressed = { },
+            buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Granted,
             uiState =
                 QRCodeInfoUIState(

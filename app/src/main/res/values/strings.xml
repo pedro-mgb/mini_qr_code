@@ -14,22 +14,24 @@
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Press the \'%s\' button to scan QR Codes</string>
-    <string name="scan_code_permission_info">You\'ll need to grant access to your camera</string>
-    <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use the other existing features of this app</string>
-    <string name="scan_code_action_button">Scan now</string>
-    <string name="scan_another_code_action_button">Scan again</string>
+    <string name="scan_code_permission_info">You\'ll need to grant access to your camera.</string>
+    <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use \'%s\'.</string>
+    <string name="scan_code_camera_action_button">Scan with camera</string>
+    <string name="scan_code_image_action_button">Scan from file</string>
+    <string name="scan_another_code_camera_action_button">Scan another (camera)</string>
+    <string name="scan_another_code_image_action_button">Scan another (file)</string>
     <string name="scan_code_camera_toolbar_title">Scan with back camera</string>
-    <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the green frame in your phone\'s screen</string>
+    <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the green frame in your phone\'s screen.</string>
     <string name="scan_code_read_label">Scanned Code</string>
 
-    <string name="code_open_app_error">There are no apps on the phone that are able to open the code\'s content</string>
-    <string name="code_share_app_error">There are no apps on the phone to share the content</string>
+    <string name="code_open_app_error">There are no apps on the phone that are able to open the code\'s content.</string>
+    <string name="code_share_app_error">There are no apps on the phone to share the content.</string>
     <string name="code_copied_success">Copied to clipboard!</string>
     <string name="code_saved_to_file_success">Successfully saved to file!</string>
-    <string name="code_saved_to_file_error">There was an error trying to save the image, please try again</string>
+    <string name="code_saved_to_file_error">There was an error trying to save the image, please try again.</string>
 
-    <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created</string>
+    <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created.</string>
     <string name="generate_code_text_box_label">Input QR Code text</string>
-    <string name="generate_code_will_appear_here">Image will appear here</string>
-    <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again</string>
+    <string name="generate_code_will_appear_here">Image will appear here.</string>
+    <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again.</string>
 </resources>

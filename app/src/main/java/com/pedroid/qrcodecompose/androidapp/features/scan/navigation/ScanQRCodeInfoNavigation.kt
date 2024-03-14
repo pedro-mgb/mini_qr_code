@@ -58,11 +58,16 @@ private fun ScanCodeHomeCoordinator(
     val context = LocalContext.current
 
     ScanQRCodeInfoScreen(
-        onScanCodePressed = {
-            cameraPermissionState.launchPermissionRequestOrRun {
-                navigationListeners.onGoScanQRCode()
-            }
-        },
+        buttonListeners =
+            StartScanActionListeners(
+                onStartScanFromCamera = {
+                    cameraPermissionState.launchPermissionRequestOrRun {
+                        navigationListeners.onGoScanQRCode()
+                    }
+                },
+                onStartScanFromImageFile = {
+                },
+            ),
         actionListeners =
             ScannedQRCodeActionListeners(
                 onCodeCopied = {

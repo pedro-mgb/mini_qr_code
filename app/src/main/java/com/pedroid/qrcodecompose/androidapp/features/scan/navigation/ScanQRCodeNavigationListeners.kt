@@ -9,6 +9,11 @@ data class ScanQRCodeCameraNavigationListeners(
     val onBackInvoked: () -> Unit,
 )
 
+data class StartScanActionListeners(
+    val onStartScanFromCamera: () -> Unit = {},
+    val onStartScanFromImageFile: () -> Unit = {},
+)
+
 data class ScannedQRCodeActionListeners(
     val onCodeOpen: (String) -> Unit = {},
     val onCodeShared: (String) -> Unit = {},
