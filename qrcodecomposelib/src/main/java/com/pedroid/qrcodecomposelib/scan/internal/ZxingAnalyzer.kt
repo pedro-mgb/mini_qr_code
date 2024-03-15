@@ -72,7 +72,10 @@ internal class ZxingAnalyzer(
         }
     }
 
-    override fun analyze(context: Context, uri: Uri) {
+    override fun analyze(
+        context: Context,
+        uri: Uri,
+    ) {
         TODO("Not yet implemented")
     }
 

@@ -17,9 +17,10 @@ class ScanQRCodeInfoViewModelTest {
 
     @Before
     fun setUp() {
-        sut = ScanQRCodeInfoViewModel(
-            logger = mockk(relaxed = true)
-        )
+        sut =
+            ScanQRCodeInfoViewModel(
+                logger = mockk(relaxed = true),
+            )
     }
 
     @Test

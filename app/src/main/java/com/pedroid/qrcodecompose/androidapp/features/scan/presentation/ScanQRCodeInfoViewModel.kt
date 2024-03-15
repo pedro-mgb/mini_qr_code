@@ -17,7 +17,7 @@ private const val LOG_TAG = "ScanQRCodeInfoVM"
 class ScanQRCodeInfoViewModel
     @Inject
     constructor(
-        private val logger: Logger
+        private val logger: Logger,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(QRCodeInfoUIState())
         val uiState: StateFlow<QRCodeInfoUIState>
