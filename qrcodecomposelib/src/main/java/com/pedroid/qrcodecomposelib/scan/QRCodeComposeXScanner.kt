@@ -27,7 +27,7 @@ fun QRCodeComposeXScanner(
     modifier: Modifier = Modifier,
     frameColor: Color,
     onResult: (QRCodeScanResult) -> Unit,
-    analyzer: QRCodeAnalyzer = defaultQRCodeAnalyzer(onResult),
+    analyzer: QRCodeCameraAnalyzer = defaultQRCodeAnalyzer(onResult),
     frameVerticalPercent: Float = 0.5f,
     androidContext: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
@@ -76,7 +76,7 @@ fun QRCodeComposeXScanner(
     }
 }
 
-fun defaultQRCodeAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeAnalyzer = ZxingAnalyzer(onResult)
+fun defaultQRCodeAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeCameraAnalyzer = ZxingAnalyzer(onResult)
 
 private fun buildBackCameraSelector() =
     CameraSelector.Builder()

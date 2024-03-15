@@ -1,6 +1,8 @@
 package com.pedroid.qrcodecomposelib.scan.internal
 
+import android.content.Context
 import android.graphics.ImageFormat
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.camera.core.ImageProxy
@@ -12,7 +14,8 @@ import com.google.zxing.NotFoundException
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.Reader
 import com.google.zxing.common.HybridBinarizer
-import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import java.nio.ByteBuffer
 
@@ -40,7 +43,7 @@ private const val LOG_TAG = "ZxingAnalyzer"
 
 internal class ZxingAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : QRCodeAnalyzer {
+) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
             val binaryBmp = image.convertToBitmap()
@@ -67,6 +70,10 @@ internal class ZxingAnalyzer(
             )
             onQRCodeStatus(QRCodeScanResult.Invalid)
         }
+    }
+
+    override fun analyze(context: Context, uri: Uri) {
+        TODO("Not yet implemented")
     }
 
     private fun ImageProxy.convertToBitmap(): BinaryBitmap {

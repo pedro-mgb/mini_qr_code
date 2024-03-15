@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
-import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
@@ -112,7 +112,7 @@ private fun InformativeLabel() {
 
 @androidx.annotation.OptIn(ExperimentalGetImage::class)
 @Composable
-fun rememberMLKitAnalyzer(callback: (QRCodeScanResult) -> Unit): QRCodeAnalyzer =
-    remember {
+fun rememberMLKitAnalyzer(callback: (QRCodeScanResult) -> Unit): QRCodeCameraAnalyzer =
+    remember(key1 = callback) {
         MLKitImageAnalyzer(callback)
     }
