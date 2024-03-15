@@ -48,7 +48,7 @@ private fun ScanCodeHomeCoordinator(
         rememberPermissionState(
             permission = Manifest.permission.CAMERA,
             onPermissionGranted = {
-                navigationListeners.onGoScanQRCode()
+                navigationListeners.onGoScanQRCodeWithCamera()
             },
         )
     (savedStateHandle.get<String>(QR_CODE_SCANNED_KEY)).let {
@@ -62,10 +62,11 @@ private fun ScanCodeHomeCoordinator(
             StartScanActionListeners(
                 onStartScanFromCamera = {
                     cameraPermissionState.launchPermissionRequestOrRun {
-                        navigationListeners.onGoScanQRCode()
+                        navigationListeners.onGoScanQRCodeWithCamera()
                     }
                 },
                 onStartScanFromImageFile = {
+                    navigationListeners.onGoScanQRCodeFromFile()
                 },
             ),
         actionListeners =
