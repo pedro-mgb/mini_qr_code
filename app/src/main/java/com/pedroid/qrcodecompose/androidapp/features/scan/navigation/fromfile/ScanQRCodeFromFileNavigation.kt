@@ -8,12 +8,19 @@ import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanQRCodeCameraNavigationListeners
+import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.QRCodeFromFileUIAction
+import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.QRCodeFromFileUIState
+import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.ScanQRCodeFromFileScreen
+import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.ScanQRCodeFromFileViewModel
 import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
@@ -38,17 +45,59 @@ fun NavGraphBuilder.scanQRCodeFromFileRoute(
 fun ScanQRCodeFromFileCoordinator(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
     largeScreen: Boolean,
+    viewModel: ScanQRCodeFromFileViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val fileLauncher =
         rememberImageFileScannerActivityResult(
             context = context,
             onResult = { result ->
-                // TODO handle result
+                viewModel.onNewAction(QRCodeFromFileUIAction.ScanResult(result))
             },
         )
+    val uiState: QRCodeFromFileUIState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ScanQRCodeFromFileScreen(
+        uiState = uiState,
+        scanFromFileActionListeners =
+            ScanFromFileActionListeners(
+                onRetryScan = {
+                    fileLauncher.launch(imagesOnlyPicker)
+                },
+                onCancel = {
+                    navigationListeners.onBackInvoked()
+                },
+            ),
+        largeScreen = largeScreen,
+    )
+
+    // start the screen with opening photo picker
     LaunchedEffect(key1 = navigationListeners) {
         fileLauncher.launch(imagesOnlyPicker)
+    }
+
+    // navigation events depending on ui state
+    LaunchedEffect(key1 = uiState, key2 = navigationListeners) {
+        performNavigation(uiState, navigationListeners)
+    }
+}
+
+private fun performNavigation(
+    uiState: QRCodeFromFileUIState,
+    navigationListeners: ScanQRCodeCameraNavigationListeners,
+) {
+    when (uiState) {
+        QRCodeFromFileUIState.Cancelled -> {
+            navigationListeners.onBackInvoked()
+        }
+
+        is QRCodeFromFileUIState.Success -> {
+            navigationListeners.onCodeScanned(uiState.qrCode)
+        }
+
+        else -> {
+            // no other navigation to do
+        }
     }
 }
 
