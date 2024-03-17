@@ -15,12 +15,28 @@ class ScanQRCodeFromFileViewModelTest {
     }
 
     @Test
-    fun `initial UI State is Loading`() {
+    fun `initial UI State is Init`() {
+        assertEquals(QRCodeFromFileUIState.Init, sut.uiState.value)
+    }
+
+    @Test
+    fun `given qr action StartFileSelection, state is changed to Loading`() {
+        sut.onNewAction(QRCodeFromFileUIAction.StartFileSelection)
+
         assertEquals(QRCodeFromFileUIState.Loading, sut.uiState.value)
     }
 
     @Test
     fun `given qr result action is with Idle, ui state does not change`() {
+        sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Idle))
+
+        assertEquals(QRCodeFromFileUIState.Init, sut.uiState.value)
+    }
+
+    @Test
+    fun `given qr result action is with Idle after init scan, ui state does not change`() {
+        sut.onNewAction(QRCodeFromFileUIAction.StartFileSelection)
+
         sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Idle))
 
         assertEquals(QRCodeFromFileUIState.Loading, sut.uiState.value)
@@ -54,5 +70,14 @@ class ScanQRCodeFromFileViewModelTest {
         sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Scanned(qrCodeData)))
 
         assertEquals(QRCodeFromFileUIState.Success(qrCodeData), sut.uiState.value)
+    }
+
+    @Test
+    fun `given qr result action is Cancelled after error, ui state is not updated`() {
+        sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Invalid))
+
+        sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Cancelled))
+
+        assertEquals(QRCodeFromFileUIState.Error, sut.uiState.value)
     }
 }

@@ -17,7 +17,7 @@ class ScanQRCodeFromFileViewModel
     constructor(
         private val logger: Logger,
     ) : ViewModel() {
-        private val _uiState = MutableStateFlow<QRCodeFromFileUIState>(QRCodeFromFileUIState.Loading)
+        private val _uiState = MutableStateFlow<QRCodeFromFileUIState>(QRCodeFromFileUIState.Init)
         val uiState: StateFlow<QRCodeFromFileUIState>
             get() = _uiState.asStateFlow()
 
@@ -27,13 +27,19 @@ class ScanQRCodeFromFileViewModel
                 action.result.toUIState()?.let {
                     _uiState.value = it
                 }
+            } else if (action is QRCodeFromFileUIAction.StartFileSelection) {
+                _uiState.value = QRCodeFromFileUIState.Loading
             }
         }
 
         private fun QRCodeScanResult.toUIState(): QRCodeFromFileUIState? {
             return when (this) {
                 QRCodeScanResult.Cancelled -> {
-                    QRCodeFromFileUIState.Cancelled
+                    if (uiState.value is QRCodeFromFileUIState.InitialState) {
+                        QRCodeFromFileUIState.Cancelled
+                    } else {
+                        null
+                    }
                 }
 
                 QRCodeScanResult.Invalid,
@@ -55,15 +61,23 @@ class ScanQRCodeFromFileViewModel
     }
 
 sealed class QRCodeFromFileUIState {
-    data object Loading : QRCodeFromFileUIState()
+    sealed class InitialState : QRCodeFromFileUIState()
 
-    data object Cancelled : QRCodeFromFileUIState()
+    sealed class TerminalState : QRCodeFromFileUIState()
 
-    data object Error : QRCodeFromFileUIState()
+    data object Init : InitialState()
 
-    data class Success(val qrCode: String) : QRCodeFromFileUIState()
+    data object Loading : InitialState()
+
+    data object Cancelled : TerminalState()
+
+    data object Error : TerminalState()
+
+    data class Success(val qrCode: String) : TerminalState()
 }
 
 sealed class QRCodeFromFileUIAction {
+    data object StartFileSelection : QRCodeFromFileUIAction()
+
     data class ScanResult(val result: QRCodeScanResult) : QRCodeFromFileUIAction()
 }

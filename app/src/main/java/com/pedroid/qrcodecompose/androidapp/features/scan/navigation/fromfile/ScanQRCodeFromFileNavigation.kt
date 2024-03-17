@@ -72,8 +72,11 @@ fun ScanQRCodeFromFileCoordinator(
     )
 
     // start the screen with opening photo picker
-    LaunchedEffect(key1 = navigationListeners) {
-        fileLauncher.launch(imagesOnlyPicker)
+    LaunchedEffect(key1 = uiState) {
+        if (uiState is QRCodeFromFileUIState.Init) {
+            fileLauncher.launch(imagesOnlyPicker)
+            viewModel.onNewAction(QRCodeFromFileUIAction.StartFileSelection)
+        }
     }
 
     // navigation events depending on ui state
