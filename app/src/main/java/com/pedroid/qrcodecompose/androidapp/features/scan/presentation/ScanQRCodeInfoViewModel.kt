@@ -5,6 +5,7 @@ import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +28,7 @@ class ScanQRCodeInfoViewModel
             logger.debug(LOG_TAG, "onNewAction -> $action")
             when (action) {
                 is QRCodeInfoUIAction.CodeReceived -> {
-                    if (action.qrCode.isNullOrEmpty()) {
+                    if (action.qrCode == null || action.qrCode.data.isEmpty()) {
                         _uiState.update {
                             it.copy(content = QRCodeInfoContentUIState.Initial)
                         }
@@ -59,11 +60,11 @@ data class QRCodeInfoUIState(
 sealed class QRCodeInfoContentUIState {
     data object Initial : QRCodeInfoContentUIState()
 
-    data class CodeScanned(val qrCode: String) : QRCodeInfoContentUIState()
+    data class CodeScanned(val qrCode: ScannedCode) : QRCodeInfoContentUIState()
 }
 
 sealed class QRCodeInfoUIAction {
-    data class CodeReceived(val qrCode: String?) : QRCodeInfoUIAction()
+    data class CodeReceived(val qrCode: ScannedCode?) : QRCodeInfoUIAction()
 
     data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction()
 

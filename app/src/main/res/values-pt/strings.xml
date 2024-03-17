@@ -24,7 +24,8 @@
     <string name="scan_another_code_image_action_button">Capturar novamente (file)</string>
     <string name="scan_code_camera_toolbar_title">Capturar com a câmara traseira</string>
     <string name="scan_code_camera_instructions">Aponte a câmara de modo a que o QR Code se enquadre na moduldura verde no ecrã do seu telemóvel.</string>
-    <string name="scan_code_read_label">Código capturado</string>
+    <string name="scan_code_read_camera_label">Código capturado (câmara)</string>
+    <string name="scan_code_read_from_file_label">Código capturado (ficheiro)</string>
     <string name="scan_code_from_file_toolbar_title">Capturar a partir de um ficheiro</string>
     <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos e escaneando QR Code na imagem…</string>
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>

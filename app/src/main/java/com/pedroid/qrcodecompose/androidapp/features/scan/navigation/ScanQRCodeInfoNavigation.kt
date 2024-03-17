@@ -20,6 +20,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRe
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
@@ -51,7 +52,7 @@ private fun ScanCodeHomeCoordinator(
                 navigationListeners.onGoScanQRCodeWithCamera()
             },
         )
-    (savedStateHandle.get<String>(QR_CODE_SCANNED_KEY)).let {
+    (savedStateHandle.get<ScannedCode>(QR_CODE_SCANNED_KEY)).let {
         viewModel.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = it))
     }
     val uiState: QRCodeInfoUIState by viewModel.uiState.collectAsStateWithLifecycle()

@@ -16,6 +16,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanQRCodeCameraNavigationListeners
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.QRCodeFromFileUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.QRCodeFromFileUIState
@@ -95,7 +97,12 @@ private fun performNavigation(
         }
 
         is QRCodeFromFileUIState.Success -> {
-            navigationListeners.onCodeScanned(uiState.qrCode)
+            navigationListeners.onCodeScanned(
+                ScannedCode(
+                    data = uiState.qrCode,
+                    source = ScanSource.IMAGE_FILE,
+                ),
+            )
         }
 
         else -> {

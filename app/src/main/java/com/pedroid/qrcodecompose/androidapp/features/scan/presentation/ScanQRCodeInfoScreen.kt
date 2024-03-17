@@ -43,6 +43,8 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentC
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.StartScanActionListeners
 
@@ -113,7 +115,7 @@ private fun InitialInfoHeader() {
 private fun QRCodeReadContent(
     modifier: Modifier = Modifier,
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
-    qrCode: String,
+    qrCode: ScannedCode,
     largeScreen: Boolean,
 ) {
     Column(modifier = modifier) {
@@ -122,7 +124,7 @@ private fun QRCodeReadContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = Dimens.spacingMedium),
-            text = stringResource(id = R.string.scan_code_read_label),
+            text = stringResource(id = qrCode.source.scannedLabelId),
             textAlign = TextAlign.Center,
             style =
                 MaterialTheme.typography.titleLarge.copy(
@@ -140,9 +142,9 @@ private fun QRCodeReadContent(
             color = MaterialTheme.colorScheme.primaryContainer,
         )
         if (largeScreen) {
-            QRCodeContentLargeScreen(qrCode = qrCode, actionListeners = actionListeners)
+            QRCodeContentLargeScreen(qrCode = qrCode.data, actionListeners = actionListeners)
         } else {
-            QRCodeContentPortrait(qrCode = qrCode, actionListeners = actionListeners)
+            QRCodeContentPortrait(qrCode = qrCode.data, actionListeners = actionListeners)
         }
     }
 }
@@ -338,13 +340,16 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
                 QRCodeInfoUIState(
                     QRCodeInfoContentUIState.CodeScanned(
                         qrCode =
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
-                                "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
-                                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
-                                "pariatur. Excepteur sint occaecat cupidatat non proident, " +
-                                "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            ScannedCode(
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
+                                    "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
+                                    "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
+                                    "pariatur. Excepteur sint occaecat cupidatat non proident, " +
+                                    "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                ScanSource.CAMERA,
+                            ),
                     ),
                 ),
             largeScreen = !phoneUI,

@@ -5,6 +5,8 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -38,17 +40,17 @@ class ScanQRCodeInfoViewModelTest {
 
     @Test
     fun `given action with empty qr code is received, initial UI state remains`() {
-        sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = ""))
+        sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = ScannedCode("", ScanSource.CAMERA)))
 
         assertEquals(QRCodeInfoContentUIState.Initial, sut.uiState.value.content)
     }
 
     @Test
     fun `given action without actual qr code is received, CodeScanned state is emitted`() {
-        sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = "some_qr_code"))
+        sut.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = ScannedCode("some_qr_code", ScanSource.CAMERA)))
 
         assertEquals(
-            QRCodeInfoContentUIState.CodeScanned("some_qr_code"),
+            QRCodeInfoContentUIState.CodeScanned(ScannedCode("some_qr_code", ScanSource.CAMERA)),
             sut.uiState.value.content,
         )
     }
