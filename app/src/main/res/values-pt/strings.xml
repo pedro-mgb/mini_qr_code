@@ -11,6 +11,8 @@
     <string name="action_open">Abrir com uma app</string>
     <string name="action_share">Partilhar</string>
     <string name="action_save_to_file">Guardar num ficheiro</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_try_again">Tentar novamente</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes.</string>
@@ -23,6 +25,11 @@
     <string name="scan_code_camera_toolbar_title">Capturar com a câmara traseira</string>
     <string name="scan_code_camera_instructions">Aponte a câmara de modo a que o QR Code se enquadre na moduldura verde no ecrã do seu telemóvel.</string>
     <string name="scan_code_read_label">Código capturado</string>
+    <string name="scan_code_from_file_toolbar_title">Capturar a partir de um ficheiro</string>
+    <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos e escaneando QR Code na imagem…</string>
+    <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
+    <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tente com outro ficheiro.</string>
+
 
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code.</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>

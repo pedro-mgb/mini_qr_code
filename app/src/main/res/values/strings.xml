@@ -11,6 +11,8 @@
     <string name="action_open">Open with an app</string>
     <string name="action_share">Share</string>
     <string name="action_save_to_file">Save to file</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_try_again">Try again</string>
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Press the \'%s\' button to scan QR Codes</string>
@@ -23,6 +25,10 @@
     <string name="scan_code_camera_toolbar_title">Scan with back camera</string>
     <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the green frame in your phone\'s screen.</string>
     <string name="scan_code_read_label">Scanned Code</string>
+    <string name="scan_code_from_file_toolbar_title">Scan from an image file</string>
+    <string name="scan_code_from_file_in_progress_description">Opening photo picker and scanning image for QR Code…</string>
+    <string name="scan_code_from_file_error_title">Failed to scan QR Code</string>
+    <string name="scan_code_from_file_error_description">Either the file does not contain any QR Codes, or perhaps the image quality is insufficient.\nPlease try again with another image.</string>
 
     <string name="code_open_app_error">There are no apps on the phone that are able to open the code\'s content.</string>
     <string name="code_share_app_error">There are no apps on the phone to share the content.</string>
