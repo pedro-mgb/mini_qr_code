@@ -8,6 +8,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeCameraUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeCameraUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeCameraScreen
@@ -34,7 +36,12 @@ private fun ScanQRCodeCameraCoordinator(
     uiState.apply {
         when (this) {
             is QRCodeCameraUIState.ScanComplete -> {
-                navigationListeners.onCodeScanned(qrCode)
+                navigationListeners.onCodeScanned(
+                    ScannedCode(
+                        data = this.qrCode,
+                        source = ScanSource.CAMERA,
+                    ),
+                )
             }
 
             is QRCodeCameraUIState.Idle -> {

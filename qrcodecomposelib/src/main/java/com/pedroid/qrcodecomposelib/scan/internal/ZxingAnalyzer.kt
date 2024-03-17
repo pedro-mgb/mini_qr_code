@@ -1,6 +1,10 @@
 package com.pedroid.qrcodecomposelib.scan.internal
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.camera.core.ImageProxy
@@ -10,10 +14,13 @@ import com.google.zxing.DecodeHintType
 import com.google.zxing.MultiFormatReader
 import com.google.zxing.NotFoundException
 import com.google.zxing.PlanarYUVLuminanceSource
+import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.Reader
 import com.google.zxing.common.HybridBinarizer
-import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import java.io.FileNotFoundException
 import java.nio.ByteBuffer
 
 private val supportedImageFormats: List<Int> by lazy {
@@ -40,10 +47,10 @@ private const val LOG_TAG = "ZxingAnalyzer"
 
 internal class ZxingAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : QRCodeAnalyzer {
+) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
-            val binaryBmp = image.convertToBitmap()
+            val binaryBmp = image.convertToBinaryBitmap()
             try {
                 val result = qrCodeReader.decode(binaryBmp)
                 Log.d(LOG_TAG, "Scanned $result")
@@ -69,7 +76,31 @@ internal class ZxingAnalyzer(
         }
     }
 
-    private fun ImageProxy.convertToBitmap(): BinaryBitmap {
+    override fun analyze(
+        context: Context,
+        uri: Uri,
+    ) {
+        val scannedCode: String? =
+            try {
+                context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                    val binaryBitmap = BitmapFactory.decodeStream(inputStream).convertToBinaryBitmap()
+                    try {
+                        qrCodeReader.decode(binaryBitmap)?.text
+                    } catch (nfe: NotFoundException) {
+                        Log.d(LOG_TAG, "No QR Code was found in image", nfe)
+                        null
+                    }
+                }
+            } catch (nfe: FileNotFoundException) {
+                Log.d(LOG_TAG, "QR Code image file not found", nfe)
+                null
+            }
+        onQRCodeStatus(
+            if (scannedCode != null) QRCodeScanResult.Scanned(scannedCode) else QRCodeScanResult.Invalid,
+        )
+    }
+
+    private fun ImageProxy.convertToBinaryBitmap(): BinaryBitmap {
         val bytes = planes.first().buffer.toByteArray()
         val source =
             PlanarYUVLuminanceSource(
@@ -84,6 +115,17 @@ internal class ZxingAnalyzer(
             )
         return BinaryBitmap(HybridBinarizer(source))
     }
+
+    private fun Bitmap.convertToBinaryBitmap(): BinaryBitmap {
+        val source = RGBLuminanceSource(width, height, toByteArray())
+        recycle()
+        return BinaryBitmap(HybridBinarizer(source))
+    }
+
+    private fun Bitmap.toByteArray(): IntArray =
+        IntArray(size = width * height).also {
+            this.getPixels(it, 0, width, 0, 0, width, height)
+        }
 
     private fun ByteBuffer.toByteArray(): ByteArray {
         rewind()

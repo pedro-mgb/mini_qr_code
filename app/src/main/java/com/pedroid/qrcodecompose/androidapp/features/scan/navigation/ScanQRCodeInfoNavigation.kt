@@ -20,6 +20,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRe
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIAction
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
@@ -48,21 +49,27 @@ private fun ScanCodeHomeCoordinator(
         rememberPermissionState(
             permission = Manifest.permission.CAMERA,
             onPermissionGranted = {
-                navigationListeners.onGoScanQRCode()
+                navigationListeners.onGoScanQRCodeWithCamera()
             },
         )
-    (savedStateHandle.get<String>(QR_CODE_SCANNED_KEY)).let {
+    (savedStateHandle.get<ScannedCode>(QR_CODE_SCANNED_KEY)).let {
         viewModel.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = it))
     }
     val uiState: QRCodeInfoUIState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     ScanQRCodeInfoScreen(
-        onScanCodePressed = {
-            cameraPermissionState.launchPermissionRequestOrRun {
-                navigationListeners.onGoScanQRCode()
-            }
-        },
+        buttonListeners =
+            StartScanActionListeners(
+                onStartScanFromCamera = {
+                    cameraPermissionState.launchPermissionRequestOrRun {
+                        navigationListeners.onGoScanQRCodeWithCamera()
+                    }
+                },
+                onStartScanFromImageFile = {
+                    navigationListeners.onGoScanQRCodeFromFile()
+                },
+            ),
         actionListeners =
             ScannedQRCodeActionListeners(
                 onCodeCopied = {

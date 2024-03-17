@@ -1,12 +1,20 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.navigation
 
+import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
+
 data class ScanQRCodeInfoNavigationListeners(
-    val onGoScanQRCode: () -> Unit,
+    val onGoScanQRCodeWithCamera: () -> Unit,
+    val onGoScanQRCodeFromFile: () -> Unit,
 )
 
 data class ScanQRCodeCameraNavigationListeners(
-    val onCodeScanned: (String) -> Unit,
+    val onCodeScanned: (ScannedCode) -> Unit,
     val onBackInvoked: () -> Unit,
+)
+
+data class StartScanActionListeners(
+    val onStartScanFromCamera: () -> Unit = {},
+    val onStartScanFromImageFile: () -> Unit = {},
 )
 
 data class ScannedQRCodeActionListeners(

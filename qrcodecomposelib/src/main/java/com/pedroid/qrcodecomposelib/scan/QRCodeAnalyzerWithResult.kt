@@ -1,7 +1,5 @@
 package com.pedroid.qrcodecomposelib.scan
 
-import androidx.camera.core.ImageAnalysis
-
-interface QRCodeAnalyzer : ImageAnalysis.Analyzer {
+interface QRCodeAnalyzerWithResult {
     val onQRCodeStatus: (QRCodeScanResult) -> Unit
 }

@@ -1,7 +1,7 @@
 package com.pedroid.qrcodecomposelib.scan
 
 sealed class QRCodeScanResult {
-    data object Ready : QRCodeScanResult()
+    data object Idle : QRCodeScanResult()
 
     data class Scanned(val qrCode: String) : QRCodeScanResult()
 

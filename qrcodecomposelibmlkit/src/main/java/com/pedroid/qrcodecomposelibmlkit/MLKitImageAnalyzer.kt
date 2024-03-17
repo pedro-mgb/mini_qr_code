@@ -1,5 +1,7 @@
 package com.pedroid.qrcodecomposelibmlkit
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
@@ -8,15 +10,17 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.pedroid.qrcodecomposelib.scan.QRCodeAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
+import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import java.io.IOException
 
 private const val LOG_TAG = "MLKitAnalyzer"
 
 @ExperimentalGetImage
 class MLKitImageAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : QRCodeAnalyzer {
+) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
     private val scanningOptions =
         BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
@@ -30,22 +34,41 @@ class MLKitImageAnalyzer(
             val inputImage =
                 InputImage.fromMediaImage(currentImage, image.imageInfo.rotationDegrees)
             barcodeScanner.process(inputImage)
-                .addListeners(image)
+                .addListeners {
+                    image.close()
+                }
         }
     }
 
-    private fun Task<List<Barcode>>.addListeners(imageProxy: ImageProxy): Task<List<Barcode>> =
+    override fun analyze(
+        context: Context,
+        uri: Uri,
+    ) {
+        Log.v(LOG_TAG, "analyzing image from uri $uri")
+        val inputImage: InputImage
+        try {
+            inputImage = InputImage.fromFilePath(context, uri)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            onQRCodeStatus.invoke(QRCodeScanResult.UnrecoverableError)
+            return
+        }
+        barcodeScanner.process(inputImage)
+            .addListeners()
+    }
+
+    private fun Task<List<Barcode>>.addListeners(clearResourcesCallback: () -> Unit = {}): Task<List<Barcode>> =
         addOnSuccessListener { barcodes ->
             onCodeScanned(barcodes)
         }.addOnFailureListener { ex ->
             Log.e(LOG_TAG, "Obtained error processing image for qr code", ex)
-            onQRCodeStatus(QRCodeScanResult.Invalid)
+            onQRCodeStatus(QRCodeScanResult.UnrecoverableError)
         }.addOnCanceledListener {
             Log.d(LOG_TAG, "Cancelled processing")
             onQRCodeStatus(QRCodeScanResult.Cancelled)
         }.addOnCompleteListener {
             Log.d(LOG_TAG, "Complete processing")
-            imageProxy.close()
+            clearResourcesCallback()
         }
 
     private fun onCodeScanned(barcodes: List<Barcode>) {
