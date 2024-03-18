@@ -23,7 +23,7 @@ class MLKitImageAnalyzer(
 ) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
     private val scanningOptions =
         BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
             .build()
 
     private val barcodeScanner by lazy { BarcodeScanning.getClient(scanningOptions) }

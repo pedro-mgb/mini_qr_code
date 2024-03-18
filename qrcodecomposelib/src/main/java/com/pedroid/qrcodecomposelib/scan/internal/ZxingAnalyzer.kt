@@ -37,9 +37,11 @@ private val supportedImageFormats: List<Int> by lazy {
     }
 }
 
+private val allBarcodeFormats: List<BarcodeFormat> = BarcodeFormat.entries
+
 private val qrCodeReader: Reader by lazy {
     MultiFormatReader().apply {
-        setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE)))
+        setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to allBarcodeFormats))
     }
 }
 
