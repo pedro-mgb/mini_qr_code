@@ -39,6 +39,7 @@ private fun ScanQRCodeCameraCoordinator(
                 navigationListeners.onCodeScanned(
                     ScannedCode(
                         data = this.qrCode,
+                        format = this.format,
                         source = ScanSource.CAMERA,
                     ),
                 )

@@ -1,6 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,11 @@ class ScanQRCodeCameraViewModel
                 is QRCodeCameraUIAction.ResultUpdate -> {
                     when (action.result) {
                         is QRCodeScanResult.Scanned -> {
-                            _uiState.value = QRCodeCameraUIState.ScanComplete(action.result.qrCode)
+                            _uiState.value =
+                                QRCodeCameraUIState.ScanComplete(
+                                    action.result.qrCode,
+                                    action.result.format,
+                                )
                         }
 
                         else -> {
@@ -35,7 +40,10 @@ class ScanQRCodeCameraViewModel
 sealed class QRCodeCameraUIState {
     data object Idle : QRCodeCameraUIState()
 
-    data class ScanComplete(val qrCode: String) : QRCodeCameraUIState()
+    data class ScanComplete(
+        val qrCode: String,
+        val format: QRCodeComposeXFormat,
+    ) : QRCodeCameraUIState()
 }
 
 sealed class QRCodeCameraUIAction {

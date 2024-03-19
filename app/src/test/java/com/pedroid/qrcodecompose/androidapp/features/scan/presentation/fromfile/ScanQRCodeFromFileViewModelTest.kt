@@ -1,5 +1,6 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile
 
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -66,10 +67,11 @@ class ScanQRCodeFromFileViewModelTest {
     @Test
     fun `given qr result action is with Scanned, ui state is set to Success`() {
         val qrCodeData = "qr_code_data"
+        val format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13
 
-        sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Scanned(qrCodeData)))
+        sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Scanned(qrCodeData, format)))
 
-        assertEquals(QRCodeFromFileUIState.Success(qrCodeData), sut.uiState.value)
+        assertEquals(QRCodeFromFileUIState.Success(qrCodeData, format), sut.uiState.value)
     }
 
     @Test

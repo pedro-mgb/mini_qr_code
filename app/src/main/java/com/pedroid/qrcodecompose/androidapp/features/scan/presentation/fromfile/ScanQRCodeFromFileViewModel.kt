@@ -2,6 +2,7 @@ package com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile
 
 import androidx.lifecycle.ViewModel
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +50,7 @@ class ScanQRCodeFromFileViewModel
                 }
 
                 is QRCodeScanResult.Scanned -> {
-                    QRCodeFromFileUIState.Success(qrCode)
+                    QRCodeFromFileUIState.Success(qrCode, format)
                 }
 
                 else -> {
@@ -73,7 +74,10 @@ sealed class QRCodeFromFileUIState {
 
     data object Error : TerminalState()
 
-    data class Success(val qrCode: String) : TerminalState()
+    data class Success(
+        val qrCode: String,
+        val format: QRCodeComposeXFormat,
+    ) : TerminalState()
 }
 
 sealed class QRCodeFromFileUIAction {

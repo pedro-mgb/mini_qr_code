@@ -47,6 +47,7 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.StartScanActionListeners
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
 @OptIn(ExperimentalPermissionsApi::class)
@@ -348,6 +349,7 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
                                     "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
                                     "pariatur. Excepteur sint occaecat cupidatat non proident, " +
                                     "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                QRCodeComposeXFormat.QR_CODE,
                                 ScanSource.CAMERA,
                             ),
                     ),

@@ -37,6 +37,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.ScanFromFileActionListeners
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region composables
 @OptIn(ExperimentalMaterial3Api::class)
@@ -161,7 +162,11 @@ private fun LoadingFromFile(modifier: Modifier = Modifier) {
 private fun ScanQRCodeFromFileSuccessPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         ScanQRCodeFromFileScreen(
-            uiState = QRCodeFromFileUIState.Success("some qr code"),
+            uiState =
+                QRCodeFromFileUIState.Success(
+                    qrCode = "some qr code",
+                    format = QRCodeComposeXFormat.QR_CODE,
+                ),
             scanFromFileActionListeners = ScanFromFileActionListeners(),
         )
     }
