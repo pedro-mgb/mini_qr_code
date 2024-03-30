@@ -13,6 +13,8 @@ import com.pedroid.qrcodecomposelib.R
  *      Note that some formats do not have a strict value for aspect ratio (not the case for QR Code, but it's the case for e.g. PDF_417),
  *      so this is more of a preferred or average value for aspect ratio
  *      If you experience issues with stretched out or compressed, open an issue on github describing what kind of barcode did you use
+ * @property titleStringId Unique ID for string resource for title of the format
+ * @property titleStringId Unique ID for string resource for subtitle containing short description of the format
  */
 enum class QRCodeComposeXFormat(
     val dimensions: Int,
