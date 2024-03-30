@@ -138,9 +138,22 @@ private fun QRCodeReadContent(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = Dimens.spacingExtraSmall),
+                    .padding(vertical = Dimens.spacingSmall),
             thickness = Dimens.borderWidthSmall,
             color = MaterialTheme.colorScheme.primaryContainer,
+        )
+        Text(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.spacingMedium),
+            text =
+                stringResource(
+                    id = R.string.scan_code_read_format,
+                    stringResource(id = qrCode.format.titleStringId),
+                ),
+            style = MaterialTheme.typography.labelLarge,
+            textAlign = TextAlign.Center,
         )
         if (largeScreen) {
             QRCodeContentLargeScreen(qrCode = qrCode.data, actionListeners = actionListeners)

@@ -17,8 +17,8 @@ import com.pedroid.qrcodecomposelib.R
 enum class QRCodeComposeXFormat(
     val dimensions: Int,
     val preferredAspectRatio: Float,
-    @StringRes titleStringId: Int,
-    @StringRes subtitleStringId: Int,
+    @StringRes val titleStringId: Int,
+    @StringRes val subtitleStringId: Int,
 ) {
     /** QR Code 2D barcode format. Should be the default format */
     QR_CODE(

@@ -3,7 +3,7 @@
     <string name="qrcode_compose_lib_format_qrcode_title" translatable="false">QR Code</string>
     <string name="qrcode_compose_lib_format_aztec_title" translatable="false">Aztec</string>
     <string name="qrcode_compose_lib_format_data_matrix_title" translatable="false">Data Matrix</string>
-    <string name="qrcode_compose_lib_format_pdf_417_title" translatable="false">Aztec</string>
+    <string name="qrcode_compose_lib_format_pdf_417_title" translatable="false">PDF417</string>
     <string name="qrcode_compose_lib_format_barcode39_title" translatable="false">Code 39</string>
     <string name="qrcode_compose_lib_format_barcode93_title" translatable="false">Code 93</string>
     <string name="qrcode_compose_lib_format_barcode128_title" translatable="false">Code 128</string>
