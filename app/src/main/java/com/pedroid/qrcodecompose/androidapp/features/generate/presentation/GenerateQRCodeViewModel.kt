@@ -9,6 +9,8 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
@@ -62,7 +65,15 @@ class GenerateQRCodeViewModel
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     // only update qrcode to generate if user as stopped typing for a small interval
                     savedStateHandle.updateState {
-                        it?.copy(content = it.content.copy(qrCodeText = action.text))
+                        it?.copy(
+                            content =
+                                it.content.copy(
+                                    generating =
+                                        it.content.generating.copy(
+                                            qrCodeText = action.text,
+                                        ),
+                                ),
+                        )
                     }
                 }
                 .launchIn(viewModelScope)
@@ -73,6 +84,20 @@ class GenerateQRCodeViewModel
                 when (action) {
                     is GenerateQRCodeUIAction.UpdateText -> {
                         updateTextActionFlow.emit(action)
+                    }
+
+                    is GenerateQRCodeUIAction.Customize -> {
+                        savedStateHandle.updateState {
+                            it?.copy(
+                                content =
+                                    it.content.copy(
+                                        generating =
+                                            it.content.generating.copy(
+                                                format = action.options.format,
+                                            ),
+                                    ),
+                            )
+                        }
                     }
 
                     is GenerateQRCodeUIAction.GenerateErrorReceived -> {
@@ -113,11 +138,24 @@ data class GenerateQRCodeUIState(
 @Parcelize
 data class GenerateQRCodeContentState(
     val inputText: String = "",
-    val qrCodeText: String = "",
+    val generating: QRCodeGeneratingContent = QRCodeGeneratingContent(),
 ) : Parcelable
 
+@Parcelize
+data class QRCodeGeneratingContent(
+    val qrCodeText: String = "",
+    val format: QRCodeComposeXFormat = QRCodeComposeXFormat.QR_CODE,
+) : Parcelable {
+    @IgnoredOnParcel
+    val empty: Boolean = qrCodeText.isBlank()
+}
+
 sealed class GenerateQRCodeUIAction {
-    data class UpdateText(val text: String) : GenerateQRCodeUIAction()
+    sealed class UpdateCodeContentAction : GenerateQRCodeUIAction()
+
+    data class UpdateText(val text: String) : UpdateCodeContentAction()
+
+    data class Customize(val options: QRCodeCustomizationOptions) : UpdateCodeContentAction()
 
     data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction()
 

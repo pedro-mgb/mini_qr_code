@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -23,27 +24,37 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.saveBitmap
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeScreen
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeUIAction
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeUIState
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeViewModel
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
 const val GENERATE_ROUTE = "GENERATE_QR_CODE_ROUTE"
 
-fun NavGraphBuilder.generateQRCodeRoute(largeScreen: Boolean = false) {
+fun NavGraphBuilder.generateQRCodeRoute(
+    navigationListeners: GenerateQRCodeHomeNavigationListeners,
+    largeScreen: Boolean = false,
+) {
     composable(route = GENERATE_ROUTE) {
-        GenerateQRCodeCoordinator(largeScreen = largeScreen)
+        GenerateQRCodeCoordinator(navigationListeners, largeScreen, it.savedStateHandle)
     }
 }
 
 @Composable
 private fun GenerateQRCodeCoordinator(
+    navigationListeners: GenerateQRCodeHomeNavigationListeners,
     largeScreen: Boolean,
+    savedStateHandle: SavedStateHandle,
     viewModel: GenerateQRCodeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val uiState: GenerateQRCodeUIState by viewModel.uiState.collectAsStateWithLifecycle()
+    (savedStateHandle.get<QRCodeComposeXFormat>(CODE_FORMAT_KEY))?.let {
+        viewModel.onNewAction(GenerateQRCodeUIAction.Customize(options = QRCodeCustomizationOptions(it)))
+    }
     var currentQRCodeBitmap: Bitmap? by remember { mutableStateOf(null) }
     val saveImageLauncher =
         rememberSaveBitmapActivityResult(
@@ -79,6 +90,9 @@ private fun GenerateQRCodeCoordinator(
             ),
         qrCodeActionListeners =
             GenerateQRCodeActionListeners(
+                onCustomize = {
+                    navigationListeners.onCustomize(QRCodeCustomizationOptions((uiState.content.generating.format)))
+                },
                 onImageSaveToFile = {
                     saveImageLauncher.launch("QR Code")
                 },
