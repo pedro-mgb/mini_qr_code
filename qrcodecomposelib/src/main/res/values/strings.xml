@@ -1,0 +1,32 @@
+<resources>
+    <!-- region format titles -->
+    <string name="qrcode_compose_lib_format_qrcode_title" translatable="false">QR Code</string>
+    <string name="qrcode_compose_lib_format_aztec_title" translatable="false">Aztec</string>
+    <string name="qrcode_compose_lib_format_data_matrix_title" translatable="false">Data Matrix</string>
+    <string name="qrcode_compose_lib_format_pdf_417_title" translatable="false">Aztec</string>
+    <string name="qrcode_compose_lib_format_barcode39_title" translatable="false">Code 39</string>
+    <string name="qrcode_compose_lib_format_barcode93_title" translatable="false">Code 93</string>
+    <string name="qrcode_compose_lib_format_barcode128_title" translatable="false">Code 128</string>
+    <string name="qrcode_compose_lib_format_ean8_title" translatable="false">EAN-8</string>
+    <string name="qrcode_compose_lib_format_ean13_title" translatable="false">EAN-13</string>
+    <string name="qrcode_compose_lib_format_itf_title" translatable="false">ITF</string>
+    <string name="qrcode_compose_lib_format_upc_a_title" translatable="false">UPC-A</string>
+    <string name="qrcode_compose_lib_format_upc_e_title" translatable="false">UPC-E</string>
+    <string name="qrcode_compose_lib_format_codabar_title" translatable="false">Codabar</string>
+    <!-- endregion format titles -->
+    <!-- region format subtitles / descriptions -->
+    <string name="qrcode_compose_lib_format_qrcode_subtitle">2D square format used worldwide. Default.</string>
+    <string name="qrcode_compose_lib_format_aztec_subtitle">2D format alternative to QR Code. Its center pattern resembles an Aztec pyramid - hence the name.</string>
+    <string name="qrcode_compose_lib_format_data_matrix_subtitle">2D square format that can encode data in a very small surface area.</string>
+    <string name="qrcode_compose_lib_format_pdf417_subtitle">2D linear barcode, used by United States Postal Service (USPS), among others.</string>
+    <string name="qrcode_compose_lib_format_barcode39_subtitle">1D barcode, not used worldwide when compared to Code 128.</string>
+    <string name="qrcode_compose_lib_format_barcode93_subtitle">More compact than Code 39. Used by Canada Post.</string>
+    <string name="qrcode_compose_lib_format_barcode128_subtitle">1D barcode used worldwide in shipping and packaging (particularly, its GS1–128 subset).</string>
+    <string name="qrcode_compose_lib_format_ean8_subtitle">1D barcode used in small packages for which EAN-13 is too large.</string>
+    <string name="qrcode_compose_lib_format_ean13_subtitle">Also referred as International Article Number. It\'s a 13 digit barcode used for identifying products globally. Also used for encoding ISSN and ISBN.</string>
+    <string name="qrcode_compose_lib_format_itf_subtitle">AKA Interleave 2 to 5, and also ITF-14. Less used when compared with EAN or UPC.</string>
+    <string name="qrcode_compose_lib_format_upc_a_subtitle">AKA Universal Product Code. 1D barcode format used worldwide for tracking products in stores and supermarkets. 12 digits</string>
+    <string name="qrcode_compose_lib_format_upc_e_subtitle">Alternative to UPC-A, designed for small items where 12 digits do not fit.</string>
+    <string name="qrcode_compose_lib_format_codabar_subtitle">1D barcode, used often in libraries, but not popular in current times.</string>
+    <!-- region format subtitles / descriptions -->
+</resources>
