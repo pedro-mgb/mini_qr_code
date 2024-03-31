@@ -45,5 +45,5 @@
     <string name="generate_code_current_customization_options">Format: %s</string>
     <string name="generate_code_customize_action">Customize</string>
     <string name="generate_code_select_format_title">Select format</string>
-    <string name="generate_code_select_format_description">Tap your desired format from the list below.\nSome formats follow strict rules - for example only alphanumeric characters.</string>
+    <string name="generate_code_select_format_description">Tap your desired format from the list below.\nSome formats follow strict rules - for example only alphanumeric characters or a specific length.</string>
 </resources>

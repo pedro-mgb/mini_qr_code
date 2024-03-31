@@ -28,5 +28,8 @@
     <string name="qrcode_compose_lib_format_upc_a_subtitle">AKA Universal Product Code. 1D barcode format used worldwide for tracking products in stores and supermarkets. 12 digits</string>
     <string name="qrcode_compose_lib_format_upc_e_subtitle">Alternative to UPC-A, designed for small items where 12 digits do not fit.</string>
     <string name="qrcode_compose_lib_format_codabar_subtitle">1D barcode, used often in libraries, but not popular in current times.</string>
-    <!-- region format subtitles / descriptions -->
+    <!-- endregion format subtitles / descriptions -->
+    <!-- region format error message -->
+    <string name="qr_code_compose_lib_format_default_error_message">Something\'s wrong. If the issue persists, contact the developer.</string>
+    <!-- endregion format error message -->
 </resources>

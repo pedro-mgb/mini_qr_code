@@ -1,4 +1,5 @@
 <resources>
+    <!-- region format subtitles / descriptions -->
     <string name="qrcode_compose_lib_format_qrcode_subtitle">Formato quadrado 2D muito popular mundialmente. Pré-definido.</string>
     <string name="qrcode_compose_lib_format_aztec_subtitle">Formato 2D alternativo ao QR Code. O padrão no centro assemelha-se a uma pirâmide Azteca - que lhe dá o nome.</string>
     <string name="qrcode_compose_lib_format_data_matrix_subtitle">Formato quadrado 2D que consegue codificar dados numa área de superfície muito pequena</string>
@@ -12,4 +13,8 @@
     <string name="qrcode_compose_lib_format_upc_a_subtitle">Código Universal de Produtos. Código de barras 1D used worldwide para identificar produtos em lojas e supermercados. 12 dígitos</string>
     <string name="qrcode_compose_lib_format_upc_e_subtitle">Alternativa ao UPC-A, desenhado para embalagens pequenes onde 12 dígitos não cabem.</string>
     <string name="qrcode_compose_lib_format_codabar_subtitle">Código de barras 1D, usado frequentemente em bibliotecas, mas pouco popular em geral.</string>
+    <!-- endregion format subtitles / descriptions -->
+    <!-- region format error message -->
+    <string name="qr_code_compose_lib_format_default_error_message">Ocorreu um erro. Se o problema persistir, contacta o desenvolvedor da app.</string>
+    <!-- endregion format error message -->
 </resources>

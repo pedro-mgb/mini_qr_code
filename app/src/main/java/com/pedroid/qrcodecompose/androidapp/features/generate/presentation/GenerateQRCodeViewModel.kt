@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.IgnoredOnParcel
@@ -54,12 +56,21 @@ class GenerateQRCodeViewModel
         private fun setupUpdateTextAction() {
             updateTextActionFlow
                 .asStateFlow()
-                .onEach { action ->
+                .map { action ->
                     logger.debug(LOG_TAG, "Received action $action")
-                    savedStateHandle.updateState {
-                        it?.copy(content = it.content.copy(inputText = action.text))
+                    val maxLength = uiState.value.content.generating.format.maxLength
+                    if (action.text.length <= maxLength) {
+                        logger.debug(LOG_TAG, "Receiving valid text, update input text state")
+                        savedStateHandle.updateState {
+                            it?.copy(content = it.content.copy(inputText = action.text))
+                        }
+                        action
+                    } else {
+                        logger.debug(LOG_TAG, "Text exceeds length $maxLength, not updating state")
+                        null
                     }
                 }
+                .filterNotNull()
                 .debounce(AWAIT_INPUT_STOP_INTERVAL)
                 .onEach { action ->
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")

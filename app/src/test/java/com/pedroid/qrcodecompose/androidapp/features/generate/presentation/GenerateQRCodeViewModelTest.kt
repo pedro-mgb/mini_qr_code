@@ -159,6 +159,68 @@ class GenerateQRCodeViewModelTest {
         }
 
     @Test
+    fun `given update text action with length not bigger than format max length, new state is emitted`() {
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_US_UPC_A
+            val validText = "1".repeat(format.maxLength)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(validText))
+
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = validText,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = validText,
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+    }
+
+    @Test
+    fun `given update text action with length is bigger than format max length, no new state is emitted`() {
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_US_UPC_A
+            val validText = "1".repeat(format.maxLength + 1)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(validText))
+
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = "",
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+    }
+
+    @Test
     fun `given generate error actions are sent, state errorMessageKey is updated`() =
         runTest {
             sut.uiState.test {
