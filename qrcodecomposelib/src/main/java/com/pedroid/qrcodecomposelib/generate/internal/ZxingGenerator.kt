@@ -1,6 +1,7 @@
 package com.pedroid.qrcodecomposelib.generate.internal
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -9,6 +10,8 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
+
+private const val LOG_TAG = "ZxingGenerator"
 
 /**
  * Returns the generated QR Code (or other barcode format) bitmap, error result if it fails
@@ -30,6 +33,7 @@ internal fun generateCodeViaZxing(
                     map[EncodeHintType.ERROR_CORRECTION] = it
                 }
             }
+        Log.d(LOG_TAG, "Generating qrcode: $text; format=$format; width=$width; height=$height")
         val bitMatrix: BitMatrix =
             multiFormatWriter.encode(
                 text,
@@ -38,12 +42,15 @@ internal fun generateCodeViaZxing(
                 height,
                 encodingHints,
             )
-        createQRCodeBitmap(bitMatrix, width, height, colorFill).let {
+        createQRCodeBitmap(bitMatrix, colorFill).let {
             QRCodeGenerateResult.Generated(it)
         }
     } catch (wEx: WriterException) {
         wEx.printStackTrace()
         QRCodeGenerateResult.Error(wEx)
+    } catch (iEx: IllegalArgumentException) {
+        iEx.printStackTrace()
+        QRCodeGenerateResult.Error(iEx)
     }
 }
 
@@ -65,15 +72,20 @@ private fun getErrorCorrectionLevel(format: BarcodeFormat): Any? {
 
 private fun createQRCodeBitmap(
     matrix: BitMatrix,
-    width: Int,
-    height: Int,
     @ColorInt colorFill: Int,
 ): Bitmap {
-    val pixels: IntArray =
-        List(matrix.width * matrix.height) {
-            if (matrix.get(it % matrix.width, it / matrix.height)) colorFill else DEFAULT_BLANK_COLOR
-        }.toIntArray()
+    val width = matrix.width
+    val height = matrix.height
+    val pixels = IntArray(width * height) { DEFAULT_BLANK_COLOR }
+    for (y: Int in 0 until height) {
+        val offset = y * width
+        for (x: Int in 0 until width) {
+            if (matrix.get(x, y)) {
+                pixels[offset + x] = colorFill
+            }
+        }
+    }
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    bitmap.setPixels(pixels, 0, width, 0, 0, matrix.width, matrix.height)
+    bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
     return bitmap
 }
