@@ -139,11 +139,14 @@ enum class QRCodeComposeXFormat(
         errorMessageStringId = R.string.qr_code_compose_lib_format_itf_error_message,
     ),
 
-    /** UPC-A 1D format. */
+    /** UPC-A 1D format.
+     * Minor implementation detail: Regex has 11-12 digits instead of 12-13
+     *  because ZXING library prepends a 0 automatically, totaling the 12-13
+     * */
     BARCODE_US_UPC_A(
         dimensions = 1,
         preferredAspectRatio = 1.5f,
-        validationRegex = "^\\d{12,13}$".toRegex(),
+        validationRegex = "^\\d{11,12}$".toRegex(),
         maxLength = 13,
         inputType = KeyboardType.NumberPassword,
         titleStringId = R.string.qrcode_compose_lib_format_upc_a_title,
@@ -155,7 +158,7 @@ enum class QRCodeComposeXFormat(
     BARCODE_US_UPC_E(
         dimensions = 1,
         preferredAspectRatio = 1.5f,
-        validationRegex = "^\\d{7,8}$".toRegex(),
+        validationRegex = "^[01]\\d{6,7}$".toRegex(),
         maxLength = 8,
         inputType = KeyboardType.NumberPassword,
         titleStringId = R.string.qrcode_compose_lib_format_upc_e_title,

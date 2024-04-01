@@ -23,9 +23,9 @@
     <string name="qrcode_compose_lib_format_barcode93_subtitle">More compact than Code 39. Used by Canada Post.</string>
     <string name="qrcode_compose_lib_format_barcode128_subtitle">1D barcode used worldwide in shipping and packaging (particularly, its GS1–128 subset).</string>
     <string name="qrcode_compose_lib_format_ean8_subtitle">1D barcode used in small packages for which EAN-13 is too large.</string>
-    <string name="qrcode_compose_lib_format_ean13_subtitle">Also referred as International Article Number. It\'s a 13 digit barcode used for identifying products globally. Also used for encoding ISSN and ISBN.</string>
+    <string name="qrcode_compose_lib_format_ean13_subtitle">Also referred as International Article Number. It\'s a 12 or 13 digit barcode used for identifying products globally. Also used for encoding ISSN and ISBN.</string>
     <string name="qrcode_compose_lib_format_itf_subtitle">AKA Interleave 2 to 5, and also ITF-14. Less used when compared with EAN or UPC.</string>
-    <string name="qrcode_compose_lib_format_upc_a_subtitle">AKA Universal Product Code. 1D barcode format used worldwide for tracking products in stores and supermarkets. 12 digits</string>
+    <string name="qrcode_compose_lib_format_upc_a_subtitle">AKA Universal Product Code. 1D barcode format used worldwide for tracking products in stores and supermarkets. 12 or 13 digits, including a 0 prepended automatically by the app (to comply with standard)</string>
     <string name="qrcode_compose_lib_format_upc_e_subtitle">Alternative to UPC-A, designed for small items where 12 digits do not fit.</string>
     <string name="qrcode_compose_lib_format_codabar_subtitle">1D barcode, used often in libraries, but not popular in current times.</string>
     <!-- endregion format subtitles / descriptions -->
@@ -38,8 +38,8 @@
     <string name="qr_code_compose_lib_format_ean8_error_message">Input error. EAN-8 can either have 7 digits (currently at %d), or 8 with the last one being a checksum.</string>
     <string name="qr_code_compose_lib_format_ean13_error_message">Input error. EAN-13 can either have 12 digits (currently at %d), or 13 with the last one being a checksum.</string>
     <string name="qr_code_compose_lib_format_itf_error_message">Input error. ITF must have an even number of digits, up to 80 (currently at %d).</string>
-    <string name="qr_code_compose_lib_format_upc_a_error_message">Input error. UPC-A can either have 12 digits (currently at %d), or 13 with the last one being a checksum.</string>
-    <string name="qr_code_compose_lib_format_upc_e_error_message">Input error. UPC-E can either have 7 digits (currently at %d), or 8 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_upc_a_error_message">Input error. UPC-A can either have 11 digits including the 0 prepended automatically by the app (currently at %d), or 12 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_upc_e_error_message">Input error. UPC-E\'s first digit must be 0 or 1. It can either have 7 digits (currently at %d), or 8 with the last one being a checksum.</string>
     <string name="qr_code_compose_lib_format_codabar_error_message">Input error. CODABAR only have numbers.</string>
     <!-- endregion format error message -->
 </resources>

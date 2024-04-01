@@ -123,21 +123,25 @@ class QRCodeComposeXFormatValidatorsTest {
 
     @Test
     fun `EAN 13 and UPC A allow numbers of either length 12 or 13`() {
-        val numberLength12 = "2".repeat(12)
-        val numberLength13 = "3".repeat(13)
+        val numberLength12 = "0".repeat(12)
+        val numberLength13 = "0".repeat(13)
+        // 1 less for UPC-A because ZXING prepends a 0
+        val numberLength11 = "1".repeat(11)
 
         assertTrue(QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13.validationRegex.matches(numberLength12))
         assertTrue(QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13.validationRegex.matches(numberLength13))
+        assertTrue(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(numberLength11))
         assertTrue(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(numberLength12))
-        assertTrue(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(numberLength13))
     }
 
     @Test
     fun `EAN 13 and UPC A do not allow number with length less than 12`() {
         val numberLength11 = "1".repeat(11)
+        // 1 less for UPC-A because ZXING prepends a 0
+        val numberLength10 = "1".repeat(10)
 
         assertFalse(QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13.validationRegex.matches(numberLength11))
-        assertFalse(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(numberLength11))
+        assertFalse(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(numberLength10))
     }
 
     @Test
@@ -154,6 +158,13 @@ class QRCodeComposeXFormatValidatorsTest {
 
         assertFalse(QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13.validationRegex.matches(invalid))
         assertFalse(QRCodeComposeXFormat.BARCODE_US_UPC_A.validationRegex.matches(invalid))
+    }
+
+    @Test
+    fun `UPC E cannot start with a number other than 1 or 0`() {
+        val invalid = "8".repeat(7)
+
+        assertFalse(QRCodeComposeXFormat.BARCODE_US_UPC_E.validationRegex.matches(invalid))
     }
 
     @Test
