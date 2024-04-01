@@ -11,6 +11,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXNotCompliantWithFormatException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,6 +39,7 @@ class GenerateQRCodeViewModel
     constructor(
         private val savedStateHandle: SavedStateHandle,
         private val logger: Logger,
+        private val generateMessageFactory: GenerateMessageFactory,
     ) : ViewModel() {
         val uiState: StateFlow<GenerateQRCodeUIState> =
             savedStateHandle.getStateFlow(
@@ -58,23 +60,37 @@ class GenerateQRCodeViewModel
                 .asStateFlow()
                 .map { action ->
                     logger.debug(LOG_TAG, "Received action $action")
-                    val maxLength = uiState.value.content.generating.format.maxLength
-                    if (action.text.length <= maxLength) {
+                    val format = uiState.value.content.generating.format
+                    val addingChars: Boolean = action.text.length > uiState.value.content.inputText.length
+                    if (addingChars && action.text.length > format.maxLength) {
+                        logger.debug(LOG_TAG, "Text exceeds length ${format.maxLength}, not updating state")
+                        null
+                    } else if (action.text.isNotEmpty() && !format.validationRegex.matches(action.text)) {
+                        logger.debug(LOG_TAG, "Text is not valid according to regex, updating state with error")
+                        val errorMessage = generateMessageFactory.createGenerateErrorMessage(format, action.text)
+                        savedStateHandle.updateState {
+                            it?.copy(
+                                content =
+                                    it.content.copy(
+                                        inputText = action.text,
+                                        inputErrorMessage = errorMessage,
+                                    ),
+                            )
+                        }
+                        null
+                    } else {
                         logger.debug(LOG_TAG, "Receiving valid text, update input text state")
                         savedStateHandle.updateState {
-                            it?.copy(content = it.content.copy(inputText = action.text))
+                            it?.copy(content = it.content.copy(inputText = action.text, inputErrorMessage = ""))
                         }
                         action
-                    } else {
-                        logger.debug(LOG_TAG, "Text exceeds length $maxLength, not updating state")
-                        null
                     }
                 }
                 .filterNotNull()
                 .debounce(AWAIT_INPUT_STOP_INTERVAL)
                 .onEach { action ->
-                    logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     // only update qrcode to generate if user as stopped typing for a small interval
+                    logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     savedStateHandle.updateState {
                         it?.copy(
                             content =
@@ -98,23 +114,63 @@ class GenerateQRCodeViewModel
                     }
 
                     is GenerateQRCodeUIAction.Customize -> {
-                        savedStateHandle.updateState {
-                            it?.copy(
-                                content =
-                                    it.content.copy(
-                                        generating =
-                                            it.content.generating.copy(
-                                                format = action.options.format,
-                                            ),
-                                    ),
-                            )
+                        logger.debug(LOG_TAG, "Customize action - $action")
+                        val format = action.options.format
+                        if (format != uiState.value.content.generating.format) {
+                            val currentText = uiState.value.content.generating.qrCodeText
+                            val isValidWithNewFormat =
+                                currentText.isEmpty() || (
+                                    currentText.length < format.maxLength &&
+                                        format.validationRegex.matches(
+                                            currentText,
+                                        )
+                                )
+                            val errorMessage =
+                                if (isValidWithNewFormat) {
+                                    ""
+                                } else {
+                                    generateMessageFactory.createGenerateErrorMessage(format, currentText)
+                                }
+                            savedStateHandle.updateState {
+                                it?.copy(
+                                    content =
+                                        it.content.copy(
+                                            inputErrorMessage = errorMessage,
+                                            generating =
+                                                it.content.generating.copy(
+                                                    qrCodeText = if (isValidWithNewFormat) currentText else "",
+                                                    format = format,
+                                                ),
+                                        ),
+                                )
+                            }
                         }
                     }
 
                     is GenerateQRCodeUIAction.GenerateErrorReceived -> {
                         logger.error(LOG_TAG, "Error in generating qr code", action.exception)
-                        savedStateHandle.updateState {
-                            it?.copy(temporaryMessage = TemporaryMessageData.error("generate_code_error"))
+                        if (action.exception is QRCodeComposeXNotCompliantWithFormatException) {
+                            val errorMessage =
+                                generateMessageFactory.createGenerateErrorMessage(
+                                    uiState.value.content.generating.format,
+                                    uiState.value.content.generating.qrCodeText,
+                                )
+                            savedStateHandle.updateState {
+                                it?.copy(
+                                    content =
+                                        it.content.copy(
+                                            inputErrorMessage = errorMessage,
+                                            generating =
+                                                it.content.generating.copy(
+                                                    qrCodeText = "",
+                                                ),
+                                        ),
+                                )
+                            }
+                        } else {
+                            savedStateHandle.updateState {
+                                it?.copy(temporaryMessage = TemporaryMessageData.error("generate_code_error"))
+                            }
                         }
                     }
 
@@ -149,8 +205,12 @@ data class GenerateQRCodeUIState(
 @Parcelize
 data class GenerateQRCodeContentState(
     val inputText: String = "",
+    val inputErrorMessage: String = "",
     val generating: QRCodeGeneratingContent = QRCodeGeneratingContent(),
-) : Parcelable
+) : Parcelable {
+    @IgnoredOnParcel
+    val inputError: Boolean = inputErrorMessage.isNotBlank()
+}
 
 @Parcelize
 data class QRCodeGeneratingContent(

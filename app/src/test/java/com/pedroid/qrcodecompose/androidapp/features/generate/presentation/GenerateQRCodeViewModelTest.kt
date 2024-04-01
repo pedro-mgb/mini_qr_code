@@ -9,6 +9,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageTy
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecompose.androidapp.testutils.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -31,6 +32,10 @@ class GenerateQRCodeViewModelTest {
             GenerateQRCodeViewModel(
                 savedStateHandle = SavedStateHandle(),
                 logger = mockk(relaxed = true),
+                generateMessageFactory =
+                    mockk {
+                        every { createGenerateErrorMessage(any(), any()) } returns ERROR_MESSAGE
+                    },
             )
     }
 
@@ -161,7 +166,7 @@ class GenerateQRCodeViewModelTest {
     @Test
     fun `given update text action with length not bigger than format max length, new state is emitted`() {
         runTest {
-            val format = QRCodeComposeXFormat.BARCODE_US_UPC_A
+            val format = QRCodeComposeXFormat.BARCODE_128
             val validText = "1".repeat(format.maxLength)
             sut.onNewAction(
                 GenerateQRCodeUIAction.Customize(
@@ -170,9 +175,11 @@ class GenerateQRCodeViewModelTest {
                     ),
                 ),
             )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
 
             sut.onNewAction(GenerateQRCodeUIAction.UpdateText(validText))
-
+            // advancing time to make sure current actions have been processed
             testScheduler.advanceTimeBy(1000L)
 
             assertEquals(
@@ -190,10 +197,10 @@ class GenerateQRCodeViewModelTest {
     }
 
     @Test
-    fun `given update text action with length is bigger than format max length, no new state is emitted`() {
+    fun `given update text action with length is bigger than format max length, no new state is emitted`() =
         runTest {
-            val format = QRCodeComposeXFormat.BARCODE_US_UPC_A
-            val validText = "1".repeat(format.maxLength + 1)
+            val format = QRCodeComposeXFormat.BARCODE_128
+            val textTooLong = "1".repeat(format.maxLength + 1)
             sut.onNewAction(
                 GenerateQRCodeUIAction.Customize(
                     QRCodeCustomizationOptions(
@@ -201,9 +208,10 @@ class GenerateQRCodeViewModelTest {
                     ),
                 ),
             )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
 
-            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(validText))
-
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(textTooLong))
             testScheduler.advanceTimeBy(1000L)
 
             assertEquals(
@@ -218,7 +226,71 @@ class GenerateQRCodeViewModelTest {
                 sut.uiState.value.content,
             )
         }
-    }
+
+    @Test
+    fun `given update text action with invalid text for specific format, error message is emitted in state`() =
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_128
+            val invalidText = "€".repeat(format.maxLength - 1)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(invalidText))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = invalidText,
+                    inputErrorMessage = ERROR_MESSAGE,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+
+    @Test
+    fun `given format change action is done but text is invalid for new format, error is emitted in state`() =
+        runTest {
+            val invalidInput = "abcde"
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(invalidInput))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = invalidInput,
+                    inputErrorMessage = ERROR_MESSAGE,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
 
     @Test
     fun `given generate error actions are sent, state errorMessageKey is updated`() =
@@ -255,7 +327,9 @@ class GenerateQRCodeViewModelTest {
     }
 
     companion object {
-        val DEFAULT_CONTENT_STATE =
+        private const val ERROR_MESSAGE = "error message"
+
+        private val DEFAULT_CONTENT_STATE =
             GenerateQRCodeContentState(
                 inputText = "",
                 generating = QRCodeGeneratingContent(),
