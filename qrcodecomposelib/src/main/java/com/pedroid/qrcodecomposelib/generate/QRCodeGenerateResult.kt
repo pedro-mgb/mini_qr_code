@@ -2,6 +2,8 @@ package com.pedroid.qrcodecomposelib.generate
 
 import android.graphics.Bitmap
 
+typealias QRCodeComposeXNotCompliantWithFormatException = IllegalArgumentException
+
 sealed class QRCodeGenerateResult {
     data class Generated(val bitmap: Bitmap) : QRCodeGenerateResult()
 

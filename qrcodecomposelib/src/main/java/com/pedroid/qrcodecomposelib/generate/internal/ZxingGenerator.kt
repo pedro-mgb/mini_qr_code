@@ -24,6 +24,7 @@ internal fun generateCodeViaZxing(
     @ColorInt colorFill: Int = DEFAULT_FILL_COLOR,
     encoding: String = DEFAULT_QR_CODE_TEXT_ENCODING,
 ): QRCodeGenerateResult {
+    Log.d(LOG_TAG, "Generating $text; width=$width, aspectRatio=$aspectRatio, format=$format, colorFill=$colorFill, encoding=$encoding")
     return try {
         val multiFormatWriter = MultiFormatWriter()
         val height = ((width / aspectRatio).toInt())
@@ -51,6 +52,15 @@ internal fun generateCodeViaZxing(
     } catch (iEx: IllegalArgumentException) {
         iEx.printStackTrace()
         QRCodeGenerateResult.Error(iEx)
+    } catch (iEx: ArrayIndexOutOfBoundsException) {
+        if (format == BarcodeFormat.CODE_93) {
+            // this is a workaround because if there's some wrong formatting with CODE_93,
+            // an IllegalArgumentException is not thrown
+            iEx.printStackTrace()
+            QRCodeGenerateResult.Error(IllegalArgumentException(iEx))
+        } else {
+            throw iEx
+        }
     }
 }
 

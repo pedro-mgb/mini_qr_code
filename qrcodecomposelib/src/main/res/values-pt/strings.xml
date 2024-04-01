@@ -16,5 +16,15 @@
     <!-- endregion format subtitles / descriptions -->
     <!-- region format error message -->
     <string name="qr_code_compose_lib_format_default_error_message">Ocorreu um erro. Se o problema persistir, contacta o desenvolvedor da app.</string>
+    <string name="qr_code_compose_lib_format_data_matrix_error_message">Erro nos dados. Data Matrix suporta ISO/IEC 8859–1. Não suporta alfabetos não-laninos, nem emojis.</string>
+    <string name="qr_code_compose_lib_format_barcode39_error_message">Erro nos dados. Code 39 pode ter 80 caracteres (atualmente com %d), apenas ASCII (letras, números, e alguns caracteres especiais).</string>
+    <string name="qr_code_compose_lib_format_barcode93_error_message">Erro nos dados. Code 93 pode ter 80 caracteres (atualmente com %d), apenas letras maiúsculas, números, e alguns caracteres especiais.</string>
+    <string name="qr_code_compose_lib_format_barcode128_error_message">Erro nos dados. Code 39 pode ter 80 caracteres (atualmente com %d), apenas ASCII (letras, números, e alguns caracteres especiais).</string>
+    <string name="qr_code_compose_lib_format_ean8_error_message">Erro nos dados. EAN-8 pode ter ou 7 dígitos (atualmente com %d), ou 8 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_ean13_error_message">Erro nos dados. EAN-13 pode ter ou 12 dígitos (atualmente com %d), ou 13 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_itf_error_message">Erro nos dados. ITF tem que possuir um número de dígitos par, até 80 (atualmente com %d).</string>
+    <string name="qr_code_compose_lib_format_upc_a_error_message">Erro nos dados. UPC-A pode ter ou 12 dígitos (atualmente com %d), ou 13 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_upc_e_error_message">Erro nos dados. UPC-E pode ter ou 7 dígitos (atualmente com %d), ou 8 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_codabar_error_message">Erro nos dados. CODABAR suporta apenas números.</string>
     <!-- endregion format error message -->
 </resources>

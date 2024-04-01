@@ -31,5 +31,15 @@
     <!-- endregion format subtitles / descriptions -->
     <!-- region format error message -->
     <string name="qr_code_compose_lib_format_default_error_message">Something\'s wrong. If the issue persists, contact the developer.</string>
+    <string name="qr_code_compose_lib_format_data_matrix_error_message">Input error. Data Matrix supports ISO/IEC 8859–1 characters. It does not support non-latin alphabets, nor does it support emojis.</string>
+    <string name="qr_code_compose_lib_format_barcode39_error_message">Input error. Code 39 can have up to 80 characters (currently at %d), and only supports ASCII (letters, numbers, and some special characters).</string>
+    <string name="qr_code_compose_lib_format_barcode93_error_message">Input error. Code 93 can have up to 80 characters (currently at %d), and only capital letters, numbers, and some special characters.</string>
+    <string name="qr_code_compose_lib_format_barcode128_error_message">Input error. Code 128 can have up to 80 characters (currently at %d), and only supports ASCII (letters, numbers, and some special characters).</string>
+    <string name="qr_code_compose_lib_format_ean8_error_message">Input error. EAN-8 can either have 7 digits (currently at %d), or 8 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_ean13_error_message">Input error. EAN-13 can either have 12 digits (currently at %d), or 13 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_itf_error_message">Input error. ITF must have an even number of digits, up to 80 (currently at %d).</string>
+    <string name="qr_code_compose_lib_format_upc_a_error_message">Input error. UPC-A can either have 12 digits (currently at %d), or 13 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_upc_e_error_message">Input error. UPC-E can either have 7 digits (currently at %d), or 8 with the last one being a checksum.</string>
+    <string name="qr_code_compose_lib_format_codabar_error_message">Input error. CODABAR only have numbers.</string>
     <!-- endregion format error message -->
 </resources>
