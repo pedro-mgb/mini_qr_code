@@ -97,7 +97,11 @@ private fun GenerateQRCodeCoordinator(
                     saveImageLauncher.launch("QR Code")
                 },
                 onImageShare = {
-                    val result = context.shareImageToAnotherApp(currentQRCodeBitmap, "QR Code")
+                    val result =
+                        context.shareImageToAnotherApp(
+                            content = currentQRCodeBitmap,
+                            shareTitle = context.getString(uiState.content.generating.format.titleStringId),
+                        )
                     viewModel.onNewAction(GenerateQRCodeUIAction.QRActionComplete(result))
                 },
                 onImageCopyToClipboard = {
