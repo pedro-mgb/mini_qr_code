@@ -94,13 +94,13 @@ private fun GenerateQRCodeCoordinator(
                     navigationListeners.onCustomize(QRCodeCustomizationOptions((uiState.content.generating.format)))
                 },
                 onImageSaveToFile = {
-                    saveImageLauncher.launch("QR Code")
+                    saveImageLauncher.launch(context.getNameFromFormat(uiState))
                 },
                 onImageShare = {
                     val result =
                         context.shareImageToAnotherApp(
                             content = currentQRCodeBitmap,
-                            shareTitle = context.getString(uiState.content.generating.format.titleStringId),
+                            shareTitle = context.getNameFromFormat(uiState),
                         )
                     viewModel.onNewAction(GenerateQRCodeUIAction.QRActionComplete(result))
                 },
@@ -142,6 +142,9 @@ private fun rememberSaveBitmapActivityResult(
         }
     }
 }
+
+private fun Context.getNameFromFormat(uiState: GenerateQRCodeUIState): String =
+    this.getString(uiState.content.generating.format.titleStringId)
 
 fun NavController.navigateToGenerateQRCodeInfo(navOptions: NavOptions? = null) {
     this.navigate(GENERATE_ROUTE, navOptions)
