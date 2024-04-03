@@ -118,13 +118,7 @@ class GenerateQRCodeViewModel
                         val format = action.options.format
                         if (format != uiState.value.content.generating.format) {
                             val currentText = uiState.value.content.generating.qrCodeText
-                            val isValidWithNewFormat =
-                                currentText.isEmpty() || (
-                                    currentText.length < format.maxLength &&
-                                        format.validationRegex.matches(
-                                            currentText,
-                                        )
-                                )
+                            val isValidWithNewFormat = textValidForNewFormat(currentText, format)
                             val errorMessage =
                                 if (isValidWithNewFormat) {
                                     ""
@@ -136,11 +130,7 @@ class GenerateQRCodeViewModel
                                     content =
                                         it.content.copy(
                                             inputErrorMessage = errorMessage,
-                                            generating =
-                                                it.content.generating.copy(
-                                                    qrCodeText = if (isValidWithNewFormat) currentText else "",
-                                                    format = format,
-                                                ),
+                                            generating = it.content.generating.copy(format = format),
                                         ),
                                 )
                             }
@@ -160,10 +150,6 @@ class GenerateQRCodeViewModel
                                     content =
                                         it.content.copy(
                                             inputErrorMessage = errorMessage,
-                                            generating =
-                                                it.content.generating.copy(
-                                                    qrCodeText = "",
-                                                ),
                                         ),
                                 )
                             }
@@ -191,8 +177,23 @@ class GenerateQRCodeViewModel
             }
         }
 
+        private fun textValidForNewFormat(
+            text: String,
+            format: QRCodeComposeXFormat,
+        ): Boolean {
+            val notExceedingMaxLength = text.length < format.maxLength
+            val matchesRegex = format.validationRegex.matches(text)
+            return text.isEmpty() || (notExceedingMaxLength && matchesRegex)
+        }
+
         private fun SavedStateHandle.updateState(updateDelegate: (GenerateQRCodeUIState?) -> GenerateQRCodeUIState?) {
-            update(GENERATE_UI_STATE_KEY, updateDelegate)
+            val updateWithLogging: (GenerateQRCodeUIState?) -> GenerateQRCodeUIState? = {
+                updateDelegate(it).also {
+                    logger.debug(LOG_TAG, "updated ui state = $it")
+                }
+            }
+
+            update(GENERATE_UI_STATE_KEY, updateWithLogging)
         }
     }
 
@@ -210,6 +211,9 @@ data class GenerateQRCodeContentState(
 ) : Parcelable {
     @IgnoredOnParcel
     val inputError: Boolean = inputErrorMessage.isNotBlank()
+
+    @IgnoredOnParcel
+    val canGenerate: Boolean = !inputError && !generating.empty
 }
 
 @Parcelize

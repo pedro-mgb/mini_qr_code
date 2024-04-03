@@ -14,6 +14,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -82,13 +83,15 @@ class GenerateQRCodeViewModelTest {
                     ),
                     awaitItem().content,
                 )
+                val lastItem = awaitItem()
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SHOULD_NOT_EMIT_QR_CODE_2",
                         generating = QRCodeGeneratingContent(qrCodeText = ""),
                     ),
-                    awaitItem().content,
+                    lastItem.content,
                 )
+                assertFalse(lastItem.content.canGenerate)
                 expectNoEvents()
             }
         }
@@ -128,13 +131,15 @@ class GenerateQRCodeViewModelTest {
                     ),
                     awaitItem().content,
                 )
+                val lastItem = awaitItem()
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SECOND_EMISSION",
                         generating = QRCodeGeneratingContent(qrCodeText = "SECOND_EMISSION"),
                     ),
-                    awaitItem().content,
+                    lastItem.content,
                 )
+                assertTrue(lastItem.content.canGenerate)
                 expectNoEvents()
             }
         }
@@ -258,6 +263,8 @@ class GenerateQRCodeViewModelTest {
                 ),
                 sut.uiState.value.content,
             )
+            assertFalse(sut.uiState.value.content.canGenerate)
+            assertTrue(sut.uiState.value.content.inputError)
         }
 
     @Test
@@ -278,18 +285,22 @@ class GenerateQRCodeViewModelTest {
             // advancing time to make sure current actions have been processed
             testScheduler.advanceTimeBy(1000L)
 
+            // the qrCodeText remains with current value
+            //  in the event that the user switches from valid format to invalid format then back to valid
+            //  the qr code to generate is still there, and will be shown
             assertEquals(
                 GenerateQRCodeContentState(
                     inputText = invalidInput,
                     inputErrorMessage = ERROR_MESSAGE,
                     generating =
                         QRCodeGeneratingContent(
-                            qrCodeText = "",
+                            qrCodeText = invalidInput,
                             format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
                         ),
                 ),
                 sut.uiState.value.content,
             )
+            assertFalse(sut.uiState.value.content.canGenerate)
         }
 
     @Test

@@ -198,7 +198,7 @@ private fun GeneratedQRCodeContentLargeScreen(
                         linkTo(start = textBox.end, end = actionButtons.start)
                         linkTo(top = parent.top, bottom = parent.bottom)
                     },
-            codeToGenerate = state.generating,
+            state = state,
             onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
         )
     }
@@ -237,7 +237,7 @@ private fun GeneratedQRCodeContentPortrait(
                             linkTo(start = parent.start, end = parent.end)
                             linkTo(top = parent.top, bottom = parent.bottom)
                         },
-                codeToGenerate = state.generating,
+                state = state,
                 onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
             )
             Card(
@@ -302,10 +302,10 @@ private fun QRCodeGenerateTextInput(
 @Composable
 private fun QRCodeImageOrInfoScreen(
     modifier: Modifier = Modifier,
-    codeToGenerate: QRCodeGeneratingContent,
+    state: GenerateQRCodeContentState,
     onResultUpdate: (QRCodeGenerateResult) -> Unit,
 ) {
-    if (codeToGenerate.empty) {
+    if (!state.canGenerate) {
         Box(
             modifier = modifier,
             contentAlignment = Alignment.Center,
@@ -324,8 +324,8 @@ private fun QRCodeImageOrInfoScreen(
                     shape = qrCodeCornerShape,
                 ),
             alignment = Alignment.Center,
-            text = codeToGenerate.qrCodeText,
-            format = codeToGenerate.format,
+            text = state.generating.qrCodeText,
+            format = state.generating.format,
             onResult = onResultUpdate,
         )
     }
