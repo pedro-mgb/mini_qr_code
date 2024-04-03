@@ -6,11 +6,15 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecompose.androidapp.testutils.CoroutineDispatcherTestRule
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -29,6 +33,10 @@ class GenerateQRCodeViewModelTest {
             GenerateQRCodeViewModel(
                 savedStateHandle = SavedStateHandle(),
                 logger = mockk(relaxed = true),
+                generateMessageFactory =
+                    mockk {
+                        every { createGenerateErrorMessage(any(), any()) } returns ERROR_MESSAGE
+                    },
             )
     }
 
@@ -59,7 +67,7 @@ class GenerateQRCodeViewModelTest {
             sut.uiState.test {
                 // Initial state
                 assertEquals(
-                    GenerateQRCodeContentState(inputText = "", qrCodeText = ""),
+                    DEFAULT_CONTENT_STATE,
                     awaitItem().content,
                 )
 
@@ -71,17 +79,19 @@ class GenerateQRCodeViewModelTest {
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SHOULD_NOT_EMIT_QR_CODE_1",
-                        qrCodeText = "",
+                        generating = QRCodeGeneratingContent(qrCodeText = ""),
                     ),
                     awaitItem().content,
                 )
+                val lastItem = awaitItem()
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SHOULD_NOT_EMIT_QR_CODE_2",
-                        qrCodeText = "",
+                        generating = QRCodeGeneratingContent(qrCodeText = ""),
                     ),
-                    awaitItem().content,
+                    lastItem.content,
                 )
+                assertFalse(lastItem.content.canGenerate)
                 expectNoEvents()
             }
         }
@@ -92,7 +102,7 @@ class GenerateQRCodeViewModelTest {
             sut.uiState.test {
                 // Initial state
                 assertEquals(
-                    GenerateQRCodeContentState(inputText = "", qrCodeText = ""),
+                    DEFAULT_CONTENT_STATE,
                     awaitItem().content,
                 )
 
@@ -103,33 +113,194 @@ class GenerateQRCodeViewModelTest {
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "FIRST_EMISSION",
-                        qrCodeText = "",
+                        generating = QRCodeGeneratingContent(qrCodeText = ""),
                     ),
                     awaitItem().content,
                 )
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "FIRST_EMISSION",
-                        qrCodeText = "FIRST_EMISSION",
+                        generating = QRCodeGeneratingContent(qrCodeText = "FIRST_EMISSION"),
                     ),
                     awaitItem().content,
                 )
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SECOND_EMISSION",
-                        qrCodeText = "FIRST_EMISSION",
+                        generating = QRCodeGeneratingContent(qrCodeText = "FIRST_EMISSION"),
                     ),
                     awaitItem().content,
                 )
+                val lastItem = awaitItem()
                 assertEquals(
                     GenerateQRCodeContentState(
                         inputText = "SECOND_EMISSION",
-                        qrCodeText = "SECOND_EMISSION",
+                        generating = QRCodeGeneratingContent(qrCodeText = "SECOND_EMISSION"),
                     ),
-                    awaitItem().content,
+                    lastItem.content,
                 )
+                assertTrue(lastItem.content.canGenerate)
                 expectNoEvents()
             }
+        }
+
+    @Test
+    fun `given format change action is sent, new state is emitted`() =
+        runTest {
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = QRCodeComposeXFormat.DATA_MATRIX,
+                    ),
+                ),
+            )
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = "",
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = QRCodeComposeXFormat.DATA_MATRIX,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+
+    @Test
+    fun `given update text action with length not bigger than format max length, new state is emitted`() {
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_128
+            val validText = "1".repeat(format.maxLength)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(validText))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = validText,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = validText,
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+    }
+
+    @Test
+    fun `given update text action with length is bigger than format max length, no new state is emitted`() =
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_128
+            val textTooLong = "1".repeat(format.maxLength + 1)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(textTooLong))
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = "",
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+        }
+
+    @Test
+    fun `given update text action with invalid text for specific format, error message is emitted in state`() =
+        runTest {
+            val format = QRCodeComposeXFormat.BARCODE_128
+            val invalidText = "€".repeat(format.maxLength - 1)
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = format,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(invalidText))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = invalidText,
+                    inputErrorMessage = ERROR_MESSAGE,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = "",
+                            format = format,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+            assertFalse(sut.uiState.value.content.canGenerate)
+            assertTrue(sut.uiState.value.content.inputError)
+        }
+
+    @Test
+    fun `given format change action is done but text is invalid for new format, error is emitted in state`() =
+        runTest {
+            val invalidInput = "abcde"
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText(invalidInput))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(
+                GenerateQRCodeUIAction.Customize(
+                    QRCodeCustomizationOptions(
+                        format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
+                    ),
+                ),
+            )
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            // the qrCodeText remains with current value
+            //  in the event that the user switches from valid format to invalid format then back to valid
+            //  the qr code to generate is still there, and will be shown
+            assertEquals(
+                GenerateQRCodeContentState(
+                    inputText = invalidInput,
+                    inputErrorMessage = ERROR_MESSAGE,
+                    generating =
+                        QRCodeGeneratingContent(
+                            qrCodeText = invalidInput,
+                            format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
+                        ),
+                ),
+                sut.uiState.value.content,
+            )
+            assertFalse(sut.uiState.value.content.canGenerate)
         }
 
     @Test
@@ -164,5 +335,15 @@ class GenerateQRCodeViewModelTest {
         assertTrue(this != null)
         assertTrue(this!!.text.isNotBlank())
         assertEquals(TemporaryMessageType.ERROR_SNACKBAR, this.type)
+    }
+
+    companion object {
+        private const val ERROR_MESSAGE = "error message"
+
+        private val DEFAULT_CONTENT_STATE =
+            GenerateQRCodeContentState(
+                inputText = "",
+                generating = QRCodeGeneratingContent(),
+            )
     }
 }

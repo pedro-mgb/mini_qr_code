@@ -17,11 +17,13 @@ import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.Reader
 import com.google.zxing.common.HybridBinarizer
+import com.pedroid.qrcodecomposelib.common.internal.toQRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
+import com.google.zxing.Result as ZxingResult
 
 private val supportedImageFormats: List<Int> by lazy {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -37,9 +39,11 @@ private val supportedImageFormats: List<Int> by lazy {
     }
 }
 
+private val allBarcodeFormats: List<BarcodeFormat> = BarcodeFormat.entries
+
 private val qrCodeReader: Reader by lazy {
     MultiFormatReader().apply {
-        setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE)))
+        setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to allBarcodeFormats))
     }
 }
 
@@ -54,7 +58,7 @@ internal class ZxingAnalyzer(
             try {
                 val result = qrCodeReader.decode(binaryBmp)
                 Log.d(LOG_TAG, "Scanned $result")
-                onQRCodeStatus(QRCodeScanResult.Scanned(result.text))
+                onQRCodeStatus(result.toQRCodeScanResult())
             } catch (nfe: NotFoundException) {
                 Log.v(
                     LOG_TAG,
@@ -80,12 +84,13 @@ internal class ZxingAnalyzer(
         context: Context,
         uri: Uri,
     ) {
-        val scannedCode: String? =
+        val result: ZxingResult? =
             try {
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                    val binaryBitmap = BitmapFactory.decodeStream(inputStream).convertToBinaryBitmap()
+                    val binaryBitmap =
+                        BitmapFactory.decodeStream(inputStream).convertToBinaryBitmap()
                     try {
-                        qrCodeReader.decode(binaryBitmap)?.text
+                        qrCodeReader.decode(binaryBitmap)
                     } catch (nfe: NotFoundException) {
                         Log.d(LOG_TAG, "No QR Code was found in image", nfe)
                         null
@@ -96,7 +101,7 @@ internal class ZxingAnalyzer(
                 null
             }
         onQRCodeStatus(
-            if (scannedCode != null) QRCodeScanResult.Scanned(scannedCode) else QRCodeScanResult.Invalid,
+            result?.toQRCodeScanResult() ?: QRCodeScanResult.Invalid,
         )
     }
 
@@ -133,4 +138,13 @@ internal class ZxingAnalyzer(
             get(it)
         }
     }
+
+    private fun ZxingResult.toQRCodeScanResult(): QRCodeScanResult =
+        barcodeFormat?.toQRCodeComposeXFormat().let { format ->
+            if (format == null) {
+                QRCodeScanResult.Invalid
+            } else {
+                QRCodeScanResult.Scanned(text, format)
+            }
+        }
 }

@@ -13,6 +13,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelibmlkit.internal.toQRCodeComposeXFormat
 import java.io.IOException
 
 private const val LOG_TAG = "MLKitAnalyzer"
@@ -23,7 +24,7 @@ class MLKitImageAnalyzer(
 ) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
     private val scanningOptions =
         BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
             .build()
 
     private val barcodeScanner by lazy { BarcodeScanning.getClient(scanningOptions) }
@@ -83,12 +84,19 @@ class MLKitImageAnalyzer(
                 LOG_TAG,
                 "returning barcode: $barcodeReturn, value=${barcodeReturn.rawValue}",
             )
-            barcodeReturn.rawValue?.let { value ->
-                onQRCodeStatus(QRCodeScanResult.Scanned(value))
-            }
+            onQRCodeStatus(barcodeReturn.toQRCodeScanResult())
         } else {
             Log.v(LOG_TAG, "No barcodes found")
             onQRCodeStatus(QRCodeScanResult.Invalid)
         }
     }
+
+    private fun Barcode.toQRCodeScanResult(): QRCodeScanResult =
+        format.toQRCodeComposeXFormat().let { format ->
+            if (format == null || rawValue.isNullOrEmpty()) {
+                QRCodeScanResult.Invalid
+            } else {
+                QRCodeScanResult.Scanned(rawValue ?: "", format)
+            }
+        }
 }

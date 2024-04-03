@@ -3,11 +3,13 @@ package com.pedroid.qrcodecompose.androidapp.features.scan.data
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ScannedCode(
     val data: String,
+    val format: QRCodeComposeXFormat,
     val source: ScanSource,
 ) : Parcelable
 

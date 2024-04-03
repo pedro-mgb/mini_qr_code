@@ -2,11 +2,14 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -50,6 +54,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPrev
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GeneratedQRCodeUpdateListeners
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXGenerator
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
@@ -80,6 +85,16 @@ fun GenerateQRCodeScreen(
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(Dimens.spacingMedium))
+        QRCodeCustomization(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clickable { qrCodeActionListeners.onCustomize() }
+                    .padding(horizontal = Dimens.spacingLarge),
+            state = state,
+            qrCodeActionListeners = qrCodeActionListeners,
+            largeScreen = largeScreen,
+        )
         if (largeScreen) {
             GeneratedQRCodeContentLargeScreen(
                 modifier = Modifier.fillMaxWidth(),
@@ -99,7 +114,32 @@ fun GenerateQRCodeScreen(
 }
 
 @Composable
-fun GeneratedQRCodeContentLargeScreen(
+private fun QRCodeCustomization(
+    modifier: Modifier = Modifier,
+    state: GenerateQRCodeContentState,
+    qrCodeActionListeners: GenerateQRCodeActionListeners,
+    largeScreen: Boolean,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text =
+                stringResource(
+                    R.string.generate_code_current_customization_options,
+                    stringResource(state.generating.format.titleStringId),
+                ),
+        )
+        TextButton(onClick = { qrCodeActionListeners.onCustomize() }) {
+            Text(text = stringResource(id = R.string.generate_code_customize_action))
+        }
+    }
+}
+
+@Composable
+private fun GeneratedQRCodeContentLargeScreen(
     modifier: Modifier = Modifier,
     state: GenerateQRCodeContentState,
     qrCodeUpdateListeners: GeneratedQRCodeUpdateListeners,
@@ -110,7 +150,7 @@ fun GeneratedQRCodeContentLargeScreen(
         modifier = modifier,
     ) {
         val (textBox, qrCodeImage, actionButtons) = createRefs()
-        QRAppTextBox(
+        QRCodeGenerateTextInput(
             modifier =
                 Modifier
                     .fillMaxWidth(fraction = 0.4f)
@@ -120,10 +160,9 @@ fun GeneratedQRCodeContentLargeScreen(
                         linkTo(top = parent.top, bottom = parent.bottom)
                         height = Dimension.fillToConstraints
                     },
-            textValue = state.inputText,
-            onTextChanged = qrCodeUpdateListeners.onTextUpdated,
-            label = stringResource(id = R.string.generate_code_text_box_label),
-            imeAction = ImeAction.Done,
+            state = state,
+            qrCodeUpdateListeners = qrCodeUpdateListeners,
+            largeScreen = true,
         )
 
         Card(
@@ -144,17 +183,22 @@ fun GeneratedQRCodeContentLargeScreen(
             modifier =
                 Modifier
                     .fillMaxWidth(fraction = 0.4f)
-                    .aspectRatio(1f)
+                    .aspectRatio(state.generating.format.preferredAspectRatio)
                     .border(
                         width = Dimens.borderWidthMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color =
+                            if (state.inputError) {
+                                MaterialTheme.colorScheme.error
+                            } else {
+                                MaterialTheme.colorScheme.onBackground
+                            },
                         shape = qrCodeCornerShape,
                     )
                     .constrainAs(qrCodeImage) {
                         linkTo(start = textBox.end, end = actionButtons.start)
                         linkTo(top = parent.top, bottom = parent.bottom)
                     },
-            qrCodeText = state.qrCodeText,
+            state = state,
             onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
         )
     }
@@ -178,16 +222,22 @@ private fun GeneratedQRCodeContentPortrait(
                 modifier =
                     Modifier
                         .fillMaxWidth(fraction = 0.6f)
-                        .aspectRatio(1f)
+                        .aspectRatio(state.generating.format.preferredAspectRatio)
                         .border(
                             width = Dimens.borderWidthMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
+                            color =
+                                if (state.inputError) {
+                                    MaterialTheme.colorScheme.error
+                                } else {
+                                    MaterialTheme.colorScheme.onBackground
+                                },
                             shape = qrCodeCornerShape,
-                        ).constrainAs(qrCodeImage) {
+                        )
+                        .constrainAs(qrCodeImage) {
                             linkTo(start = parent.start, end = parent.end)
                             linkTo(top = parent.top, bottom = parent.bottom)
                         },
-                qrCodeText = state.qrCodeText,
+                state = state,
                 onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
             )
             Card(
@@ -204,16 +254,47 @@ private fun GeneratedQRCodeContentPortrait(
                 }
             }
         }
+        QRCodeGenerateTextInput(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
+            state = state,
+            qrCodeUpdateListeners = qrCodeUpdateListeners,
+            largeScreen = false,
+        )
+    }
+}
+
+@Composable
+private fun QRCodeGenerateTextInput(
+    modifier: Modifier,
+    state: GenerateQRCodeContentState,
+    qrCodeUpdateListeners: GeneratedQRCodeUpdateListeners,
+    largeScreen: Boolean,
+) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        if (state.inputError) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = state.inputErrorMessage,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
         QRAppTextBox(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-                    .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
+                if (largeScreen) {
+                    Modifier.fillMaxWidth().fillMaxHeight()
+                } else {
+                    Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                },
             textValue = state.inputText,
             onTextChanged = qrCodeUpdateListeners.onTextUpdated,
             label = stringResource(id = R.string.generate_code_text_box_label),
             imeAction = ImeAction.Done,
+            keyboardType = state.generating.format.inputType,
+            isError = state.inputError,
         )
     }
 }
@@ -221,10 +302,10 @@ private fun GeneratedQRCodeContentPortrait(
 @Composable
 private fun QRCodeImageOrInfoScreen(
     modifier: Modifier = Modifier,
-    qrCodeText: String,
+    state: GenerateQRCodeContentState,
     onResultUpdate: (QRCodeGenerateResult) -> Unit,
 ) {
-    if (qrCodeText.isBlank()) {
+    if (!state.canGenerate) {
         Box(
             modifier = modifier,
             contentAlignment = Alignment.Center,
@@ -243,7 +324,8 @@ private fun QRCodeImageOrInfoScreen(
                     shape = qrCodeCornerShape,
                 ),
             alignment = Alignment.Center,
-            text = qrCodeText,
+            text = state.generating.qrCodeText,
+            format = state.generating.format,
             onResult = onResultUpdate,
         )
     }
@@ -291,9 +373,9 @@ private fun QRCodeActionButtons(actionListeners: GenerateQRCodeActionListeners =
  */
 @Composable
 private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState): State<Float> =
-    remember(key1 = state.qrCodeText) {
+    remember(key1 = state.generating.qrCodeText) {
         derivedStateOf {
-            if (state.qrCodeText.isNotBlank()) 1f else 0f
+            if (!state.generating.empty) 1f else 0f
         }
     }
 // endregion screen composables
@@ -304,7 +386,20 @@ private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState)
 fun GenerateQRCodeEmptyScreenPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         GenerateQRCodeScreen(
-            state = GenerateQRCodeContentState("", ""),
+            state = GenerateQRCodeContentState("", "", QRCodeGeneratingContent()),
+            qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
+            qrCodeActionListeners = GenerateQRCodeActionListeners(),
+            largeScreen = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun GenerateQRCodeInputErrorPreview() {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+        GenerateQRCodeScreen(
+            state = GenerateQRCodeContentState("bad input", "There is an error", QRCodeGeneratingContent()),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
             largeScreen = false,
@@ -319,7 +414,7 @@ fun GenerateQRCodeWithContentScreenPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         GenerateQRCodeScreen(
-            state = GenerateQRCodeContentState("qrCode", "qrCode"),
+            state = GenerateQRCodeContentState("qrCode", "", QRCodeGeneratingContent("some code", QRCodeComposeXFormat.QR_CODE)),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
             largeScreen = !phoneUI,

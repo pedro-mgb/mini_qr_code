@@ -26,6 +26,7 @@
     <string name="scan_code_camera_instructions">Aponte a câmara de modo a que o QR Code se enquadre na moduldura verde no ecrã do seu telemóvel.</string>
     <string name="scan_code_read_camera_label">Código capturado (câmara)</string>
     <string name="scan_code_read_from_file_label">Código capturado (ficheiro)</string>
+    <string name="scan_code_read_format">Formato: %s</string>
     <string name="scan_code_from_file_toolbar_title">Capturar a partir de um ficheiro</string>
     <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos e escaneando QR Code na imagem…</string>
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
@@ -42,4 +43,8 @@
     <string name="generate_code_text_box_label">Inserir Texto para QR Code</string>
     <string name="generate_code_will_appear_here">Imagem aparecerá aqui.</string>
     <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tente de novo.</string>
+    <string name="generate_code_current_customization_options">Formato: %s</string>
+    <string name="generate_code_customize_action">Customizar</string>
+    <string name="generate_code_select_format_title">Selecionar formato</string>
+    <string name="generate_code_select_format_description">Clique o formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
 </resources>

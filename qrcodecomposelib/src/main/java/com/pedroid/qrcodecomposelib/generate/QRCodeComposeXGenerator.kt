@@ -10,16 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Dp
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import com.pedroid.qrcodecomposelib.common.internal.toZxingBarcodeFormat
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_PADDING
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_SIZE_PX
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_TEXT_ENCODING
-import com.pedroid.qrcodecomposelib.generate.internal.generateQRCodeViaZxing
+import com.pedroid.qrcodecomposelib.generate.internal.generateCodeViaZxing
 
 @Composable
 fun QRCodeComposeXGenerator(
     modifier: Modifier = Modifier,
     text: String,
     onResult: (QRCodeGenerateResult) -> Unit,
+    format: QRCodeComposeXFormat = QRCodeComposeXFormat.QR_CODE,
     alignment: Alignment = Alignment.Center,
     qrCodePadding: Dp = DEFAULT_PADDING,
     qrCodeImageSizePx: Int = DEFAULT_QR_CODE_SIZE_PX,
@@ -27,10 +30,12 @@ fun QRCodeComposeXGenerator(
     qrCodeTextEncoding: String = DEFAULT_QR_CODE_TEXT_ENCODING,
 ) {
     val generateResult =
-        remember(key1 = text, key2 = qrCodeImageSizePx, key3 = qrCodeTextEncoding) {
-            generateQRCodeViaZxing(
+        remember(text, format, qrCodeImageSizePx, qrCodeTextEncoding) {
+            generateCodeViaZxing(
                 text = text,
-                size = qrCodeImageSizePx,
+                width = qrCodeImageSizePx,
+                aspectRatio = format.preferredAspectRatio,
+                format = format.toZxingBarcodeFormat(),
                 encoding = qrCodeTextEncoding,
             )
         }

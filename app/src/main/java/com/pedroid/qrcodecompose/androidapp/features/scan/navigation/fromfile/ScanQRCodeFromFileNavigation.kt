@@ -100,6 +100,7 @@ private fun performNavigation(
             navigationListeners.onCodeScanned(
                 ScannedCode(
                     data = uiState.qrCode,
+                    format = uiState.format,
                     source = ScanSource.IMAGE_FILE,
                 ),
             )

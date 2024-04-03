@@ -1,0 +1,30 @@
+<resources>
+    <!-- region format subtitles / descriptions -->
+    <string name="qrcode_compose_lib_format_qrcode_subtitle">Formato quadrado 2D muito popular mundialmente. Pré-definido.</string>
+    <string name="qrcode_compose_lib_format_aztec_subtitle">Formato 2D alternativo ao QR Code. O padrão no centro assemelha-se a uma pirâmide Azteca - que lhe dá o nome.</string>
+    <string name="qrcode_compose_lib_format_data_matrix_subtitle">Formato quadrado 2D que consegue codificar dados numa área de superfície muito pequena</string>
+    <string name="qrcode_compose_lib_format_pdf417_subtitle">Código de barras 2D, usado pelo 2D linear barcode, usado pelo serviço de correios dos Estados Unidos (USPS), among others.</string>
+    <string name="qrcode_compose_lib_format_barcode39_subtitle">Código de barras 1D, pouco usado quando comparado com Code 128.</string>
+    <string name="qrcode_compose_lib_format_barcode93_subtitle">Mais compacto que Code 39. Usado pelos correios do Canadá.</string>
+    <string name="qrcode_compose_lib_format_barcode128_subtitle">Código de barras 1D usado mundialmente em transportação e embalamento (particularmente, o subtipo GS1–128).</string>
+    <string name="qrcode_compose_lib_format_ean8_subtitle">Código de barras 1D usado em pacotes pequenos, para o qual EAN-13 é grande demais.</string>
+    <string name="qrcode_compose_lib_format_ean13_subtitle">Também referido como International Article Number. É um código de 13 dígitos usado para identificar produtos globalmente. Também usado para identificar ISSN e ISBN</string>
+    <string name="qrcode_compose_lib_format_itf_subtitle">Denominado Interleave 2 to 5, e também ITF-14. Menos usado quando comparado com códigos de barras EAN ou UPC.</string>
+    <string name="qrcode_compose_lib_format_upc_a_subtitle">Código Universal de Produtos. Código de barras 1D used worldwide para identificar produtos em lojas e supermercados. 12 a 13 dígitos, começa com 0 (adicionado pela app automaticamente para cumprir o padrão deste formato)</string>
+    <string name="qrcode_compose_lib_format_upc_e_subtitle">Alternativa ao UPC-A, desenhado para embalagens pequenes onde 12 dígitos não cabem.</string>
+    <string name="qrcode_compose_lib_format_codabar_subtitle">Código de barras 1D, usado frequentemente em bibliotecas, mas pouco popular em geral.</string>
+    <!-- endregion format subtitles / descriptions -->
+    <!-- region format error message -->
+    <string name="qr_code_compose_lib_format_default_error_message">Ocorreu um erro. Se o problema persistir, contacta o desenvolvedor da app.</string>
+    <string name="qr_code_compose_lib_format_data_matrix_error_message">Erro nos dados. Data Matrix suporta ISO/IEC 8859–1. Não suporta alfabetos não-laninos, nem emojis.</string>
+    <string name="qr_code_compose_lib_format_barcode39_error_message">Erro nos dados. Code 39 pode ter 80 caracteres (atualmente com %d), apenas ASCII (letras, números, e alguns caracteres especiais).</string>
+    <string name="qr_code_compose_lib_format_barcode93_error_message">Erro nos dados. Code 93 pode ter 80 caracteres (atualmente com %d), apenas letras maiúsculas, números, e alguns caracteres especiais.</string>
+    <string name="qr_code_compose_lib_format_barcode128_error_message">Erro nos dados. Code 39 pode ter 80 caracteres (atualmente com %d), apenas ASCII (letras, números, e alguns caracteres especiais).</string>
+    <string name="qr_code_compose_lib_format_ean8_error_message">Erro nos dados. EAN-8 pode ter ou 7 dígitos (atualmente com %d), ou 8 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_ean13_error_message">Erro nos dados. EAN-13 pode ter ou 12 dígitos (atualmente com %d), ou 13 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_itf_error_message">Erro nos dados. ITF tem que possuir um número de dígitos par, até 80 (atualmente com %d).</string>
+    <string name="qr_code_compose_lib_format_upc_a_error_message">Erro nos dados. UPC-A pode ter ou 11 dígitos, excluindo o 0 que a app adiciona automaticamente (atualmente com %d), ou 12 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_upc_e_error_message">Erro nos dados. UPC-E tem que ter primeiro dígito igual a 0 ou 1. Pode ter ou 7 dígitos (atualmente com %d), ou 8 com o último funcionando como checksum.</string>
+    <string name="qr_code_compose_lib_format_codabar_error_message">Erro nos dados. CODABAR suporta apenas números.</string>
+    <!-- endregion format error message -->
+</resources>

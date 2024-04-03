@@ -47,6 +47,7 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.StartScanActionListeners
+import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
 @OptIn(ExperimentalPermissionsApi::class)
@@ -137,9 +138,22 @@ private fun QRCodeReadContent(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = Dimens.spacingExtraSmall),
+                    .padding(vertical = Dimens.spacingSmall),
             thickness = Dimens.borderWidthSmall,
             color = MaterialTheme.colorScheme.primaryContainer,
+        )
+        Text(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.spacingMedium),
+            text =
+                stringResource(
+                    id = R.string.scan_code_read_format,
+                    stringResource(id = qrCode.format.titleStringId),
+                ),
+            style = MaterialTheme.typography.labelLarge,
+            textAlign = TextAlign.Center,
         )
         if (largeScreen) {
             QRCodeContentLargeScreen(qrCode = qrCode.data, actionListeners = actionListeners)
@@ -348,6 +362,7 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
                                     "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
                                     "pariatur. Excepteur sint occaecat cupidatat non proident, " +
                                     "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                QRCodeComposeXFormat.QR_CODE,
                                 ScanSource.CAMERA,
                             ),
                     ),

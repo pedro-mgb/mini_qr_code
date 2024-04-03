@@ -26,6 +26,7 @@
     <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the green frame in your phone\'s screen.</string>
     <string name="scan_code_read_camera_label">Scanned Code (camera)</string>
     <string name="scan_code_read_from_file_label">Scanned Code (file)</string>
+    <string name="scan_code_read_format">Format: %s</string>
     <string name="scan_code_from_file_toolbar_title">Scan from an image file</string>
     <string name="scan_code_from_file_in_progress_description">Opening photo picker and scanning image for QR Code…</string>
     <string name="scan_code_from_file_error_title">Failed to scan QR Code</string>
@@ -41,4 +42,8 @@
     <string name="generate_code_text_box_label">Input QR Code text</string>
     <string name="generate_code_will_appear_here">Image will appear here.</string>
     <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again.</string>
+    <string name="generate_code_current_customization_options">Format: %s</string>
+    <string name="generate_code_customize_action">Customize</string>
+    <string name="generate_code_select_format_title">Select format</string>
+    <string name="generate_code_select_format_description">Tap your desired format from the list below.\nSome formats follow strict rules - for example only alphanumeric characters or a specific length.</string>
 </resources>
