@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.features.generate.presentation.customize
+package com.pedroid.qrcodecompose.androidapp.features.generate.presentation.customize.format
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

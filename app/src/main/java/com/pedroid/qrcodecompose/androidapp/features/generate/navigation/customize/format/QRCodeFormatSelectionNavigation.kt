@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize
+package com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,7 +8,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.customize.QRCodeFormatSelectionScreen
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.QRCodeSelectFormatListeners
+import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.customize.format.QRCodeFormatSelectionScreen
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 private const val ROUTE_START = "SELECT_CODE_FORMAT_ROUTE"

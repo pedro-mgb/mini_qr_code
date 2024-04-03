@@ -3,8 +3,8 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.QRCodeSelectFormatListeners
-import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.generateQRCodeSelectFormatRoute
-import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.navigateToQRCodeSelectFormat
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.generateQRCodeSelectFormatRoute
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.navigateToQRCodeSelectFormat
 
 const val CODE_FORMAT_KEY = "QRCodeXFormat"
 
