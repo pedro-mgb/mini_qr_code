@@ -14,7 +14,7 @@ import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 private const val ROUTE_START = "SELECT_CODE_FORMAT_ROUTE"
 private const val ARGUMENT_KEY = "selectedFormat"
-private const val SELECT_FORMAT_ROUTE = "$ROUTE_START/{$ARGUMENT_KEY}"
+const val SELECT_FORMAT_ROUTE = "$ROUTE_START/{$ARGUMENT_KEY}"
 
 private val defaultFormat = QRCodeComposeXFormat.QR_CODE.name
 private val navArguments =
