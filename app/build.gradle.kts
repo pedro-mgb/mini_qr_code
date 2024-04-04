@@ -90,11 +90,13 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.arrow.optics)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
 
     ksp(libs.hilt.compiler)
+    ksp(libs.arrow.optics.ksp)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
