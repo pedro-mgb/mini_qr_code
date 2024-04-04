@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.optics.copy
+import arrow.optics.optics
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
@@ -69,19 +71,19 @@ class GenerateQRCodeViewModel
                         logger.debug(LOG_TAG, "Text is not valid according to regex, updating state with error")
                         val errorMessage = generateMessageFactory.createGenerateErrorMessage(format, action.text)
                         savedStateHandle.updateState {
-                            it?.copy(
-                                content =
-                                    it.content.copy(
-                                        inputText = action.text,
-                                        inputErrorMessage = errorMessage,
-                                    ),
-                            )
+                            it.copy {
+                                GenerateQRCodeUIState.content.inputText.set(action.text)
+                                GenerateQRCodeUIState.content.inputErrorMessage.set(errorMessage)
+                            }
                         }
                         null
                     } else {
                         logger.debug(LOG_TAG, "Receiving valid text, update input text state")
                         savedStateHandle.updateState {
-                            it?.copy(content = it.content.copy(inputText = action.text, inputErrorMessage = ""))
+                            it.copy {
+                                GenerateQRCodeUIState.content.inputText.set(action.text)
+                                GenerateQRCodeUIState.content.inputErrorMessage.set("")
+                            }
                         }
                         action
                     }
@@ -92,15 +94,7 @@ class GenerateQRCodeViewModel
                     // only update qrcode to generate if user as stopped typing for a small interval
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     savedStateHandle.updateState {
-                        it?.copy(
-                            content =
-                                it.content.copy(
-                                    generating =
-                                        it.content.generating.copy(
-                                            qrCodeText = action.text,
-                                        ),
-                                ),
-                        )
+                        GenerateQRCodeUIState.content.generating.qrCodeText.set(it, action.text)
                     }
                 }
                 .launchIn(viewModelScope)
@@ -126,13 +120,10 @@ class GenerateQRCodeViewModel
                                     generateMessageFactory.createGenerateErrorMessage(format, currentText)
                                 }
                             savedStateHandle.updateState {
-                                it?.copy(
-                                    content =
-                                        it.content.copy(
-                                            inputErrorMessage = errorMessage,
-                                            generating = it.content.generating.copy(format = format),
-                                        ),
-                                )
+                                it.copy {
+                                    GenerateQRCodeUIState.content.inputErrorMessage.set(errorMessage)
+                                    GenerateQRCodeUIState.content.generating.format.set(format)
+                                }
                             }
                         }
                     }
@@ -146,16 +137,11 @@ class GenerateQRCodeViewModel
                                     uiState.value.content.generating.qrCodeText,
                                 )
                             savedStateHandle.updateState {
-                                it?.copy(
-                                    content =
-                                        it.content.copy(
-                                            inputErrorMessage = errorMessage,
-                                        ),
-                                )
+                                GenerateQRCodeUIState.content.inputErrorMessage.set(it, errorMessage)
                             }
                         } else {
                             savedStateHandle.updateState {
-                                it?.copy(temporaryMessage = TemporaryMessageData.error("generate_code_error"))
+                                GenerateQRCodeUIState.temporaryMessage.set(it, TemporaryMessageData.error("generate_code_error"))
                             }
                         }
                     }
@@ -163,14 +149,14 @@ class GenerateQRCodeViewModel
                     is GenerateQRCodeUIAction.QRActionComplete -> {
                         action.action.asTemporaryMessage()?.let { temporaryMessage ->
                             savedStateHandle.updateState {
-                                it?.copy(temporaryMessage = temporaryMessage)
+                                GenerateQRCodeUIState.temporaryMessage.set(it, temporaryMessage)
                             }
                         }
                     }
 
                     GenerateQRCodeUIAction.TmpMessageShown -> {
                         savedStateHandle.updateState {
-                            it?.copy(temporaryMessage = null)
+                            it.copy(temporaryMessage = null)
                         }
                     }
                 }
@@ -186,23 +172,29 @@ class GenerateQRCodeViewModel
             return text.isEmpty() || (notExceedingMaxLength && matchesRegex)
         }
 
-        private fun SavedStateHandle.updateState(updateDelegate: (GenerateQRCodeUIState?) -> GenerateQRCodeUIState?) {
-            val updateWithLogging: (GenerateQRCodeUIState?) -> GenerateQRCodeUIState? = {
-                updateDelegate(it).also {
-                    logger.debug(LOG_TAG, "updated ui state = $it")
+        private fun SavedStateHandle.updateState(updateDelegate: (GenerateQRCodeUIState) -> GenerateQRCodeUIState) {
+            val updateWithLogging: (GenerateQRCodeUIState) -> GenerateQRCodeUIState = {
+                updateDelegate(it).also { state ->
+                    logger.debug(LOG_TAG, "updated ui state = $state")
                 }
             }
 
-            update(GENERATE_UI_STATE_KEY, updateWithLogging)
+            update<GenerateQRCodeUIState>(GENERATE_UI_STATE_KEY) { state ->
+                state?.let { updateWithLogging(it) }
+            }
         }
     }
 
+@optics
 @Parcelize
 data class GenerateQRCodeUIState(
     val content: GenerateQRCodeContentState = GenerateQRCodeContentState(),
     val temporaryMessage: TemporaryMessageData? = null,
-) : Parcelable
+) : Parcelable {
+    companion object
+}
 
+@optics
 @Parcelize
 data class GenerateQRCodeContentState(
     val inputText: String = "",
@@ -214,8 +206,11 @@ data class GenerateQRCodeContentState(
 
     @IgnoredOnParcel
     val canGenerate: Boolean = !inputError && !generating.empty
+
+    companion object
 }
 
+@optics
 @Parcelize
 data class QRCodeGeneratingContent(
     val qrCodeText: String = "",
@@ -223,6 +218,8 @@ data class QRCodeGeneratingContent(
 ) : Parcelable {
     @IgnoredOnParcel
     val empty: Boolean = qrCodeText.isBlank()
+
+    companion object
 }
 
 sealed class GenerateQRCodeUIAction {
