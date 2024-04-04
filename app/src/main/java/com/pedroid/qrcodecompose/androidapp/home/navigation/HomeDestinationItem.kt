@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GENERATE_ROUTE
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.SELECT_FORMAT_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HISTORY_LIST_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_CAMERA_READER_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_ROUTE
@@ -39,6 +40,11 @@ sealed class HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_generate,
         itemIcon = Icons.Filled.AddCircle,
         routeLabel = GENERATE_ROUTE,
+        encompassingRoutes =
+            listOf(
+                GENERATE_ROUTE,
+                SELECT_FORMAT_ROUTE,
+            ),
     )
 
     data object History : HomeDestinationItem(
