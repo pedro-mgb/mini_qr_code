@@ -90,14 +90,17 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.room)
     implementation(libs.arrow.optics)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
 
+    annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.hilt.compiler)
     ksp(libs.arrow.optics.ksp)
 
+    testImplementation(libs.androidx.room.testing)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
