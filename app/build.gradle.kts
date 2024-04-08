@@ -44,6 +44,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -91,26 +92,42 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.room)
+    implementation(libs.androidx.room.ktx)
     implementation(libs.arrow.optics)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
+    // region test utils
+    implementation(libs.junit)
+    implementation(libs.kotlinx.coroutines.test)
+    // endregion test utils
+
+    coreLibraryDesugaring(libs.desugaring.jdk)
 
     annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     ksp(libs.hilt.compiler)
     ksp(libs.arrow.optics.ksp)
 
-    testImplementation(libs.androidx.room.testing)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.mockk.agent)
     testImplementation(libs.turbine)
 
+
+    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.hilt.android.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.ui.test.junit4)
+
+    androidTestAnnotationProcessor(libs.androidx.room.compiler)
+    kspAndroidTest(libs.androidx.room.compiler)
+    kspAndroidTest(libs.hilt.compiler)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)

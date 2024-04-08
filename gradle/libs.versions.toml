@@ -2,6 +2,7 @@
 androidGradlePlugin = "8.3.0"
 androidxActivityCompose = "1.8.2"
 androidxAppcompat = "1.6.1"
+androidxArch = "2.1.0"
 androidxComposeBom = "2024.02.01"
 androidxComposeMaterial3Alpha = "1.0.0-alpha06"
 androidXConstraintLayoutCompose = "1.0.1"
@@ -13,6 +14,7 @@ androidxLifecycle = "2.7.0"
 androidxRoom = "2.6.1"
 androidxTestExtJunit = "1.1.5"
 arrowKt = "1.2.4"
+desugaring = "2.0.4"
 espressoCore = "3.5.1"
 googleAccompanist = "0.32.0"
 kotlin = "1.9.22"
@@ -22,13 +24,14 @@ junit = "4.13.2"
 hilt = "2.49"
 ksp = "1.9.22-1.0.17"
 mlkitBarcodeScanning = "17.2.0"
-mockk = "1.13.8"
+mockk = "1.13.10"
 turbine = "1.0.0"
 zxing = "3.3.3"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
+androidx-arch-testing = { group = "android.arch.core", name = "core-testing", version.ref = "androidxArch" }
 androidx-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCameraX" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCameraX" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCameraX" }
@@ -56,13 +59,16 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "androidxRoom" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit" }
 arrow-optics = { group = "io.arrow-kt", name = "arrow-optics", version.ref = "arrowKt" }
 arrow-optics-ksp = { group = "io.arrow-kt", name = "arrow-optics-ksp-plugin", version.ref = "arrowKt" }
+desugaring-jdk = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanist" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
