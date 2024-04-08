@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class HistoryProvides {
+object HistoryProvides {
     @Provides
     fun providesQRCodeHistoryDatabase(
         @ApplicationContext applicationContext: Context,
@@ -23,5 +23,5 @@ abstract class HistoryProvides {
     )
 
     @Provides
-    fun providesQRCodeHistoryDao(qrCodeHistoryDatabase: QRCodeHistoryDatabase) = qrCodeHistoryDatabase.qRCodeHistoryDao()
+    fun providesQRCodeHistoryDao(qrCodeHistoryDatabase: QRCodeHistoryDatabase) = qrCodeHistoryDatabase.qrCodeHistoryDao()
 }

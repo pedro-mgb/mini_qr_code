@@ -12,11 +12,14 @@ interface QRCodeHistoryDao {
     fun getAll(): Flow<List<QRCodeHistoryDBEntity>>
 
     @Query("SELECT * FROM ${QRCodeHistoryDBConstants.HISTORY_TABLE} WHERE uid = :uid")
-    fun getByUid(uid: Int): Flow<QRCodeHistoryDBEntity>
+    suspend fun getByUid(uid: Long): QRCodeHistoryDBEntity
 
     @Insert
-    fun insert(entity: QRCodeHistoryDBEntity): Long
+    suspend fun insert(entity: QRCodeHistoryDBEntity): Long
 
     @Delete
-    fun delete(entity: QRCodeHistoryDBEntity)
+    suspend fun delete(entity: QRCodeHistoryDBEntity)
+
+    @Query("DELETE FROM ${QRCodeHistoryDBConstants.HISTORY_TABLE}")
+    suspend fun deleteAll()
 }
