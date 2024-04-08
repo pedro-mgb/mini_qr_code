@@ -39,7 +39,7 @@
     <string name="code_saved_to_file_error">There was an error trying to save the image, please try again.</string>
 
     <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created.</string>
-    <string name="generate_code_text_box_label">Input QR Code text</string>
+    <string name="generate_code_text_box_label">Input your text</string>
     <string name="generate_code_will_appear_here">Image will appear here.</string>
     <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again.</string>
     <string name="generate_code_current_customization_options">Format: %s</string>
