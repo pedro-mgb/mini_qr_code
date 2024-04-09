@@ -52,6 +52,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.SaveAlt
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GeneratedQRCodeUpdateListeners
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat

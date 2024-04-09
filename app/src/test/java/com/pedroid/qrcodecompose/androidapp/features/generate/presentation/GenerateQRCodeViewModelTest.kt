@@ -8,6 +8,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageDa
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import io.mockk.every
 import io.mockk.mockk

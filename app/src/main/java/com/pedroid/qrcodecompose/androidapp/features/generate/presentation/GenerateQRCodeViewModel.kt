@@ -12,6 +12,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageDa
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
+import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXNotCompliantWithFormatException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -206,18 +207,6 @@ data class GenerateQRCodeContentState(
 
     @IgnoredOnParcel
     val canGenerate: Boolean = !inputError && !generating.empty
-
-    companion object
-}
-
-@optics
-@Parcelize
-data class QRCodeGeneratingContent(
-    val qrCodeText: String = "",
-    val format: QRCodeComposeXFormat = QRCodeComposeXFormat.QR_CODE,
-) : Parcelable {
-    @IgnoredOnParcel
-    val empty: Boolean = qrCodeText.isBlank()
 
     companion object
 }
