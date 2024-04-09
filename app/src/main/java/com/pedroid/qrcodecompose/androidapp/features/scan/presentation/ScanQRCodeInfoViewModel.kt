@@ -1,8 +1,8 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import androidx.lifecycle.ViewModel
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
-import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode

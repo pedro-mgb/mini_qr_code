@@ -12,8 +12,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
-import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun

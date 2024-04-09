@@ -11,6 +11,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 
 fun Context.openAppToView(content: String): QRAppActions.OpenApp {
     return try {

@@ -1,8 +1,8 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
 import app.cash.turbine.test
-import com.pedroid.qrcodecompose.androidapp.core.presentation.ActionStatus
-import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
