@@ -104,7 +104,6 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugaring.jdk)
 
-    annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     ksp(libs.hilt.compiler)
     ksp(libs.arrow.optics.ksp)
@@ -116,18 +115,14 @@ dependencies {
     testImplementation(libs.turbine)
 
 
-    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.hilt.android.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.ui.test.junit4)
 
-    androidTestAnnotationProcessor(libs.androidx.room.compiler)
     kspAndroidTest(libs.androidx.room.compiler)
-    kspAndroidTest(libs.hilt.compiler)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
