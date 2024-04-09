@@ -35,7 +35,7 @@ class QRCodeHistoryRepository
         private fun QRCodeHistoryDBEntity.toHistoryEntry(): HistoryEntry =
             when (type) {
                 HistoryType.GENERATE -> {
-                    HistoryEntry.GenerateEntry(
+                    HistoryEntry.Generate(
                         uid = uid,
                         value = value,
                         creationDate = timeStamp,
@@ -44,32 +44,32 @@ class QRCodeHistoryRepository
                 }
 
                 else -> {
-                    HistoryEntry.ScanEntry(
+                    HistoryEntry.Scan(
                         uid = uid,
                         value = value,
                         creationDate = timeStamp,
                         format = format,
-                        fromImage = type == HistoryType.SCAN_IMAGE,
+                        fromImageFile = type == HistoryType.SCAN_IMAGE_FILE,
                     )
                 }
             }
 
         private fun HistoryEntry.toDBEntity(): QRCodeHistoryDBEntity =
             when (this) {
-                is HistoryEntry.ScanEntry -> {
+                is HistoryEntry.Scan -> {
                     QRCodeHistoryDBEntity(
                         type =
-                            if (!this.fromImage) {
+                            if (!this.fromImageFile) {
                                 HistoryType.SCAN_CAMERA
                             } else {
-                                HistoryType.SCAN_IMAGE
+                                HistoryType.SCAN_IMAGE_FILE
                             },
                         value = this.value,
                         timeStamp = this.creationDate,
                         format = this.format,
                     )
                 }
-                is HistoryEntry.GenerateEntry -> {
+                is HistoryEntry.Generate -> {
                     QRCodeHistoryDBEntity(
                         type = HistoryType.GENERATE,
                         value = this.value,

@@ -106,7 +106,7 @@ class QRCodeHistoryRepositoryTest {
                 ),
                 QRCodeHistoryDBEntity(
                     uid = 2L,
-                    type = HistoryType.SCAN_IMAGE,
+                    type = HistoryType.SCAN_IMAGE_FILE,
                     value = "aztec scanned from image",
                     timeStamp = Instant.ofEpochMilli(20000L),
                     format = QRCodeComposeXFormat.AZTEC,
@@ -122,21 +122,21 @@ class QRCodeHistoryRepositoryTest {
 
         private val expectedHistoryEntryList: List<HistoryEntry> =
             listOf(
-                HistoryEntry.ScanEntry(
+                HistoryEntry.Scan(
                     uid = 1L,
                     value = "qr code scanned from camera",
                     creationDate = Instant.ofEpochMilli(10000L),
                     format = QRCodeComposeXFormat.QR_CODE,
-                    fromImage = false,
+                    fromImageFile = false,
                 ),
-                HistoryEntry.ScanEntry(
+                HistoryEntry.Scan(
                     uid = 2L,
                     value = "aztec scanned from image",
                     creationDate = Instant.ofEpochMilli(20000L),
                     format = QRCodeComposeXFormat.AZTEC,
-                    fromImage = true,
+                    fromImageFile = true,
                 ),
-                HistoryEntry.GenerateEntry(
+                HistoryEntry.Generate(
                     uid = 3L,
                     value = "1234567",
                     creationDate = Instant.ofEpochMilli(30000L),

@@ -166,7 +166,7 @@ internal class QRCodeHistoryDaoTest {
             )
         val testDBEntity2 =
             QRCodeHistoryDBEntity(
-                type = HistoryType.SCAN_IMAGE,
+                type = HistoryType.SCAN_IMAGE_FILE,
                 value = "BARCODE",
                 timeStamp = Instant.ofEpochMilli(20000L),
                 format = QRCodeComposeXFormat.BARCODE_128,
