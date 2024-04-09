@@ -24,7 +24,8 @@ class QRCodeHistoryRepository
         }
 
         override suspend fun getSingleHistory(uid: Long): HistoryEntry {
-            return dao.getByUid(uid).toHistoryEntry()
+            // will throw NPE if item not found, it is expected
+            return dao.getByUid(uid)!!.toHistoryEntry()
         }
 
         override suspend fun addHistoryEntry(entry: HistoryEntry): Long {
