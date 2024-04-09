@@ -1,10 +1,10 @@
-package com.pedroid.qrcodecompose.androidapp.home.di
+package com.pedroid.qrcodecompose.androidapp.bridge.di
 
 import android.content.Context
 import androidx.room.Room
+import com.pedroid.qrcodecompose.androidapp.bridge.data.db.DATABASE_NAME
+import com.pedroid.qrcodecompose.androidapp.bridge.data.db.QRCodeDatabase
 import com.pedroid.qrcodecompose.androidapp.features.history.data.db.QRCodeHistoryDao
-import com.pedroid.qrcodecompose.androidapp.home.data.db.DATABASE_NAME
-import com.pedroid.qrcodecompose.androidapp.home.data.db.QRCodeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

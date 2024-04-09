@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.home.data.db
+package com.pedroid.qrcodecompose.androidapp.bridge.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

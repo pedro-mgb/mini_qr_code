@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.home.data.db
+package com.pedroid.qrcodecompose.androidapp.bridge.data.db
 
 import android.content.Context
 import androidx.room.Room
@@ -13,8 +13,7 @@ import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,13 +48,13 @@ internal class QRCodeHistoryDaoTest {
     @Test
     fun when_database_empty_initially_getAll_returns_emptyList() =
         runTest {
-            assertTrue(sut.getAll().first().isEmpty())
+            Assert.assertTrue(sut.getAll().first().isEmpty())
         }
 
     @Test
     fun when_database_empty_initially_getByUid_returns_null() =
         runTest {
-            assertEquals(sut.getByUid(1L), null)
+            Assert.assertEquals(sut.getByUid(1L), null)
         }
 
     @Test
@@ -65,13 +64,20 @@ internal class QRCodeHistoryDaoTest {
                 awaitItem() // empty list
 
                 val id1 = sut.insert(testDBEntity1)
-                assertEquals(awaitItem(), listOf(testDBEntity1.copy(uid = id1)))
+                Assert.assertEquals(awaitItem(), listOf(testDBEntity1.copy(uid = id1)))
                 val id2 = sut.insert(testDBEntity2)
-                assertEquals(awaitItem(), listOf(testDBEntity2.copy(uid = id2), testDBEntity1.copy(uid = id1)))
-                val id3 = sut.insert(testDBEntity3)
-                assertEquals(
+                Assert.assertEquals(
                     awaitItem(),
-                    listOf(testDBEntity3.copy(uid = id3), testDBEntity2.copy(uid = id2), testDBEntity1.copy(uid = id1)),
+                    listOf(testDBEntity2.copy(uid = id2), testDBEntity1.copy(uid = id1)),
+                )
+                val id3 = sut.insert(testDBEntity3)
+                Assert.assertEquals(
+                    awaitItem(),
+                    listOf(
+                        testDBEntity3.copy(uid = id3),
+                        testDBEntity2.copy(uid = id2),
+                        testDBEntity1.copy(uid = id1),
+                    ),
                 )
                 expectNoEvents()
             }
@@ -82,7 +88,7 @@ internal class QRCodeHistoryDaoTest {
         runTest {
             val id = sut.insert(testDBEntity3)
 
-            assertEquals(sut.getByUid(id), testDBEntity3.copy(uid = id))
+            Assert.assertEquals(sut.getByUid(id), testDBEntity3.copy(uid = id))
         }
 
     @Test
@@ -92,13 +98,16 @@ internal class QRCodeHistoryDaoTest {
             val idToRemove = sut.insert(testDBEntity2)
             val id3 = sut.insert(testDBEntity3)
             sut.getAll().test {
-                assertTrue(awaitItem().size == 3)
+                Assert.assertTrue(awaitItem().size == 3)
 
                 sut.deleteById(idToRemove)
                 val resultList = awaitItem()
 
-                assertTrue(resultList.size == 2)
-                assertEquals(resultList, listOf(testDBEntity3.copy(uid = id3), testDBEntity1.copy(uid = id1)))
+                Assert.assertTrue(resultList.size == 2)
+                Assert.assertEquals(
+                    resultList,
+                    listOf(testDBEntity3.copy(uid = id3), testDBEntity1.copy(uid = id1)),
+                )
                 expectNoEvents()
             }
         }
@@ -110,7 +119,7 @@ internal class QRCodeHistoryDaoTest {
 
             sut.deleteById(idToRemove)
 
-            assertEquals(sut.getByUid(idToRemove), null)
+            Assert.assertEquals(sut.getByUid(idToRemove), null)
         }
 
     @Test
@@ -120,13 +129,13 @@ internal class QRCodeHistoryDaoTest {
             val idToRemove2 = sut.insert(testDBEntity2)
             val id3 = sut.insert(testDBEntity3)
             sut.getAll().test {
-                assertTrue(awaitItem().size == 3)
+                Assert.assertTrue(awaitItem().size == 3)
 
                 sut.deleteAllMatchingIds(listOf(idToRemove1, idToRemove2))
                 val resultList = awaitItem()
 
-                assertTrue(resultList.size == 1)
-                assertEquals(resultList, listOf(testDBEntity3.copy(uid = id3)))
+                Assert.assertTrue(resultList.size == 1)
+                Assert.assertEquals(resultList, listOf(testDBEntity3.copy(uid = id3)))
                 expectNoEvents()
             }
         }
@@ -138,11 +147,11 @@ internal class QRCodeHistoryDaoTest {
             sut.insert(testDBEntity2)
             sut.insert(testDBEntity3)
             sut.getAll().test {
-                assertTrue(awaitItem().size == 3)
+                Assert.assertTrue(awaitItem().size == 3)
 
                 sut.deleteAll()
 
-                assertTrue(awaitItem().isEmpty())
+                Assert.assertTrue(awaitItem().isEmpty())
                 expectNoEvents()
             }
         }
