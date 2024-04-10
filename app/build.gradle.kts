@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
@@ -43,6 +44,11 @@ android {
             signingConfig = signingConfigs.getByName("qr_app_release")
         }
     }
+
+    room {
+        schemaDirectory("$projectDir/dbSchemas")
+    }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
