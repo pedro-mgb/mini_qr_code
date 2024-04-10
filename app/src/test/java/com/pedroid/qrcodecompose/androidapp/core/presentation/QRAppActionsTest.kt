@@ -1,5 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.core.presentation
 
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
