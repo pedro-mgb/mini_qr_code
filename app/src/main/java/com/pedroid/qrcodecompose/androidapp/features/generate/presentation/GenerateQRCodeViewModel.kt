@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.optics.copy
 import arrow.optics.optics
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
@@ -24,11 +25,14 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -44,6 +48,7 @@ private const val AWAIT_INPUT_STOP_INTERVAL = 400L
 class GenerateQRCodeViewModel
     @Inject
     constructor(
+        private val historyRepository: HistoryRepository,
         private val savedStateHandle: SavedStateHandle,
         private val logger: Logger,
         private val generateMessageFactory: GenerateMessageFactory,
@@ -57,8 +62,11 @@ class GenerateQRCodeViewModel
         private val updateTextActionFlow: MutableStateFlow<GenerateQRCodeUIAction.UpdateText> =
             MutableStateFlow(GenerateQRCodeUIAction.UpdateText(""))
 
+        private val newQRActionFlow = MutableStateFlow(GeneratedCodeWithAction())
+
         init {
             setupUpdateTextAction()
+            setupSaveHistory()
         }
 
         @OptIn(FlowPreview::class)
@@ -101,6 +109,32 @@ class GenerateQRCodeViewModel
                     savedStateHandle.updateState {
                         GenerateQRCodeUIState.content.generating.qrCodeText.set(it, action.text)
                     }
+                }
+                .launchIn(viewModelScope)
+        }
+
+        private fun setupSaveHistory() {
+            uiState
+                .map { it.content.generating }
+                .combine(newQRActionFlow) { generatingContent, actionWithCurrentContent ->
+                    // only emit if there's an actual new code that has been shared / copied / saved successfully
+                    logger.debug(LOG_TAG, "Processing to check if should save history - $generatingContent / $actionWithCurrentContent")
+                    when {
+                        generatingContent.empty -> null
+                        actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> null
+                        generatingContent == actionWithCurrentContent.code -> null
+                        else -> GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
+                    }
+                }
+                .filterNotNull()
+                .distinctUntilChanged()
+                .onEach { newCodeWithAction ->
+                    // reset the action flow to avoid repeated emissions and repeated saves
+                    newQRActionFlow.update {
+                        it.copy(code = newCodeWithAction.code, actionComplete = null)
+                    }
+                    logger.debug(LOG_TAG, "Saving to history based on action - $newCodeWithAction")
+                    historyRepository.saveGeneratedCode(newCodeWithAction.code)
                 }
                 .launchIn(viewModelScope)
         }
@@ -152,6 +186,9 @@ class GenerateQRCodeViewModel
                     }
 
                     is GenerateQRCodeUIAction.QRActionComplete -> {
+                        newQRActionFlow.update {
+                            it.copy(actionComplete = action.action)
+                        }
                         action.action.asTemporaryMessage()?.let { temporaryMessage ->
                             savedStateHandle.updateState {
                                 GenerateQRCodeUIState.temporaryMessage.set(it, temporaryMessage)
@@ -198,6 +235,11 @@ data class GenerateQRCodeUIState(
 ) : Parcelable {
     companion object
 }
+
+private data class GeneratedCodeWithAction(
+    val code: QRCodeGeneratingContent = QRCodeGeneratingContent(),
+    val actionComplete: QRAppActions? = null,
+)
 
 @optics
 @Parcelize

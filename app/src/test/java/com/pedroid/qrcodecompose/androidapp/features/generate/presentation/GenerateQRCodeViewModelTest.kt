@@ -9,9 +9,14 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageTy
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
+import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
+import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -26,12 +31,18 @@ class GenerateQRCodeViewModelTest {
     @get:Rule
     val coroutineDispatcherTestRule = CoroutineDispatcherTestRule()
 
+    private val historyRepository =
+        mockk<HistoryRepository> {
+            coEvery { addHistoryEntry(any()) } returns 2L
+        }
+
     private lateinit var sut: GenerateQRCodeViewModel
 
     @Before
     fun setUp() {
         sut =
             GenerateQRCodeViewModel(
+                historyRepository = historyRepository,
                 savedStateHandle = SavedStateHandle(),
                 logger = mockk(relaxed = true),
                 generateMessageFactory =
@@ -330,6 +341,122 @@ class GenerateQRCodeViewModelTest {
                 sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
                 assertTrue(awaitItem().temporaryMessage == null)
             }
+        }
+
+    @Test
+    fun `given action success on generated qr code, the qr code is saved to history`() =
+        runTest {
+            val qrCodeTextAction = GenerateQRCodeUIAction.UpdateText("qr code")
+            sut.onNewAction(qrCodeTextAction)
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+            val entrySlot = slot<HistoryEntry.Generate>()
+
+            coVerify(exactly = 1) {
+                historyRepository.addHistoryEntry(capture(entrySlot))
+            }
+            val capturedEntry = entrySlot.captured
+            assertEquals(capturedEntry.value, "qr code")
+            assertEquals(capturedEntry.format, QRCodeComposeXFormat.QR_CODE)
+        }
+
+    @Test
+    fun `given 2 action success on same code, only saved to history once`() =
+        runTest {
+            val qrCodeTextAction = GenerateQRCodeUIAction.UpdateText("qr code")
+            sut.onNewAction(qrCodeTextAction)
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.SUCCESS)))
+
+            coVerify(exactly = 1) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given error on action, not saved to history`() =
+        runTest {
+            val qrCodeTextAction = GenerateQRCodeUIAction.UpdateText("qr code")
+            sut.onNewAction(qrCodeTextAction)
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.SaveToFile(ActionStatus.ERROR_FILE)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given action with empty content, not saved to history`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.SaveToFile(ActionStatus.SUCCESS)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given 2 actions with different typed texts, saved to history only once`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("qr code 1"))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("qr code 2"))
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.SUCCESS)))
+
+            coVerify(exactly = 1) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given 2 actions with different generated text, saved to history twice`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("qr code 1"))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("qr code 2"))
+            // advancing time to make sure current actions have been processed
+            //  this is the difference between this and the above test
+            testScheduler.advanceTimeBy(1000L)
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.SUCCESS)))
+            val list = mutableListOf<HistoryEntry.Generate>()
+
+            coVerify(exactly = 2) {
+                historyRepository.addHistoryEntry(capture(list))
+            }
+            assertEquals(list.map { it.value }, listOf("qr code 1", "qr code 2"))
+        }
+
+    @Test
+    fun `given 2 actions with different code format, saved to history twice`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("some code"))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+            val newFormat = QRCodeComposeXFormat.AZTEC
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+            sut.onNewAction(GenerateQRCodeUIAction.Customize(QRCodeCustomizationOptions(newFormat)))
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.SUCCESS)))
+            val list = mutableListOf<HistoryEntry.Generate>()
+
+            coVerify(exactly = 2) {
+                historyRepository.addHistoryEntry(capture(list))
+            }
+            assertEquals(list.map { it.format }, listOf(QRCodeComposeXFormat.QR_CODE, newFormat))
         }
 
     private fun TemporaryMessageData?.assertHasError() {
