@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 interface HistoryRepository {
     fun getAllHistory(): Flow<List<HistoryEntry>>
 
-    suspend fun getSingleHistory(uid: Long): HistoryEntry
+    fun getSingleHistory(uid: Long): Flow<HistoryEntry?>
 
     suspend fun addHistoryEntry(entry: HistoryEntry): Long
 }

@@ -12,7 +12,7 @@ interface QRCodeHistoryDao {
     fun getAll(): Flow<List<QRCodeHistoryDBEntity>>
 
     @Query("SELECT * FROM ${QRCodeHistoryDBConstants.HISTORY_TABLE} WHERE uid = :uid")
-    suspend fun getByUid(uid: Long): QRCodeHistoryDBEntity?
+    fun getByUid(uid: Long): Flow<QRCodeHistoryDBEntity?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: QRCodeHistoryDBEntity): Long

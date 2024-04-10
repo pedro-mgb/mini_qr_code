@@ -54,7 +54,7 @@ internal class QRCodeHistoryDaoTest {
     @Test
     fun when_database_empty_initially_getByUid_returns_null() =
         runTest {
-            Assert.assertEquals(sut.getByUid(1L), null)
+            Assert.assertEquals(sut.getByUid(1L).first(), null)
         }
 
     @Test
@@ -88,7 +88,7 @@ internal class QRCodeHistoryDaoTest {
         runTest {
             val id = sut.insert(testDBEntity3)
 
-            Assert.assertEquals(sut.getByUid(id), testDBEntity3.copy(uid = id))
+            Assert.assertEquals(sut.getByUid(id).first(), testDBEntity3.copy(uid = id))
         }
 
     @Test
@@ -119,7 +119,7 @@ internal class QRCodeHistoryDaoTest {
 
             sut.deleteById(idToRemove)
 
-            Assert.assertEquals(sut.getByUid(idToRemove), null)
+            Assert.assertEquals(sut.getByUid(idToRemove).first(), null)
         }
 
     @Test

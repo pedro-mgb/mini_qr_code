@@ -47,11 +47,11 @@ class QRCodeHistoryRepositoryTest {
     @Test
     fun `repository gets single dao item mapped to HistoryEntry`() =
         runTest {
-            coEvery { qrCodeHistoryDao.getByUid(2L) } returns historyDBEntity.first { it.uid == 2L }
+            coEvery { qrCodeHistoryDao.getByUid(2L) } returns flowOf(historyDBEntity.first { it.uid == 2L })
 
             val result = sut.getSingleHistory(2L)
 
-            assertEquals(result, expectedHistoryEntryList.first { it.uid == 2L })
+            assertEquals(result.first(), expectedHistoryEntryList.first { it.uid == 2L })
             coVerify { qrCodeHistoryDao.getByUid(2L) }
         }
 
