@@ -13,6 +13,7 @@
     <string name="action_save_to_file">Guardar num ficheiro</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_try_again">Tentar novamente</string>
+    <string name="action_ok">OK</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes.</string>
@@ -47,4 +48,13 @@
     <string name="generate_code_customize_action">Customizar</string>
     <string name="generate_code_select_format_title">Selecionar formato</string>
     <string name="generate_code_select_format_description">Clique o formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
+
+    <string name="history_top_header_title">O teu Histórico</string>
+    <string name="history_top_header_more_information_button">Mais informação</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico e controlar como este é salvo.</string>
+    <string name="history_header_today">Hoje</string>
+    <string name="history_header_yesterday">Ontem</string>
+    <string name="history_item_scan_camera">Captura (câmara)</string>
+    <string name="history_item_scan_image_file">Captura (ficheiro)</string>
+    <string name="history_item_generate">Criado</string>
 </resources>
