@@ -4,5 +4,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.historyFeatureNavigationRoutes(navController: NavController) {
-    historyListRoute()
+    historyListRoute(
+        navigationListeners =
+            HistoryListNavigationListeners(
+                onSelectItem = {
+                    // TODO show item details
+                },
+            ),
+    )
 }

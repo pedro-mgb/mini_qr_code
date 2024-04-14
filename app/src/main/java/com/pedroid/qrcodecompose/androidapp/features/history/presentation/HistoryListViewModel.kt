@@ -1,5 +1,6 @@
 package com.pedroid.qrcodecompose.androidapp.features.history.presentation
 
+import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.createStateFlow
@@ -9,6 +10,7 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.parcelize.Parcelize
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -32,7 +34,7 @@ class HistoryListViewModel
         val uiState: StateFlow<HistoryListUIState> =
             this.createStateFlow(
                 originalFlow = historyRepository.getAllHistory(),
-                initialValue = HistoryListUIState(listOf(HistoryListItem.InfoHeader)),
+                initialValue = HistoryListUIState(HistoryListContentState.Idle),
                 mapper = ::mapToUIState,
             )
 
@@ -41,16 +43,18 @@ class HistoryListViewModel
 
         private fun mapToUIState(entries: List<HistoryEntry>): HistoryListUIState {
             logger.debug(LOG_TAG, "received list from repo: $entries")
-            val uiStateList = mutableListOf<HistoryListItem>(HistoryListItem.InfoHeader)
 
-            if (entries.isEmpty()) {
-                uiStateList.add(HistoryListItem.EmptyList)
-            } else {
-                uiStateList.appendHistoryData(entries)
-            }
+            val contentState: HistoryListContentState =
+                if (entries.isEmpty()) {
+                    HistoryListContentState.Empty
+                } else {
+                    val uiStateList = mutableListOf<HistoryListItem>()
+                    uiStateList.appendHistoryData(entries)
+                    HistoryListContentState.DataList(uiStateList.toList())
+                }
 
-            logger.debug(LOG_TAG, "converted history ui state list: ${uiStateList.toList()}")
-            return HistoryListUIState(uiStateList.toList())
+            logger.debug(LOG_TAG, "converted history to ui state content: $contentState")
+            return HistoryListUIState(contentState)
         }
 
         private fun MutableList<HistoryListItem>.appendHistoryData(entries: List<HistoryEntry>) {
@@ -82,7 +86,6 @@ class HistoryListViewModel
             HistoryListItem.Data(
                 uid = this.uid,
                 value = this.value,
-                // TODO fix date conversion
                 formattedDate =
                     this.creationDate
                         .atZone(defaultZoneId)
@@ -104,4 +107,16 @@ class HistoryListViewModel
             }
     }
 
-data class HistoryListUIState(val list: List<HistoryListItem>)
+@Parcelize
+data class HistoryListUIState(val content: HistoryListContentState) : Parcelable
+
+sealed class HistoryListContentState : Parcelable {
+    @Parcelize
+    data object Idle : HistoryListContentState()
+
+    @Parcelize
+    data object Empty : HistoryListContentState()
+
+    @Parcelize
+    data class DataList(val list: List<HistoryListItem>) : HistoryListContentState()
+}

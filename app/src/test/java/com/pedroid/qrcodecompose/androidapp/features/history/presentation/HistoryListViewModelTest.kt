@@ -19,6 +19,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 
 class HistoryListViewModelTest {
     @get:Rule
@@ -34,6 +35,8 @@ class HistoryListViewModelTest {
 
     @Before
     fun setUp() {
+        // setting default locale so that translation texts don't break if running in different region
+        Locale.setDefault(Locale.US)
         sut =
             HistoryListViewModel(
                 historyRepository,
@@ -42,20 +45,20 @@ class HistoryListViewModelTest {
     }
 
     @Test
-    fun `initial state has just info header`() =
+    fun `initial state has Idle content`() =
         runTest {
-            assertEquals(HistoryListUIState(listOf(HistoryListItem.InfoHeader)), sut.uiState.value)
+            assertEquals(HistoryListUIState(HistoryListContentState.Idle), sut.uiState.value)
         }
 
     @Test
-    fun `given repository returns empty list, UI state updated with empty list item`() =
+    fun `given repository returns empty list, UI state updated with empty content state`() =
         runTest {
             sut.uiState.test {
                 awaitItem() // initial state
 
                 historyFlow.emit(emptyList())
 
-                assertEquals(listOf(HistoryListItem.InfoHeader, HistoryListItem.EmptyList), awaitItem().list)
+                assertEquals(HistoryListUIState(HistoryListContentState.Empty), awaitItem())
             }
         }
 
@@ -84,22 +87,15 @@ class HistoryListViewModelTest {
                     ),
                 )
 
-                val newResultList = awaitItem().list
+                val newResultList = (awaitItem().content as HistoryListContentState.DataList).list
 
-                assertTrue(newResultList.size == 4)
-                assertEquals(
-                    listOf(
-                        HistoryListItem.InfoHeader,
-                        HistoryListItem.SectionHeader("history_header_today"),
-                    ),
-                    newResultList.subList(0, 2),
-                )
-                val firstDataItem = newResultList[2] as HistoryListItem.Data
+                assertTrue(newResultList.size == 3)
+                val firstDataItem = newResultList[1] as HistoryListItem.Data
                 assertEquals(1L, firstDataItem.uid)
                 assertEquals("qr code scanned from camera", firstDataItem.value)
                 assertEquals(HistoryTypeUI.SCAN_CAMERA, firstDataItem.typeUI)
                 assertEquals(QRCodeComposeXFormat.QR_CODE.titleStringId, firstDataItem.formatStringId)
-                val secondDataItem = newResultList[3] as HistoryListItem.Data
+                val secondDataItem = newResultList[2] as HistoryListItem.Data
                 assertEquals(2L, secondDataItem.uid)
                 assertEquals("1234567", secondDataItem.value)
                 assertEquals(HistoryTypeUI.GENERATE, secondDataItem.typeUI)
@@ -131,22 +127,15 @@ class HistoryListViewModelTest {
                     ),
                 )
 
-                val newResultList = awaitItem().list
+                val newResultList = (awaitItem().content as HistoryListContentState.DataList).list
 
-                assertTrue(newResultList.size == 4)
-                assertEquals(
-                    listOf(
-                        HistoryListItem.InfoHeader,
-                        HistoryListItem.SectionHeader("history_header_yesterday"),
-                    ),
-                    newResultList.subList(0, 2),
-                )
-                val firstDataItem = newResultList[2] as HistoryListItem.Data
+                assertTrue(newResultList.size == 3)
+                val firstDataItem = newResultList[1] as HistoryListItem.Data
                 assertEquals(3L, firstDataItem.uid)
                 assertEquals("data matrix scanned yesterday", firstDataItem.value)
                 assertEquals(HistoryTypeUI.SCAN_FILE, firstDataItem.typeUI)
                 assertEquals(QRCodeComposeXFormat.DATA_MATRIX.titleStringId, firstDataItem.formatStringId)
-                val secondDataItem = newResultList[3] as HistoryListItem.Data
+                val secondDataItem = newResultList[2] as HistoryListItem.Data
                 assertEquals(4L, secondDataItem.uid)
                 assertEquals("123456789012", secondDataItem.value)
                 assertEquals(HistoryTypeUI.GENERATE, secondDataItem.typeUI)
@@ -181,8 +170,8 @@ class HistoryListViewModelTest {
                 awaitItem() // initial state
 
                 historyFlow.emit(entryList.toList())
-                val currentResultList = awaitItem().list
-                assertTrue(currentResultList.size == 5)
+                val currentResultList = (awaitItem().content as HistoryListContentState.DataList).list
+                assertTrue(currentResultList.size == 4)
 
                 val date3 = LocalDateTime.of(2024, 4, 8, 8, 8, 8)
                 entryList.add(
@@ -194,14 +183,14 @@ class HistoryListViewModelTest {
                     ),
                 )
                 historyFlow.emit(entryList.toList())
-                val newResultList = awaitItem().list
-                assertTrue(newResultList.size == 7)
-                assertEquals("Monday, 8 Apr 2024", (newResultList[1] as HistoryListItem.SectionHeader).text)
-                assertEquals("Saturday, 16 Mar 2024", (newResultList[3] as HistoryListItem.SectionHeader).text)
-                assertEquals("Wednesday, 4 Oct 2023", (newResultList[5] as HistoryListItem.SectionHeader).text)
-                assertTrue((newResultList[2] as HistoryListItem.Data).formattedDate.contains("08-04-2024"))
-                assertTrue((newResultList[4] as HistoryListItem.Data).formattedDate.contains("16-03-2024"))
-                assertTrue((newResultList[6] as HistoryListItem.Data).formattedDate.contains("04-10-2023"))
+                val newResultList = (awaitItem().content as HistoryListContentState.DataList).list
+                assertTrue(newResultList.size == 6)
+                assertEquals("Monday, 8 Apr 2024", (newResultList[0] as HistoryListItem.SectionHeader).text)
+                assertEquals("Saturday, 16 Mar 2024", (newResultList[2] as HistoryListItem.SectionHeader).text)
+                assertEquals("Wednesday, 4 Oct 2023", (newResultList[4] as HistoryListItem.SectionHeader).text)
+                assertTrue((newResultList[1] as HistoryListItem.Data).formattedDate.contains("08-04-2024"))
+                assertTrue((newResultList[3] as HistoryListItem.Data).formattedDate.contains("16-03-2024"))
+                assertTrue((newResultList[5] as HistoryListItem.Data).formattedDate.contains("04-10-2023"))
             }
         }
 }

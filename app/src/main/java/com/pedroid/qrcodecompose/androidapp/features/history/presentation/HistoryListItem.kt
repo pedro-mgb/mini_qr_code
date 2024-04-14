@@ -11,15 +11,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.Camera
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ImageFile
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.onSuccessContainer
 import kotlinx.parcelize.Parcelize
 
 sealed class HistoryListItem : Parcelable {
-    @Parcelize
-    data object InfoHeader : HistoryListItem()
-
-    @Parcelize
-    data object EmptyList : HistoryListItem()
-
     @Parcelize
     data class SectionHeader(val text: String) : HistoryListItem()
 
@@ -36,7 +31,7 @@ sealed class HistoryListItem : Parcelable {
 enum class HistoryTypeUI(
     @StringRes val typeStringId: Int,
     val icon: ImageVector,
-    val iconColor: @Composable () -> Color,
+    val color: @Composable () -> Color,
 ) {
     SCAN_CAMERA(
         R.string.history_item_scan_camera,
@@ -51,6 +46,6 @@ enum class HistoryTypeUI(
     GENERATE(
         R.string.history_item_generate,
         Icons.Filled.AddCircle,
-        { MaterialTheme.colorScheme.onSecondaryContainer },
+        { MaterialTheme.colorScheme.onSuccessContainer },
     ),
 }

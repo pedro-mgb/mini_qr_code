@@ -50,8 +50,9 @@
     <string name="generate_code_select_format_description">Clique o formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
 
     <string name="history_top_header_title">O teu Histórico</string>
-    <string name="history_top_header_more_information_button">Mais informação</string>
+    <string name="history_top_header_more_information_button">Sobre o histórico</string>
     <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico e controlar como este é salvo.</string>
+    <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
     <string name="history_header_today">Hoje</string>
     <string name="history_header_yesterday">Ontem</string>
     <string name="history_item_scan_camera">Captura (câmara)</string>

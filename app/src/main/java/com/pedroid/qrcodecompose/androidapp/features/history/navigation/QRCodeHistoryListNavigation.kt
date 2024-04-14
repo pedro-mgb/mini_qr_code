@@ -14,17 +14,23 @@ import com.pedroid.qrcodecompose.androidapp.features.history.presentation.Histor
 
 const val HISTORY_LIST_ROUTE = "QR_CODE_HISTORY_LIST_ROUTE"
 
-fun NavGraphBuilder.historyListRoute() {
+fun NavGraphBuilder.historyListRoute(navigationListeners: HistoryListNavigationListeners) {
     composable(route = HISTORY_LIST_ROUTE) {
-        HistoryListCoordinator()
+        HistoryListCoordinator(navigationListeners)
     }
 }
 
 @Composable
-private fun HistoryListCoordinator(viewModel: HistoryListViewModel = hiltViewModel()) {
+private fun HistoryListCoordinator(
+    navigationListeners: HistoryListNavigationListeners,
+    viewModel: HistoryListViewModel = hiltViewModel(),
+) {
     val uiState: HistoryListUIState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    HistoryListScreen(content = uiState.list)
+    HistoryListScreen(
+        content = uiState.content,
+        listeners = navigationListeners,
+    )
 }
 
 fun NavController.navigateToQRCodeHistoryList(navOptions: NavOptions? = null) {
