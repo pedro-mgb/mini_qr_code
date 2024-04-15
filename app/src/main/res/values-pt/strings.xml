@@ -14,6 +14,7 @@
     <string name="action_cancel">Cancelar</string>
     <string name="action_try_again">Tentar novamente</string>
     <string name="action_ok">OK</string>
+    <string name="action_close">Fechar</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes.</string>

@@ -39,6 +39,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.getString
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListNavigationListeners
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import kotlin.random.Random
@@ -48,7 +49,8 @@ import kotlin.random.Random
 @Composable
 fun HistoryListScreen(
     content: HistoryListContentState,
-    listeners: HistoryListNavigationListeners,
+    navigationListeners: HistoryListNavigationListeners,
+    actionListeners: HistoryListActionListeners,
 ) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize()) {
@@ -62,6 +64,7 @@ fun HistoryListScreen(
                         top = Dimens.spacingLarge,
                         bottom = Dimens.spacingSmall,
                     ),
+            moreInformationClicked = actionListeners.onMoreInfoRequested,
         )
 
         when (content) {
@@ -81,7 +84,7 @@ fun HistoryListScreen(
                     modifier = Modifier.fillMaxSize(),
                     content = content,
                     context = context,
-                    onClick = listeners.onSelectItem,
+                    onClick = navigationListeners.onSelectItem,
                 )
             }
         }
@@ -138,7 +141,10 @@ private fun HistoryDataList(
 }
 
 @Composable
-private fun HistoryInfoTopHeader(modifier: Modifier = Modifier) {
+private fun HistoryInfoTopHeader(
+    modifier: Modifier = Modifier,
+    moreInformationClicked: () -> Unit,
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -148,9 +154,7 @@ private fun HistoryInfoTopHeader(modifier: Modifier = Modifier) {
             text = stringResource(id = R.string.history_top_header_title),
             style = MaterialTheme.typography.headlineMedium,
         )
-        TextButton(onClick = {
-            // TODO show popup
-        }) {
+        TextButton(onClick = moreInformationClicked) {
             Text(
                 modifier = Modifier.padding(Dimens.spacingExtraSmall),
                 text = stringResource(id = R.string.history_top_header_more_information_button),
@@ -294,7 +298,8 @@ fun HistoryListScreenEmptyPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         HistoryListScreen(
             content = HistoryListContentState.Empty,
-            listeners = HistoryListNavigationListeners(),
+            navigationListeners = HistoryListNavigationListeners(),
+            actionListeners = HistoryListActionListeners(),
         )
     }
 }
@@ -305,7 +310,8 @@ fun HistoryListScreenWithContentPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         HistoryListScreen(
             content = HistoryListContentState.DataList(mockHistoryDataList()),
-            listeners = HistoryListNavigationListeners(),
+            navigationListeners = HistoryListNavigationListeners(),
+            actionListeners = HistoryListActionListeners(),
         )
     }
 }
