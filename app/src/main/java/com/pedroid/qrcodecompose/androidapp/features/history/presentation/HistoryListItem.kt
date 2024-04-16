@@ -22,7 +22,7 @@ sealed class HistoryListItem : Parcelable {
     data class Data(
         val uid: Long,
         val value: String,
-        val formattedDate: String,
+        val displayDate: String,
         val typeUI: HistoryTypeUI,
         @StringRes val formatStringId: Int,
     ) : HistoryListItem()

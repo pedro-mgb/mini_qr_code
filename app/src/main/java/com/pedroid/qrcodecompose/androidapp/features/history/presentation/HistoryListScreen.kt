@@ -282,7 +282,7 @@ private fun HistoryListDataItem(
                             end.linkTo(parent.end)
                             linkTo(top = format.bottom, bottom = parent.bottom)
                         },
-                text = item.formattedDate,
+                text = item.displayDate,
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.End,
             )
@@ -344,7 +344,7 @@ private fun mockHistoryDataItem(
     HistoryListItem.Data(
         uid = Random.nextLong(),
         value = dataValue,
-        formattedDate = date,
+        displayDate = date,
         typeUI = typeUI,
         formatStringId = format.titleStringId,
     )

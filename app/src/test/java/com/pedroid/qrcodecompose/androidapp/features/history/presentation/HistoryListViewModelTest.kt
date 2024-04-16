@@ -9,6 +9,7 @@ import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -28,7 +29,7 @@ class HistoryListViewModelTest {
     private val historyFlow = MutableSharedFlow<List<HistoryEntry>>()
     private val historyRepository =
         mockk<HistoryRepository> {
-            every { getAllHistory() } returns historyFlow
+            every { getAllHistory() } returns historyFlow.asSharedFlow()
         }
 
     private lateinit var sut: HistoryListViewModel
@@ -188,9 +189,9 @@ class HistoryListViewModelTest {
                 assertEquals("Monday, 8 Apr 2024", (newResultList[0] as HistoryListItem.SectionHeader).text)
                 assertEquals("Saturday, 16 Mar 2024", (newResultList[2] as HistoryListItem.SectionHeader).text)
                 assertEquals("Wednesday, 4 Oct 2023", (newResultList[4] as HistoryListItem.SectionHeader).text)
-                assertTrue((newResultList[1] as HistoryListItem.Data).formattedDate.contains("08-04-2024"))
-                assertTrue((newResultList[3] as HistoryListItem.Data).formattedDate.contains("16-03-2024"))
-                assertTrue((newResultList[5] as HistoryListItem.Data).formattedDate.contains("04-10-2023"))
+                assertTrue((newResultList[1] as HistoryListItem.Data).displayDate.contains("08-04-2024"))
+                assertTrue((newResultList[3] as HistoryListItem.Data).displayDate.contains("16-03-2024"))
+                assertTrue((newResultList[5] as HistoryListItem.Data).displayDate.contains("04-10-2023"))
             }
         }
 }

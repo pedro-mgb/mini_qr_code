@@ -8,7 +8,6 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.ID_NEW_ENTRY
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import java.time.Instant
 
-// TODO finish adding fields
 @Entity(tableName = QRCodeHistoryDBConstants.HISTORY_TABLE)
 data class QRCodeHistoryDBEntity(
     @PrimaryKey(autoGenerate = true) val uid: Long = ID_NEW_ENTRY,

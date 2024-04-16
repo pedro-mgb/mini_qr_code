@@ -21,9 +21,6 @@ private const val LOG_TAG = "HistoryListViewModel"
 // Friday, 12 April 2024
 private const val DATE_HEADER_PATTERN = "EEEE, d MMM yyyy"
 
-// 12-04-2024\n18:00:00
-private const val TIMESTAMP_PATTERN = "dd-MM-yyyy\nhh:mm:ss"
-
 @HiltViewModel
 class HistoryListViewModel
     @Inject
@@ -40,6 +37,7 @@ class HistoryListViewModel
 
         private val defaultZoneId get() = ZoneId.systemDefault()
         private val defaultLocale get() = Locale.getDefault()
+        private val timeStampPattern get() = "dd-MM-yyyy\n${getHourTimeFormat()}"
 
         private fun mapToUIState(entries: List<HistoryEntry>): HistoryListUIState {
             logger.debug(LOG_TAG, "received list from repo: $entries")
@@ -86,10 +84,10 @@ class HistoryListViewModel
             HistoryListItem.Data(
                 uid = this.uid,
                 value = this.value,
-                formattedDate =
+                displayDate =
                     this.creationDate
                         .atZone(defaultZoneId)
-                        .format(DateTimeFormatter.ofPattern(TIMESTAMP_PATTERN, defaultLocale)),
+                        .format(DateTimeFormatter.ofPattern(timeStampPattern, defaultLocale)),
                 typeUI = this.getTypeUI(),
                 formatStringId = this.format.titleStringId,
             )
