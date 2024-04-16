@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.presentation.createStateFlow
+import com.pedroid.qrcodecompose.androidapp.core.presentation.getHourTimeFormat
 import com.pedroid.qrcodecompose.androidapp.core.presentation.isToday
 import com.pedroid.qrcodecompose.androidapp.core.presentation.isYesterday
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
@@ -91,18 +92,6 @@ class HistoryListViewModel
                 typeUI = this.getTypeUI(),
                 formatStringId = this.format.titleStringId,
             )
-
-        private fun HistoryEntry.getTypeUI(): HistoryTypeUI =
-            when (this) {
-                is HistoryEntry.Scan -> {
-                    if (!this.fromImageFile) {
-                        HistoryTypeUI.SCAN_CAMERA
-                    } else {
-                        HistoryTypeUI.SCAN_FILE
-                    }
-                }
-                is HistoryEntry.Generate -> HistoryTypeUI.GENERATE
-            }
     }
 
 @Parcelize

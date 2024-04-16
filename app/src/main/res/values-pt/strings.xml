@@ -59,4 +59,7 @@
     <string name="history_item_scan_camera">Captura (câmara)</string>
     <string name="history_item_scan_image_file">Captura (ficheiro)</string>
     <string name="history_item_generate">Criado</string>
+    <string name="history_detail_scan_camera_at">Capturado com câmara a:</string>
+    <string name="history_detail_scan_file_at">Capturado de ficheiro a:</string>
+    <string name="history_detail_generated_at">Criado a:</string>
 </resources>

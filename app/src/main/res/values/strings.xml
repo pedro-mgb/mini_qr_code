@@ -58,4 +58,7 @@
     <string name="history_item_scan_camera">Scanned (camera)</string>
     <string name="history_item_scan_image_file">Scanned (file)</string>
     <string name="history_item_generate">Created</string>
+    <string name="history_detail_scan_camera_at">Scanned with camera at:</string>
+    <string name="history_detail_scan_file_at">Scanned from file at:</string>
+    <string name="history_detail_generated_at">Created at:</string>
 </resources>
