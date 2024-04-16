@@ -1,17 +1,23 @@
 package com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail
 
+import android.graphics.Bitmap
 import app.cash.turbine.test
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryTypeUI
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -98,6 +104,81 @@ internal class HistoryDetailViewModelTest {
                 detailFlow.emit(historyEntryGenerate)
 
                 assertEquals(HistoryDetailUIState.Content(expected), awaitItem())
+            }
+        }
+
+    @Test
+    fun `given there is an action with Generate QR Code Result Success, no additional state is emitted`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+
+                detailFlow.emit(historyEntryGenerate)
+
+                assertFalse((awaitItem() as HistoryDetailUIState.Content).data.errorInGenerating)
+                sut.onNewAction(HistoryDetailUIAction.Generate(QRCodeGenerateResult.Generated(mockk<Bitmap>())))
+                expectNoEvents()
+            }
+        }
+
+    @Test
+    fun `given there is an action with Generate QR Code Result Error, additional state is emitted with error`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+
+                detailFlow.emit(historyEntryGenerate)
+                assertFalse((awaitItem() as HistoryDetailUIState.Content).data.errorInGenerating)
+
+                sut.onNewAction(HistoryDetailUIAction.Generate(QRCodeGenerateResult.Error(RuntimeException())))
+                assertTrue((awaitItem() as HistoryDetailUIState.Content).data.errorInGenerating)
+            }
+        }
+
+    @Test
+    fun `given there is app action success, temporary message data is updated`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                detailFlow.emit(historyEntryScan)
+                awaitItem()
+
+                sut.onNewAction(HistoryDetailUIAction.QRActionComplete(QRAppActions.Copy(ActionStatus.SUCCESS)))
+                val result = awaitItem() as HistoryDetailUIState.Content
+
+                assertTrue(result.temporaryMessage != null)
+            }
+        }
+
+    @Test
+    fun `given there is app action error, temporary message data is updated`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                detailFlow.emit(historyEntryScan)
+                awaitItem()
+
+                sut.onNewAction(HistoryDetailUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.ERROR_FILE)))
+                val result = awaitItem() as HistoryDetailUIState.Content
+
+                assertTrue(result.temporaryMessage != null)
+            }
+        }
+
+    @Test
+    fun `given there is message shown after app action, temporary message data is updated to null`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                detailFlow.emit(historyEntryGenerate)
+                awaitItem()
+                sut.onNewAction(HistoryDetailUIAction.QRActionComplete(QRAppActions.ShareApp(ActionStatus.ERROR_FILE)))
+                assertTrue((awaitItem() as HistoryDetailUIState.Content).temporaryMessage != null)
+
+                sut.onNewAction(HistoryDetailUIAction.TmpMessageShown)
+                val result = awaitItem() as HistoryDetailUIState.Content
+
+                assertTrue(result.temporaryMessage == null)
             }
         }
 
