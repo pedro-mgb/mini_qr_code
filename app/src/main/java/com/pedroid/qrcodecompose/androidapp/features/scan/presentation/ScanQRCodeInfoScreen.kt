@@ -1,6 +1,5 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,13 +11,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +25,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.bridge.presentation.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
@@ -171,7 +168,7 @@ private fun QRCodeContentLargeScreen(
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
 ) {
     Row(modifier = modifier) {
-        QRCodeDataContent(
+        QRCodeTextContent(
             modifier =
                 Modifier
                     .weight(1f)
@@ -201,7 +198,7 @@ private fun QRCodeContentPortrait(
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        QRCodeDataContent(
+        QRCodeTextContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -220,34 +217,6 @@ private fun QRCodeContentPortrait(
             ) {
                 QRCodeActionButtons(qrCode = qrCode, actionListeners = actionListeners)
             }
-        }
-    }
-}
-
-@Composable
-private fun QRCodeDataContent(
-    modifier: Modifier = Modifier,
-    qrCode: String,
-    textAlign: TextAlign = TextAlign.Start,
-) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border =
-            BorderStroke(
-                width = Dimens.borderWidthSmall,
-                color = MaterialTheme.colorScheme.onBackground,
-            ),
-    ) {
-        SelectionContainer {
-            Text(
-                modifier =
-                    Modifier
-                        .padding(Dimens.spacingMedium)
-                        .verticalScroll(rememberScrollState()),
-                text = qrCode,
-                textAlign = textAlign,
-            )
         }
     }
 }
