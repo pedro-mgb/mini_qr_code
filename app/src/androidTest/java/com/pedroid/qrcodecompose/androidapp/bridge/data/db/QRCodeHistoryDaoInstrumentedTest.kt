@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
-internal class QRCodeHistoryDaoTest {
+internal class QRCodeHistoryDaoInstrumentedTest {
     @get:Rule
     val coroutineDispatcherTestRule = CoroutineDispatcherTestRule()
 
