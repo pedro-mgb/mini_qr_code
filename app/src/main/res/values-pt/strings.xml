@@ -62,4 +62,5 @@
     <string name="history_detail_scan_camera_at">Capturado com câmara a:</string>
     <string name="history_detail_scan_file_at">Capturado de ficheiro a:</string>
     <string name="history_detail_generated_at">Criado a:</string>
+    <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor.</string>
 </resources>

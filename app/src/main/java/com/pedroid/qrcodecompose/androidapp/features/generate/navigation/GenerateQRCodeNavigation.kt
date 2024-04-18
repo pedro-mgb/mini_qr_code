@@ -105,17 +105,9 @@ private fun GenerateQRCodeCoordinator(
                     viewModel.onNewAction(GenerateQRCodeUIAction.QRActionComplete(result))
                 },
                 onImageCopyToClipboard = {
-                    val copySuccess = context.copyImageToClipboard(currentQRCodeBitmap)
-                    val copyActionStatus =
-                        if (copySuccess) {
-                            ActionStatus.SUCCESS
-                        } else {
-                            ActionStatus.ERROR_FILE
-                        }
+                    val result = context.copyImageToClipboard(currentQRCodeBitmap)
                     viewModel.onNewAction(
-                        GenerateQRCodeUIAction.QRActionComplete(
-                            QRAppActions.Copy(copyActionStatus),
-                        ),
+                        GenerateQRCodeUIAction.QRActionComplete(result),
                     )
                 },
             ),

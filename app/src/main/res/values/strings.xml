@@ -61,4 +61,5 @@
     <string name="history_detail_scan_camera_at">Scanned with camera at:</string>
     <string name="history_detail_scan_file_at">Scanned from file at:</string>
     <string name="history_detail_generated_at">Created at:</string>
+    <string name="history_detail_preview_generation_failed">Failed to generate image.\nTry closing the app and opening again.\nIf the issue persists, contact the developer.</string>
 </resources>
