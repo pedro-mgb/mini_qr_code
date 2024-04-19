@@ -39,7 +39,7 @@
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>
     <string name="code_copied_success">Copiado para o clipboard!</string>
     <string name="code_saved_to_file_success">Guardado no ficheiro com successo!</string>
-    <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tente de novo.</string>
+    <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tenta de novo.</string>
 
     <string name="generate_code_header">Escreva o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
     <string name="generate_code_text_box_label">Inserir o teu texto</string>
@@ -62,5 +62,8 @@
     <string name="history_detail_scan_camera_at">Capturado com câmara a:</string>
     <string name="history_detail_scan_file_at">Capturado de ficheiro a:</string>
     <string name="history_detail_generated_at">Criado a:</string>
-    <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor.</string>
+    <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor (tab definições).</string>
+
+    <string name="settings_contact_developer_description">Se estás a experienciar problemas com a app, ou queres sugerir um melhoramento, podes contactar o desenvolvedor por e-mail</string>
+    <string name="settings_contact_developer_email_action">Contactar pedroid.apps.contact@gmail.com</string>
 </resources>
