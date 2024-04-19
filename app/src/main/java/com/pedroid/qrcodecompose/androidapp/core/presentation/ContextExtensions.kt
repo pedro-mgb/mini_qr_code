@@ -85,6 +85,12 @@ fun Context.copyImageToClipboard(
     return QRAppActions.Copy(ActionStatus.SUCCESS)
 }
 
+fun Context.sendEmail(emailAddress: String) {
+    val emailIntent = Intent(Intent.ACTION_SENDTO)
+    emailIntent.setData(Uri.parse("mailto:$emailAddress"))
+    this.startActivity(emailIntent)
+}
+
 fun Context.showToast(
     @StringRes stringId: Int,
 ) {

@@ -45,6 +45,10 @@ android {
         }
     }
 
+    // include all languages in aab, to ensure changing language works in the future
+    //   shouldn't add much extra size to the apk users download in play store
+    bundle.language.enableSplit = false
+
     room {
         schemaDirectory("$projectDir/dbSchemas")
     }
