@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 /*
 Credits: Generated using https://github.com/DenisMondon/Svg2Compose
 Original Svg: https://materialui.co/material-icons-outlined/content-copy
+First converted to xml vector drawable, then to compose image vector
+This is because direct conversion of svg to image vector in the above software was not working properly
  */
 
 val Icons.Outlined.ContentCopy: ImageVector

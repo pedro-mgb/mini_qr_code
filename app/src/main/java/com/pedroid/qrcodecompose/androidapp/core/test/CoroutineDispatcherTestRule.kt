@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.testutils
+package com.pedroid.qrcodecompose.androidapp.core.test
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

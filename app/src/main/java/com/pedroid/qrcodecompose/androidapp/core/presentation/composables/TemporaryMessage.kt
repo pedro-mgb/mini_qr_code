@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.core.presentation
+package com.pedroid.qrcodecompose.androidapp.core.presentation.composables
 
 import android.content.Context
 import android.os.Parcelable
@@ -6,6 +6,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import com.pedroid.qrcodecompose.androidapp.core.presentation.LocalSnackbarHostState
+import com.pedroid.qrcodecompose.androidapp.core.presentation.getString
+import com.pedroid.qrcodecompose.androidapp.core.presentation.showToast
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSnackbarVisuals
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.SnackbarType
 import kotlinx.parcelize.Parcelize

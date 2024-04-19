@@ -13,6 +13,8 @@
     <string name="action_save_to_file">Save to file</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_try_again">Try again</string>
+    <string name="action_ok">OK</string>
+    <string name="action_close">Close</string>
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Press the \'%s\' button to scan QR Codes</string>
@@ -39,11 +41,25 @@
     <string name="code_saved_to_file_error">There was an error trying to save the image, please try again.</string>
 
     <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created.</string>
-    <string name="generate_code_text_box_label">Input QR Code text</string>
+    <string name="generate_code_text_box_label">Input your text</string>
     <string name="generate_code_will_appear_here">Image will appear here.</string>
     <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again.</string>
     <string name="generate_code_current_customization_options">Format: %s</string>
     <string name="generate_code_customize_action">Customize</string>
     <string name="generate_code_select_format_title">Select format</string>
     <string name="generate_code_select_format_description">Tap your desired format from the list below.\nSome formats follow strict rules - for example only alphanumeric characters or a specific length.</string>
+
+    <string name="history_top_header_title">Your History</string>
+    <string name="history_top_header_more_information_button">About your history</string>
+    <string name="history_more_information_description">Every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nIn a future app version, you will be able to delete your history, or change how it is saved.</string>
+    <string name="history_empty_list">You history of scanned and generated codes is empty.</string>
+    <string name="history_header_today">Today</string>
+    <string name="history_header_yesterday">Yesterday</string>
+    <string name="history_item_scan_camera">Scanned (camera)</string>
+    <string name="history_item_scan_image_file">Scanned (file)</string>
+    <string name="history_item_generate">Created</string>
+    <string name="history_detail_scan_camera_at">Scanned with camera at:</string>
+    <string name="history_detail_scan_file_at">Scanned from file at:</string>
+    <string name="history_detail_generated_at">Created at:</string>
+    <string name="history_detail_preview_generation_failed">Failed to generate image.\nTry closing the app and opening again.\nIf the issue persists, contact the developer.</string>
 </resources>

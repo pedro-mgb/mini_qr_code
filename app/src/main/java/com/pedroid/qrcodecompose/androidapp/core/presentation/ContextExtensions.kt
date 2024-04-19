@@ -11,6 +11,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
+import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 
 fun Context.openAppToView(content: String): QRAppActions.OpenApp {
     return try {
@@ -74,13 +76,13 @@ fun Context.copyTextToClipboard(
 fun Context.copyImageToClipboard(
     bitmap: Bitmap?,
     auxiliaryLabel: String = "",
-): Boolean {
-    val cachedImageUri = saveImageInCache(bitmap, "Image Clipboard") ?: return false
+): QRAppActions.Copy {
+    val cachedImageUri = saveImageInCache(bitmap, "Image Clipboard") ?: return QRAppActions.Copy(ActionStatus.ERROR_FILE)
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).apply {
         val clip = ClipData.newUri(contentResolver, auxiliaryLabel, cachedImageUri)
         setPrimaryClip(clip)
     }
-    return true
+    return QRAppActions.Copy(ActionStatus.SUCCESS)
 }
 
 fun Context.showToast(

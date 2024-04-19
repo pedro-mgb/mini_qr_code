@@ -31,7 +31,10 @@ fun QRCodeAppNavHost(
             navHostController,
             largeScreen = !windowWidthSizeClass.showPhoneUI(),
         )
-        historyFeatureNavigationRoutes(navHostController)
+        historyFeatureNavigationRoutes(
+            navHostController,
+            largeScreen = !windowWidthSizeClass.showPhoneUI(),
+        )
         settingsFeatureNavigationRoutes(navHostController)
     }
 }

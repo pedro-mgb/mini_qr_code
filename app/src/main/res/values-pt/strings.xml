@@ -13,6 +13,8 @@
     <string name="action_save_to_file">Guardar num ficheiro</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_try_again">Tentar novamente</string>
+    <string name="action_ok">OK</string>
+    <string name="action_close">Fechar</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
     <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes.</string>
@@ -40,11 +42,25 @@
     <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tente de novo.</string>
 
     <string name="generate_code_header">Escreva o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
-    <string name="generate_code_text_box_label">Inserir Texto para QR Code</string>
+    <string name="generate_code_text_box_label">Inserir o teu texto</string>
     <string name="generate_code_will_appear_here">Imagem aparecerá aqui.</string>
     <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tente de novo.</string>
     <string name="generate_code_current_customization_options">Formato: %s</string>
     <string name="generate_code_customize_action">Customizar</string>
     <string name="generate_code_select_format_title">Selecionar formato</string>
     <string name="generate_code_select_format_description">Clique o formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
+
+    <string name="history_top_header_title">O teu Histórico</string>
+    <string name="history_top_header_more_information_button">Sobre o histórico</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico e controlar como este é salvo.</string>
+    <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
+    <string name="history_header_today">Hoje</string>
+    <string name="history_header_yesterday">Ontem</string>
+    <string name="history_item_scan_camera">Captura (câmara)</string>
+    <string name="history_item_scan_image_file">Captura (ficheiro)</string>
+    <string name="history_item_generate">Criado</string>
+    <string name="history_detail_scan_camera_at">Capturado com câmara a:</string>
+    <string name="history_detail_scan_file_at">Capturado de ficheiro a:</string>
+    <string name="history_detail_generated_at">Criado a:</string>
+    <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor.</string>
 </resources>

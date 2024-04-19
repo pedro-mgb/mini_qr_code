@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
@@ -43,7 +44,13 @@ android {
             signingConfig = signingConfigs.getByName("qr_app_release")
         }
     }
+
+    room {
+        schemaDirectory("$projectDir/dbSchemas")
+    }
+
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -90,11 +97,20 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.ktx)
     implementation(libs.arrow.optics)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
+    // region test utils
+    implementation(libs.junit)
+    implementation(libs.kotlinx.coroutines.test)
+    // endregion test utils
 
+    coreLibraryDesugaring(libs.desugaring.jdk)
+
+    ksp(libs.androidx.room.compiler)
     ksp(libs.hilt.compiler)
     ksp(libs.arrow.optics.ksp)
 
@@ -104,10 +120,15 @@ dependencies {
     testImplementation(libs.mockk.agent)
     testImplementation(libs.turbine)
 
+
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.ui.test.junit4)
+
+    kspAndroidTest(libs.androidx.room.compiler)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
