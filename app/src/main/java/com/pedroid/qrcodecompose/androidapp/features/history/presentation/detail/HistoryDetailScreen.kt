@@ -34,8 +34,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintLayoutBaseScope
 import androidx.constraintlayout.compose.Dimension
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.bridge.presentation.QRCodeImageOrInfoScreen
-import com.pedroid.qrcodecompose.androidapp.bridge.presentation.QRCodeTextContent
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeImageOrInfoContent
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
@@ -190,7 +190,7 @@ private fun HistoryDetailContentLargeScreen(
                 )
             }
 
-            QRCodeImageOrInfoScreen(
+            QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
                         .fillMaxWidth(0.4f)
@@ -314,7 +314,7 @@ private fun HistoryDetailContentPortrait(
                 )
             }
 
-            QRCodeImageOrInfoScreen(
+            QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
                         .fillMaxWidth(0.6f)

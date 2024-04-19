@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.bridge.presentation.QRCodeImageOrInfoScreen
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeImageOrInfoContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppTextBox
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
@@ -171,7 +171,7 @@ private fun GeneratedQRCodeContentLargeScreen(
             }
         }
 
-        QRCodeImageOrInfoScreen(
+        QRCodeImageOrInfoContent(
             modifier =
                 Modifier
                     .fillMaxWidth(fraction = 0.4f)
@@ -202,7 +202,7 @@ private fun GeneratedQRCodeContentPortrait(
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (qrCodeImage, actionButtons) = createRefs()
-            QRCodeImageOrInfoScreen(
+            QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
                         .fillMaxWidth(fraction = 0.6f)
@@ -274,38 +274,6 @@ private fun QRCodeGenerateTextInput(
         )
     }
 }
-
-/*@Composable
-private fun QRCodeImageOrInfoScreen(
-    modifier: Modifier = Modifier,
-    state: GenerateQRCodeContentState,
-    onResultUpdate: (QRCodeGenerateResult) -> Unit,
-) {
-    if (!state.canGenerate) {
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                modifier = Modifier.padding(Dimens.spacingMedium),
-                text = stringResource(id = R.string.generate_code_will_appear_here),
-                textAlign = TextAlign.Center,
-            )
-        }
-    } else {
-        QRCodeComposeXGenerator(
-            modifier =
-                modifier.background(
-                    color = Color.White,
-                    shape = qrCodeCornerShape,
-                ),
-            alignment = Alignment.Center,
-            text = state.generating.qrCodeText,
-            format = state.generating.format,
-            onResult = onResultUpdate,
-        )
-    }
-}*/
 
 @Composable
 private fun QRCodeActionButtons(actionListeners: GenerateQRCodeActionListeners = GenerateQRCodeActionListeners()) {

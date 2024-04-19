@@ -2,6 +2,7 @@ package com.pedroid.qrcodecompose.androidapp.core.presentation
 
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

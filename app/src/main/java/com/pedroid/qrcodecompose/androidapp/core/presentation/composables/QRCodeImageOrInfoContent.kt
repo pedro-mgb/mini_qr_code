@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.bridge.presentation
+package com.pedroid.qrcodecompose.androidapp.core.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,7 +24,7 @@ import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 private val qrCodeCornerShape = RoundedCornerShape(Dimens.roundedCornerLarge)
 
 @Composable
-fun QRCodeImageOrInfoScreen(
+fun QRCodeImageOrInfoContent(
     modifier: Modifier = Modifier,
     showInfoScreen: Boolean,
     error: Boolean,

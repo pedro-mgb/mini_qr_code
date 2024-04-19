@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pedroid.qrcodecompose.androidapp.core.presentation.LocalSnackbarHostState
-import com.pedroid.qrcodecompose.androidapp.core.presentation.QRAppSnackbarHost
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRAppSnackbarHost
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBackground
 import com.pedroid.qrcodecompose.androidapp.home.navigation.QRCodeAppNavHost

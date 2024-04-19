@@ -9,8 +9,8 @@ import arrow.optics.optics
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.update
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent

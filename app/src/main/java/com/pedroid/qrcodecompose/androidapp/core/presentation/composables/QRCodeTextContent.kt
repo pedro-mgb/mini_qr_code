@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.bridge.presentation
+package com.pedroid.qrcodecompose.androidapp.core.presentation.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding

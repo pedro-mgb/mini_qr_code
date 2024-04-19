@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp

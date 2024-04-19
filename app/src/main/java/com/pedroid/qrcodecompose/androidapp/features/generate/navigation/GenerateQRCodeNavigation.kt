@@ -20,7 +20,7 @@ import androidx.navigation.compose.composable
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.IMAGE_MIME_TYPE
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.saveBitmap
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp

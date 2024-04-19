@@ -1,4 +1,4 @@
-package com.pedroid.qrcodecompose.androidapp.core.presentation
+package com.pedroid.qrcodecompose.androidapp.core.presentation.composables
 
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState

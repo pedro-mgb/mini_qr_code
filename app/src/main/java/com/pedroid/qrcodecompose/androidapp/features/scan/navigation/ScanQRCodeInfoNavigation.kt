@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun
 import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView

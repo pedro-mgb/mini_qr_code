@@ -3,8 +3,8 @@ package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 import app.cash.turbine.test
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageType
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageData
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository

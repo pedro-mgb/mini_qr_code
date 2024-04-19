@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.bridge.presentation.QRCodeTextContent
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
-import com.pedroid.qrcodecompose.androidapp.core.presentation.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.asTemporaryMessage
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.createStateFlow
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getHourTimeFormat
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
