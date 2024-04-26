@@ -10,7 +10,7 @@ Built with Kotlin, Jetpack Compose, Camera X, Zxing, Google ML Kit. English and 
 
 ## Screenshots
 
-![](docs/media/phone_en_01.png | width=150)     ![](docs/media/phone_en_02.png | width=150)     ![](docs/media/phone_en_03.png | width=150)     ![](docs/media/phone_en_04.png | width=150)     ![](docs/media/phone_en_05.png | width=150)
+<img src="docs/media/phone_en_01.png" width="200" />     <img src="docs/media/phone_en_02.png" width="200" />     <img src="docs/media/phone_en_03.png" width="200" />     <img src="docs/media/phone_en_04.png" width="200" />
 
 ## About the project
 
