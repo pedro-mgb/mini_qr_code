@@ -26,7 +26,7 @@ Currently support languages are English and Portuguese.
 
 App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several other jetpack libraries, and a few third-party as well.
 
-#### For more info on app architecture, CI/CD, and the overall codebase see [Project structure](docs/project-structure.md)
+### For more info on app architecture, CI/CD, and the overall codebase see [Project structure](docs/project-structure.md)
 
 ## Contributing
 
