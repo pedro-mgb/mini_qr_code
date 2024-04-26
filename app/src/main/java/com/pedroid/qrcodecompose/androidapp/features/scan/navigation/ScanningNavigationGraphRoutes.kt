@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.navigateToScanQRCodeFromFile
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.scanQRCodeFromFileRoute
 
-const val QR_CODE_SCANNED_KEY = "QRCodeXValue"
+const val QR_CODE_SCANNED_KEY = "QRCodeMiniValue"
 
 fun NavGraphBuilder.scanningFeatureNavigationRoutes(
     navController: NavController,

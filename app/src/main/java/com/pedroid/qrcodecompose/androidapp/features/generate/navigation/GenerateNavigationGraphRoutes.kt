@@ -6,7 +6,7 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customi
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.generateQRCodeSelectFormatRoute
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.navigateToQRCodeSelectFormat
 
-const val CODE_FORMAT_KEY = "QRCodeXFormat"
+const val CODE_FORMAT_KEY = "QRCodeMiniFormat"
 
 fun NavGraphBuilder.generateFeatureNavigationRoutes(
     navController: NavController,
