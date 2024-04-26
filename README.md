@@ -2,7 +2,10 @@
 
 ## Aka QR Code X, or QR Code Compose X
 
+
 <a href="https://play.google.com/store/apps/details?id=com.pedroid.qrcodecompose.androidapp"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"></a>
+
+<a href="https://github.com/pedro-mgb/qr_code_compose_x/releases">Alternatively, check the Releases page</a>
 
 [![Min API Version](https://img.shields.io/badge/Min_API-21-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 [![Target API Version](https://img.shields.io/badge/Target_API-34-brightgreen.svg)](https://developer.android.com/about/versions/14)
