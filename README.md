@@ -2,7 +2,6 @@
 
 ## Aka QR Code X, or QR Code Compose X
 
-
 <a href="https://play.google.com/store/apps/details?id=com.pedroid.qrcodecompose.androidapp"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"></a>
 
 [![Min API Version](https://img.shields.io/badge/Min_API-21-brightgreen.svg)](https://android-arsenal.com/api?level=21)
@@ -14,11 +13,13 @@ This repository contains the source code for the Mini QR Code Android app - Scan
 
 ## Screenshots
 
-<img src="docs/media/phone_en_01.png" width="200" />     <img src="docs/media/phone_en_02.png" width="200" />     <img src="docs/media/phone_en_03.png" width="200" />     <img src="docs/media/phone_en_04.png" width="200" />
+<img src="docs/media/phone_en_01.png" width="200"  alt="Mini QR Code homepage scan" />     <img src="docs/media/phone_en_02.png" width="200"  alt="Mini QR Code generate empty" />     <img src="docs/media/phone_en_03.png" width="200" alt="Mini QR Code generate content" />     <img src="docs/media/phone_en_04.png" width="200" alt="Mini QR Code history" />
 
 ## About the project
 
 The app is available only for Android - A kotlin multiplatform migration may be done one day, but nothing planned as of yet.
+
+Currently support languages are English and Portuguese.
 
 App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several other jetpack libraries, and a few third-party as well.
 
@@ -26,6 +27,6 @@ App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several ot
 
 ## Contributing
 
-Anyone is free to open issues of bugs and feature suggestions, and even create Pull Requests with implementation of said features / fixes.
+Anyone is free to open issues of bugs and feature suggestions, and even create Pull Requests with implementation of said features / fixes, add app translations for other languages, etc.
 
 However, Pull Requests will be reviewed by me, and given my limited free time, may take some time to address them.
