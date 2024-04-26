@@ -1,12 +1,16 @@
-# qr_code_compose_x
+# Mini QR Code
+
+## Aka QR Code X, or QR Code Compose X
 
 TODO add links about CI status, play store, etc.
 
-Simple QR code scanner using Jetpack Compose and Camera X
+This repository contains the source code for the Mini QR Code Android app - Scan and generate QR Codes and various barcodes.
+
+Built with Kotlin, Jetpack Compose, Camera X, Zxing, Google ML Kit. English and portuguese translations.
 
 ## Screenshots
 
-TODO add content
+![](docs/media/phone_en_01.png | width=150)     ![](docs/media/phone_en_02.png | width=150)     ![](docs/media/phone_en_03.png | width=150)     ![](docs/media/phone_en_04.png | width=150)     ![](docs/media/phone_en_05.png | width=150)
 
 ## About the project
 
