@@ -33,3 +33,16 @@ App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several ot
 Anyone is free to open issues of bugs and feature suggestions, and even create Pull Requests with implementation of said features / fixes, add app translations for other languages, etc.
 
 However, Pull Requests will be reviewed by me, and given my limited free time, may take some time to address them.
+
+## Credits
+
+The following credits are for people or projects that have been helpful in building the app or served as inspiration for the codebase:
+
+- **[Svg2Compose](https://github.com/DenisMondon/Svg2Compose)** - For converting Jetpack Compose vector graphics
+- **[Material UI Icons](https://materialui.co/icon)** - Providing several app icons
+- **[Material 3 Theme builder](https://m3.material.io/theme-builder#/custom)** - For building Mini QR Code app theme
+- **[Phillip Lackner](https://www.youtube.com/@PhilippLackner)** - Android content creator with several relevant instructional videos, such as [Simple QR Code Scanner](https://www.youtube.com/watch?v=asl1mFtkMkc&pp=ygUXcXIgY29kZSBzY2FubmVyIGNvbXBvc2U%3D) or [Clean architecture sample](https://www.youtube.com/watch?v=EF33KmyprEQ)
+- **[Roman Levinzon](https://levinzon-roman.medium.com/jetpack-compose-ui-architecture-a34c4d3e4391)** - with a pretty good article on app UI architecture, that I adapted to this project.
+- **[Journeyapps barcode scanner](https://github.com/journeyapps/zxing-android-embedded)** - Popular Android library for QR Code scanning with Zxing
+- **[igorwojda's android showcase](https://github.com/igorwojda/android-showcase)** - Repository to showcase (HA) modern Android development, going beyond the app itself (CI, codestyle, etc.)
+- **[Now In Android (aka NIA)](https://github.com/android/nowinandroid)** - Modern living app made by the Android team, 100% Kotlin + Jetpack Compose, showing a lot of recommended practices in Android app development, with scalability in mind.
