@@ -32,3 +32,8 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Android generated release files and baseline profiles
+*.aab
+*.dm
+*output-metadata.json
