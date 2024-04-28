@@ -44,7 +44,7 @@ In the event that it becomes targetted for children, we promise to never collect
 
 ## Removing data
 
-We locally saves non-personal data, such as app settings, and history of past scans and created QR Codes, as part of the app's core functionalities.
+We locally save non-personal data, such as app settings, and history of past scans and created QR Codes, as part of the app's core functionalities.
 This data never leaves your phone, and is never shared with any third parties.
 
 If you wish to remove this data, you may uninstall the app, and all the aforementioned data will be deleted.
