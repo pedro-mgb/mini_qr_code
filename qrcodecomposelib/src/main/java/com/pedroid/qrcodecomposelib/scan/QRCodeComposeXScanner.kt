@@ -21,6 +21,18 @@ import androidx.lifecycle.LifecycleOwner
 import com.pedroid.qrcodecomposelib.scan.internal.ZxingAnalyzer
 import com.pedroid.qrcodecomposelib.scan.internal.drawScannerFrame
 
+/**
+ * Composable function to show the camera and scan QR Codes and barcodes
+ *
+ * @param modifier a Compose Modifier
+ * @param frameColor color of the frame inside the camera preview
+ * @param onResult listener for the scan results - be it code scanned, or error.
+ *                 The listener is notified each time a qr code is detected. If the same code is detected twice in different frames, the listener is called twice.
+ * @param analyzer the type of analyzer engine to use. By default uses Zxing, but different ones can be specified
+ * @param frameVerticalPercent percentage for how high or low should the frame be placed. By default it's 50% - middle of screen
+ * @param androidContext Android context to get access to the camera
+ * @param lifecycleOwner lifecycle owner to bind to the camera process
+ */
 @Composable
 @RequiresPermission(android.Manifest.permission.CAMERA)
 fun QRCodeComposeXScanner(

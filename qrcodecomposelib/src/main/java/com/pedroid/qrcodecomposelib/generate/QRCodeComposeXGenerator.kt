@@ -17,6 +17,20 @@ import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_SIZE_PX
 import com.pedroid.qrcodecomposelib.generate.internal.DEFAULT_QR_CODE_TEXT_ENCODING
 import com.pedroid.qrcodecomposelib.generate.internal.generateCodeViaZxing
 
+/**
+ * Composable function to generate and display a QR Code or barcode; customizable
+ *
+ * @param modifier a Compose Modifier
+ * @param text the actual QR Code text content to be generated
+ * @param onResult listener for when generate result is updated - image generated or error occured
+ * @param format the [com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat] - QR Code, Aztec, Barcode EAN-13, etc.
+ * @param alignment which kind of alignment should the composable have (Center by default)
+ * @param qrCodePadding the padding in dp that the composable should have
+ * @param qrCodeImageSizePx the image size in pixels for the QR Code; if the aspect ratio (specified in the format) is not 1:1, then it's the width.
+ *                          the larger the image size, the better quality but also the larger file size. Default is 1000px.
+ * @param qrCodeAccessibilityContentDescription accessibility description for software like screen readers - by default the QR Code text
+ * @param qrCodeTextEncoding the encoding to use on the text, by default UTF-8
+ */
 @Composable
 fun QRCodeComposeXGenerator(
     modifier: Modifier = Modifier,

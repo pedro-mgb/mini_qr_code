@@ -2,7 +2,7 @@
 androidGradlePlugin = "8.3.1"
 androidxActivityCompose = "1.8.2"
 androidxAppcompat = "1.6.1"
-androidxComposeBom = "2024.02.01"
+androidxComposeBom = "2024.04.01"
 androidxComposeMaterial3Alpha = "1.0.0-alpha06"
 androidXConstraintLayoutCompose = "1.0.1"
 androidxCore = "1.12.0"
