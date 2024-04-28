@@ -97,7 +97,7 @@ CI / CD pipelines are configured via [Github Actions](https://docs.github.com/en
 
 The above steps are run independently. The Pull Request can only be merged if all the above checks pass.
 
-## Continuous Delivery
+### Continuous Delivery
 
 - [ReleaseApp](../.github/workflows/ReleaseApp.yaml)
   - Every time a version tag is created on `main` branch.
