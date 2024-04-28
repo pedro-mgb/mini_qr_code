@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -99,6 +100,17 @@ fun ScanQRCodeInfoScreen(
 
 @Composable
 private fun InitialInfoHeader() {
+    Text(
+        modifier = Modifier.fillMaxWidth(fraction = 0.8f).padding(vertical = Dimens.spacingMedium),
+        text = stringResource(id = R.string.app_name),
+        textAlign = TextAlign.Center,
+        style =
+            MaterialTheme.typography.displaySmall.copy(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
+            ),
+        color = MaterialTheme.colorScheme.primary,
+    )
     Text(
         modifier = Modifier.fillMaxWidth(fraction = 0.8f),
         text =

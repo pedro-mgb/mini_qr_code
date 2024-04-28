@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QR Code Compose/CameraX</string>
+    <string name="app_name">Mini QR Code</string>
 
     <string name="bottom_navigation_item_scan">Scan</string>
     <string name="bottom_navigation_item_generate">Generate</string>
