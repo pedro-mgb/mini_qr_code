@@ -20,17 +20,18 @@ This repository contains the source code for the Mini QR Code Android app - Scan
 
 ## About the project
 
-The app is available only for Android - A kotlin multiplatform migration may be done one day, but nothing planned as of yet.
+The app is available only for Android - A Kotlin MultiPlatform migration (to also be available for iOS) may be done one day, but nothing planned as of yet.
 
 Currently support languages are English and Portuguese.
 
-App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several other jetpack libraries, and a few third-party as well.
+App is built 100% with Kotlin, and UI with JetPack Compose. Also uses several other Jetpack libraries, and a few third-party as well.
 
 ### For more info on app architecture, CI/CD, and the overall codebase see [Project structure](docs/project-structure.md)
 
 ## Contributing
 
-Anyone is free to open issues of bugs and feature suggestions, and even create Pull Requests with implementation of said features / fixes, add app translations for other languages, etc.
+Anyone is free to open issues of bugs and feature suggestions.
+You can even create Pull Requests with implementation of said features / fixes, add app translations for other languages, etc.
 
 However, Pull Requests will be reviewed by me, and given my limited free time, may take some time to address them.
 
@@ -39,7 +40,8 @@ However, Pull Requests will be reviewed by me, and given my limited free time, m
 The following credits are for people or projects that have been helpful in building the app or served as inspiration for the codebase:
 
 - **[Svg2Compose](https://github.com/DenisMondon/Svg2Compose)** - For converting Jetpack Compose vector graphics
-- **[Material UI Icons](https://materialui.co/icon)** - Providing several app icons
+- **[Icon Kitchen](https://icon.kitchen)** - For building the app icon
+- **[Material UI Icons](https://materialui.co/icon)** - Providing several icons used in the app
 - **[Material 3 Theme builder](https://m3.material.io/theme-builder#/custom)** - For building Mini QR Code app theme
 - **[Phillip Lackner](https://www.youtube.com/@PhilippLackner)** - Android content creator with several relevant instructional videos, such as [Simple QR Code Scanner](https://www.youtube.com/watch?v=asl1mFtkMkc&pp=ygUXcXIgY29kZSBzY2FubmVyIGNvbXBvc2U%3D) or [Clean architecture sample](https://www.youtube.com/watch?v=EF33KmyprEQ)
 - **[Roman Levinzon](https://levinzon-roman.medium.com/jetpack-compose-ui-architecture-a34c4d3e4391)** - with a pretty good article on app UI architecture, that I adapted to this project.
