@@ -32,15 +32,12 @@ jobs:
         run: |
           echo $PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED | base64 --decode > "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
 
-      - name: Generate release apk
+      - name: Generate release app bundle
         env:
           PEDROID_QR_CODE_KEY_ALIAS: ${{ secrets.PEDROID_QR_CODE_KEY_ALIAS }}
           PEDROID_QR_CODE_KEY_STORE_PW: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_PW }}
           PEDROID_QR_CODE_KEY_PW: ${{ secrets.PEDROID_QR_CODE_KEY_PW }}
-        run: ./gradlew assembleRelease
-
-      - name: Remove Key Store file
-        run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
+        run: ./gradlew :app:bundleRelease
 
       - name: Create Release in Github
         id: create_release
@@ -51,6 +48,26 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
 
+      - name: Upload app bundle to Github
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/bundle/release/app-release.aab
+          asset_name: mini-qr-code-${{ github.ref_name }}.aab
+          asset_content_type: application/x-authorware-bin
+
+      - name: Generate release apk
+        env:
+          PEDROID_QR_CODE_KEY_ALIAS: ${{ secrets.PEDROID_QR_CODE_KEY_ALIAS }}
+          PEDROID_QR_CODE_KEY_STORE_PW: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_PW }}
+          PEDROID_QR_CODE_KEY_PW: ${{ secrets.PEDROID_QR_CODE_KEY_PW }}
+        run: ./gradlew assembleRelease
+
+      - name: Remove Key Store file
+        run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
+
       - name: Upload apk to Github
         uses: actions/upload-release-asset@v1
         env:
@@ -58,7 +75,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: app/build/outputs/apk/release/app-release.apk
-          asset_name: qr-code-app-${{ github.ref_name }}.apk
+          asset_name: mini-qr-code-${{ github.ref_name }}.apk
           asset_content_type: application/vnd.android.package-archive
 
 
