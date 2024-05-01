@@ -98,6 +98,7 @@ dependencies {
     implementation(libs.material3.adaptive)
     implementation(libs.material3.windowSizeClass)
     // endregion compose bom
+    implementation(libs.androidx.datastore)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
