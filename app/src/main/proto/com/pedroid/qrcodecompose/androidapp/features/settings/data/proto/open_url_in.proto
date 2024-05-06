@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.pedroid.qrcodecompose.androidapp.features.settings.data.proto";
+option java_multiple_files = true;
+
+enum OpenUrlProto {
+  DEFAULT_BROWSER_APP = 0;
+  CUSTOM_TAB_INSIDE_APP = 1;
+}

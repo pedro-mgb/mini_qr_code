@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "com/pedroid/qrcodecompose/androidapp/features/settings/data/proto/history_save_type.proto";
+import "com/pedroid/qrcodecompose/androidapp/features/settings/data/proto/open_url_in.proto";
+
+option java_package = "com.pedroid.qrcodecompose.androidapp.features.settings.data.proto";
+option java_multiple_files = true;
+
+message SettingsProto {
+  // region general settings
+  string appLanguage = 1;
+  OpenUrlProto openUrlsIn = 2;
+  // endregion general settings
+
+  // region scanning settings
+  bool scanHapticFeedback = 3;
+  HistorySaveProto scanSaveType = 4;
+  // endregion scanning settings
+
+  // region generating settings
+  HistorySaveProto generateSaveType = 5;
+  // endregion generating settings
+}
