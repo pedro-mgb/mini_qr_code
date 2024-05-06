@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.GenerateProtoTask
+
 plugins {
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
@@ -6,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -107,7 +110,9 @@ dependencies {
     implementation(libs.arrow.optics)
     implementation(libs.google.accompanist.permissions)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.android.testing)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.protobuf.kotlin.lite)
     // region test utils
     implementation(libs.junit)
     implementation(libs.kotlinx.coroutines.test)
@@ -137,4 +142,44 @@ dependencies {
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+}
+
+// TEMPORARY fix for proto-datastore errors with ksp and hilt
+// credits: https://github.com/google/ksp/issues/1590#issuecomment-1826387452
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        afterEvaluate {
+            val protoTask =
+                project.tasks.getByName("generate" + variant.name.replaceFirstChar { it.uppercaseChar() } + "Proto") as GenerateProtoTask
+
+            project.tasks.getByName("ksp" + variant.name.replaceFirstChar { it.uppercaseChar() } + "Kotlin") {
+                dependsOn(protoTask)
+                (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>).setSource(
+                    protoTask.outputBaseDir
+                )
+            }
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+
+    // Generates the java Protobuf-lite code for the Protobuf's in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
