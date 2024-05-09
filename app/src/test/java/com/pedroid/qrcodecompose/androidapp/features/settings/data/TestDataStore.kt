@@ -8,9 +8,10 @@ import org.junit.rules.TemporaryFolder
 fun TemporaryFolder.testUserPreferencesDataStore(
     coroutineScope: CoroutineScope,
     userPreferencesSerializer: SettingsProtoSerializer = SettingsProtoSerializer(),
+    fileName: String = "user_preferences_test.pb",
 ) = DataStoreFactory.create(
     serializer = userPreferencesSerializer,
     scope = coroutineScope,
 ) {
-    newFile("user_preferences_test.pb")
+    newFile(fileName)
 }

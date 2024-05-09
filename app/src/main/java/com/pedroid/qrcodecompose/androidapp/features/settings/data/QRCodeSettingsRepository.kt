@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import com.pedroid.qrcodecompose.androidapp.features.settings.data.proto.HistorySaveProto
 import com.pedroid.qrcodecompose.androidapp.features.settings.data.proto.OpenUrlProto
 import com.pedroid.qrcodecompose.androidapp.features.settings.data.proto.SettingsProto
+import com.pedroid.qrcodecompose.androidapp.features.settings.data.proto.copy
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSettings
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GeneralSettings
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GenerateSettings
@@ -53,5 +54,57 @@ class QRCodeSettingsRepository
                 HistorySaveProto.NEVER_SAVE -> HistorySavePreferences.NEVER_SAVE
                 HistorySaveProto.DEFAULT_SAVE_BY_USER_ACTION -> HistorySavePreferences.UPON_USER_ACTION
                 else -> HistorySavePreferences.DEFAULT
+            }
+
+        override suspend fun setAppLanguage(language: String) {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.appLanguage = language
+                }
+            }
+        }
+
+        override suspend fun setOpenUrlPreferences(preferences: OpenUrlPreferences) {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.openUrlsIn = preferences.toDataStoreProto()
+                }
+            }
+        }
+
+        override suspend fun setScanHapticFeedback(hapticFeedbackOn: Boolean) {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.scanHapticFeedback = hapticFeedbackOn
+                }
+            }
+        }
+
+        override suspend fun setScanHistorySavePreferences(preferences: HistorySavePreferences) {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.scanSaveType = preferences.toDataStoreProto()
+                }
+            }
+        }
+
+        override suspend fun setGenerateHistorySavePreferences(preferences: HistorySavePreferences) {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.generateSaveType = preferences.toDataStoreProto()
+                }
+            }
+        }
+
+        private fun OpenUrlPreferences.toDataStoreProto(): OpenUrlProto =
+            when (this) {
+                OpenUrlPreferences.IN_CUSTOM_TAB -> OpenUrlProto.CUSTOM_TAB_INSIDE_APP
+                else -> OpenUrlProto.DEFAULT_BROWSER_APP
+            }
+
+        private fun HistorySavePreferences.toDataStoreProto(): HistorySaveProto =
+            when (this) {
+                HistorySavePreferences.NEVER_SAVE -> HistorySaveProto.NEVER_SAVE
+                else -> HistorySaveProto.DEFAULT_SAVE_BY_USER_ACTION
             }
     }
