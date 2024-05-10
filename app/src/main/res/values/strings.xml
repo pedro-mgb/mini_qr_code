@@ -63,6 +63,11 @@
     <string name="history_detail_generated_at">Created at:</string>
     <string name="history_detail_preview_generation_failed">Failed to generate image.\nTry closing the app and opening again.\nIf the issue persists, contact the developer (settings tab).</string>
 
+    <string name="settings_main_screen_title">App Settings</string>
+    <string name="settings_main_screen_header_general">General settings</string>
+    <string name="settings_main_screen_header_scan">Scan settings</string>
+    <string name="settings_main_screen_header_generate">Generate settings</string>
+    <string name="settings_main_screen_header_other">Other</string>
     <string name="settings_contact_developer_description">If you have are experiencing issues with the app, or have any suggestions, you can contact the developer by e-mail.</string>
     <string name="settings_contact_developer_email_action">E-mail pedroid.apps.contact@gmail.com</string>
 </resources>

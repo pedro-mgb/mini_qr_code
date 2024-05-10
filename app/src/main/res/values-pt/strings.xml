@@ -64,6 +64,11 @@
     <string name="history_detail_generated_at">Criado a:</string>
     <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor (tab definições).</string>
 
+    <string name="settings_main_screen_title">Definições da app</string>
+    <string name="settings_main_screen_header_general">Definições gerais</string>
+    <string name="settings_main_screen_header_scan">Definições de captura</string>
+    <string name="settings_main_screen_header_generate">Definições de criar</string>
+    <string name="settings_main_screen_header_other">Outros</string>
     <string name="settings_contact_developer_description">Se estás a experienciar problemas com a app, ou queres sugerir um melhoramento, podes contactar o desenvolvedor por e-mail</string>
     <string name="settings_contact_developer_email_action">Contactar pedroid.apps.contact@gmail.com</string>
 </resources>
