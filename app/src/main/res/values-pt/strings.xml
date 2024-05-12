@@ -66,8 +66,17 @@
 
     <string name="settings_main_screen_title">Definições da app</string>
     <string name="settings_main_screen_header_general">Definições gerais</string>
+    <string name="settings_main_screen_general_app_language">Idioma da app</string>
+    <string name="settings_main_screen_general_app_language_option_same_as_system">Mesmo idioma que telemóvel</string>
+    <string name="settings_main_screen_general_app_language_option_english">Inglês (Estados Unidos)</string>
+    <string name="settings_main_screen_general_app_language_option_portuguese">Português (Portugal)</string>
+    <string name="settings_main_screen_general_open_urls">Abertura de URLs</string>
+    <string name="settings_main_screen_general_open_urls_option_browser_title">Browser Externo</string>
+    <string name="settings_main_screen_general_open_urls_option_browser_description">Abre a app browser default do telemóvel (e.g. Chrome).\nOpção pré-definida na app.</string>
+    <string name="settings_main_screen_general_open_urls_in_app_custom_tab_title">Browser In-app</string>
+    <string name="settings_main_screen_general_open_urls_in_app_custom_tab_description">Abre o URL numa aba dentro da app.\nSe o seu telemóvel não suportar, abrirá na app browser.</string>
     <string name="settings_main_screen_header_scan">Definições de captura</string>
-    <string name="settings_main_screen_header_generate">Definições de criar</string>
+    <string name="settings_main_screen_header_generate">Definições de geração</string>
     <string name="settings_main_screen_header_other">Outros</string>
     <string name="settings_contact_developer_description">Se estás a experienciar problemas com a app, ou queres sugerir um melhoramento, podes contactar o desenvolvedor por e-mail</string>
     <string name="settings_contact_developer_email_action">Contactar pedroid.apps.contact@gmail.com</string>

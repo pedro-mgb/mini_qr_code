@@ -7,5 +7,7 @@ enum class OpenUrlPreferences {
 
     companion object {
         val DEFAULT = IN_BROWSER
+
+        fun fromOrdinal(ordinal: Int): OpenUrlPreferences? = OpenUrlPreferences.entries.find { it.ordinal == ordinal }
     }
 }

@@ -7,5 +7,7 @@ enum class HistorySavePreferences {
 
     companion object {
         val DEFAULT = UPON_USER_ACTION
+
+        fun fromOrdinal(ordinal: Int): HistorySavePreferences? = HistorySavePreferences.entries.find { it.ordinal == ordinal }
     }
 }

@@ -3,6 +3,8 @@ package com.pedroid.qrcodecompose.androidapp.features.settings.presentation
 import androidx.lifecycle.ViewModel
 import com.pedroid.qrcodecompose.androidapp.core.presentation.createStateFlow
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.OpenUrlPreferences
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +16,7 @@ class SettingsMainViewModel
     constructor(
         private val settingsRepository: SettingsRepository,
         private val settingsMainContentUIBuilder: SettingsMainContentUIBuilder,
+        private val languageManager: LanguageManager,
     ) : ViewModel() {
         val uiState: StateFlow<SettingsMainUIState> =
             this.createStateFlow(
@@ -26,14 +29,14 @@ class SettingsMainViewModel
             SettingsMainUIState.Content(
                 sections =
                     listOf(
-                        settingsMainContentUIBuilder.generalSettingsItems(settings.general),
+                        settingsMainContentUIBuilder.generalSettingsItems(settings.general, languageManager.getAppLanguage()),
                         settingsMainContentUIBuilder.scanSettingsItems(settings.scan),
                         settingsMainContentUIBuilder.generateSettingsItems(settings.generate),
                         settingsMainContentUIBuilder.otherSettingsItems(),
                     ),
             )
 
-        fun onNewAction(action: SettingsUIAction) {
+        fun onNewAction(action: SettingsMainUIAction) {
         }
     }
 
@@ -43,4 +46,14 @@ sealed class SettingsMainUIState {
     data class Content(val sections: List<SettingsMainContentSection>) : SettingsMainUIState()
 }
 
-sealed class SettingsUIAction
+sealed class SettingsMainUIAction {
+    data class ChangeAppLanguage(val newLanguage: AppLanguage) : SettingsMainUIAction()
+
+    data class ChangeOpenUrlMode(val newMode: OpenUrlPreferences) : SettingsMainUIAction()
+
+    data class ChangeScanHistorySave(val option: HistorySavePreferences) : SettingsMainUIAction()
+
+    data object ToggleScanHapticFeedback : SettingsMainUIAction()
+
+    data class ChangeGenerateHistorySave(val option: HistorySavePreferences) : SettingsMainUIAction()
+}
