@@ -9,6 +9,8 @@ interface SettingsRepository : SettingsReadOnlyRepository {
 
     suspend fun setScanHapticFeedback(hapticFeedbackOn: Boolean)
 
+    suspend fun toggleScanHapticFeedback()
+
     suspend fun setScanHistorySavePreferences(preferences: HistorySavePreferences)
 
     suspend fun setGenerateHistorySavePreferences(preferences: HistorySavePreferences)

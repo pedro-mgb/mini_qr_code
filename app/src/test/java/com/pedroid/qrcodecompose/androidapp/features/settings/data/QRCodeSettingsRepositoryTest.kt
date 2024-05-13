@@ -12,6 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,6 +29,7 @@ TODO make these unit tests work in windows
  NowInAndroid similat unit tests fail as well - https://github.com/android/nowinandroid/issues/98
  Relevant issue in issue tracker - https://issuetracker.google.com/issues/203087070
  Will have to wait until it is fixed...
+ Alternatively, if no fix is available, we could make this test class as instrumented test instead of unit test.
  */
 class QRCodeSettingsRepositoryTest {
     @get:Rule(order = 0)
@@ -89,6 +92,18 @@ class QRCodeSettingsRepositoryTest {
             val result = sut.getFullSettings().first()
 
             assertEquals(expected, result)
+        }
+
+    @Test
+    fun `given datastore with haptic feedback false, toggle sets it to true`() =
+        runTest(testScope.coroutineContext) {
+            sut.getFullSettings().test {
+                assertFalse(awaitItem().scan.hapticFeedback)
+
+                sut.toggleScanHapticFeedback()
+
+                assertTrue(awaitItem().scan.hapticFeedback)
+            }
         }
 
     @Test

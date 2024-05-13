@@ -80,6 +80,14 @@ class QRCodeSettingsRepository
             }
         }
 
+        override suspend fun toggleScanHapticFeedback() {
+            settingsDataStore.updateData {
+                it.copy {
+                    this.scanHapticFeedback = !this.scanHapticFeedback
+                }
+            }
+        }
+
         override suspend fun setScanHistorySavePreferences(preferences: HistorySavePreferences) {
             settingsDataStore.updateData {
                 it.copy {
