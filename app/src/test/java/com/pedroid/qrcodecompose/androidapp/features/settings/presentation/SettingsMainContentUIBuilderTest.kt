@@ -47,28 +47,52 @@ class SettingsMainContentUIBuilderTest {
         val result = sut.scanSettingsItems(ScanSettings(true, HistorySavePreferences.UPON_USER_ACTION))
 
         assertContains(result.headerText, "scan")
-        assertEquals(result.items.size, 2)
+        assertEquals(2, result.items.size)
         assertTrue(result.items[0] is SettingsMainContentItem.OptionWithActionSelection)
         assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).text, "scan_save_history")
         assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).currentOption, "upon_user_action")
+        assertEquals(
+            SettingsMainUIAction.ChangeScanHistorySave(HistorySavePreferences.NEVER_SAVE),
+            (result.items[0] as SettingsMainContentItem.OptionWithActionSelection).selectionContent.onSelect(1),
+        )
         assertTrue(result.items[1] is SettingsMainContentItem.OptionWithToggle)
         assertContains((result.items[1] as SettingsMainContentItem.OptionWithToggle).text, "haptic_feedback")
-        assertEquals((result.items[1] as SettingsMainContentItem.OptionWithToggle).toggleOn, true)
+        assertEquals(true, (result.items[1] as SettingsMainContentItem.OptionWithToggle).toggleOn)
     }
 
     @Test
     fun `generateSettingsItems in correct order`() {
         val result = sut.generateSettingsItems(GenerateSettings(HistorySavePreferences.NEVER_SAVE))
 
-        assertContains(result.headerText, "scan")
-        assertEquals(result.items.size, 2)
+        assertContains(result.headerText, "generate")
+        assertEquals(1, result.items.size)
         assertTrue(result.items[0] is SettingsMainContentItem.OptionWithActionSelection)
-        assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).text, "scan_save_history")
-        assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).currentOption, "upon_user_action")
+        assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).text, "generate_save_history")
+        assertContains((result.items[0] as SettingsMainContentItem.OptionWithActionSelection).currentOption, "never")
+        assertEquals(
+            SettingsMainUIAction.ChangeGenerateHistorySave(HistorySavePreferences.UPON_USER_ACTION),
+            (result.items[0] as SettingsMainContentItem.OptionWithActionSelection).selectionContent.onSelect(0),
+        )
     }
 
     @Test
     fun `otherSettingsItems in correct order`() {
-        // TODO implement
+        val result = sut.otherSettingsItems()
+
+        assertContains(result.headerText, "other")
+        assertEquals(result.items.size, 3)
+        assertTrue(result.items.all { it is SettingsMainContentItem.OptionWithExternalScreenAction })
+        assertContains((result.items[0] as SettingsMainContentItem.OptionWithExternalScreenAction).text, "contact")
+        assertEquals(
+            (result.items[0] as SettingsMainContentItem.OptionWithExternalScreenAction).action,
+            SettingsExternalAction.ContactDeveloper,
+        )
+        assertContains((result.items[1] as SettingsMainContentItem.OptionWithExternalScreenAction).text, "rate")
+        assertEquals((result.items[1] as SettingsMainContentItem.OptionWithExternalScreenAction).action, SettingsExternalAction.RateApp)
+        assertContains((result.items[2] as SettingsMainContentItem.OptionWithExternalScreenAction).text, "about")
+        assertEquals(
+            (result.items[2] as SettingsMainContentItem.OptionWithExternalScreenAction).action,
+            SettingsExternalAction.MoreInfoAboutApp,
+        )
     }
 }

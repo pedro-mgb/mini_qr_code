@@ -4,5 +4,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.settingsFeatureNavigationRoutes(navController: NavController) {
-    settingsMainRoute()
+    settingsMainRoute(
+        navigationListeners =
+            SettingsMainNavigationListeners(
+                onContactDeveloper = {
+                    // TODO implement
+                },
+                onMoreAboutApp = {
+                    // TODO implement
+                },
+            ),
+    )
 }

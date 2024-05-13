@@ -2,14 +2,22 @@ package com.pedroid.qrcodecompose.androidapp.features.settings.presentation
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class LanguageManager
     @Inject
     constructor() {
+        private val appLanguageFlow = MutableStateFlow(getAppLanguage())
+
         fun getAppLanguage(): AppLanguage = AppLanguage.fromLocaleList(AppCompatDelegate.getApplicationLocales())
 
-        fun setAppLanguage(language: AppLanguage) {
+        fun getAppLanguageFlow(): Flow<AppLanguage> = appLanguageFlow.asStateFlow()
+
+        suspend fun setAppLanguage(language: AppLanguage) {
+            appLanguageFlow.emit(language)
             if (language == AppLanguage.SAME_AS_SYSTEM) {
                 AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
             } else {

@@ -38,7 +38,7 @@ class QRCodeSettingsRepository
                     ),
                 generate =
                     GenerateSettings(
-                        historySave = this.scanSaveType.toDomainPreferences(),
+                        historySave = this.generateSaveType.toDomainPreferences(),
                     ),
             )
 

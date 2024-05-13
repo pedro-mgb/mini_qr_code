@@ -8,33 +8,45 @@ data class SettingsMainContentSection(
     val items: List<SettingsMainContentItem>,
 )
 
-sealed class SettingsMainContentItem {
+sealed class SettingsMainContentItem(
+    open val text: String,
+    open val context: String,
+    open val startIcon: ImageVector,
+) {
     data class OptionWithExternalScreenAction(
-        val text: String,
+        override val text: String,
         val actionIcon: ImageVector,
         val actionContext: String = "",
-    ) : SettingsMainContentItem()
+        val action: SettingsExternalAction,
+    ) : SettingsMainContentItem(text, actionContext, actionIcon)
 
     data class OptionWithActionSelection(
-        val text: String,
+        override val text: String,
         val actionIcon: ImageVector,
         val currentOption: String,
         val selectionContent: SelectionContent,
-    ) : SettingsMainContentItem()
+    ) : SettingsMainContentItem(text, currentOption, actionIcon)
 
     data class OptionWithToggle(
-        val text: String,
+        override val text: String,
         val actionIcon: ImageVector,
         val toggleOn: Boolean,
         val toggleContext: String,
         val toggleAction: SettingsMainUIAction,
-    ) : SettingsMainContentItem()
+    ) : SettingsMainContentItem(text, toggleContext, actionIcon)
 }
 
 data class SelectionContent(
-    val title: String,
     val options: List<TitleAndDescription>,
     val onSelect: (Int) -> SettingsMainUIAction,
 )
 
 data class TitleAndDescription(val title: String, val description: String)
+
+sealed interface SettingsExternalAction {
+    data object ContactDeveloper : SettingsExternalAction
+
+    data object RateApp : SettingsExternalAction
+
+    data object MoreInfoAboutApp : SettingsExternalAction
+}

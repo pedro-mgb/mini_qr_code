@@ -84,16 +84,18 @@
     <string name="settings_main_screen_scan_haptic_feedback_status_off">Off (default). No vibration when a QR Code / barcode is scanned.</string>
     <string name="settings_main_screen_scan_haptic_feedback_status_on">On. Phone will vibrate when a QR Code / barcode is scanned.</string>
     <string name="settings_main_screen_header_generate">Generate settings</string>
-    <string name="settings_main_screen_generate_history_option_upon_user_action_title">When interacting with QR Code</string>
+    <string name="settings_main_screen_generate_save_history">Save in history</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">When interacting with QR Code</string>
     <string name="settings_main_screen_generate_save_history_option_upon_user_action_description">Via \"Generate\" tab. Whenever you save a generated QR Code / barcode in the app, or copy or share it, it is saved in history.\nIn a future app version, you will be able to delete your history.</string>
-    <string name="settings_main_screen_generate_history_option_never_title">Never Save</string>
+    <string name="settings_main_screen_generate_save_history_option_never_title">Never Save</string>
     <string name="settings_main_screen_generate_save_history_option_never_description">Your generated QR Codes and barcodes are never saved in the app.\nExisting history records remain.\nIn a future app version, you will be able to delete your history.</string>
     <string name="settings_main_screen_header_other">Other</string>
-    <string name="settings_main_screen_other_contact_app_title">Contact the developer</string>
-    <string name="settings_main_screen_other_contact_description">Multiple contact options available</string>
+    <string name="settings_main_screen_other_contact_developer_title">Contact the developer</string>
+    <string name="settings_main_screen_other_contact_developer_description">Multiple contact options available</string>
     <string name="settings_main_screen_other_rate_app_title">Rate the app</string>
     <string name="settings_main_screen_other_rate_app_description">Will open the app\'s Play Store page</string>
     <string name="settings_main_screen_other_about_the_app_title">About the app</string>
+    <string name="settings_main_screen_other_about_the_app_description">Learn more about Mini QR Code</string>
     <string name="settings_contact_developer_description">If you have are experiencing issues with the app, or have any suggestions, you can contact the developer by e-mail.</string>
     <string name="settings_contact_developer_email_action">E-mail pedroid.apps.contact@gmail.com</string>
 </resources>

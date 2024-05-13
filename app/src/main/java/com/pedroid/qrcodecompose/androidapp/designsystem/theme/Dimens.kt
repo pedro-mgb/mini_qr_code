@@ -21,5 +21,7 @@ object Dimens {
     // region for components
     val iconButtonSize = 48.dp
     val loadingIndicatorSizeLarge = 100.dp
+    val smallIconSize = 24.dp
+    val mediumIconSize = 32.dp
     // endregion for components
 }
