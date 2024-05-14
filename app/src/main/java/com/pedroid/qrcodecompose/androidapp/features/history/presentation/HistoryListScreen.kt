@@ -158,6 +158,7 @@ private fun HistoryInfoTopHeader(
             Text(
                 modifier = Modifier.padding(Dimens.spacingExtraSmall),
                 text = stringResource(id = R.string.history_top_header_more_information_button),
+                textAlign = TextAlign.End,
             )
         }
     }

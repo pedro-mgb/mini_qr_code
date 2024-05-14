@@ -8,11 +8,13 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.pedroid.qrcodecompose.androidapp.designsystem.theme.md_theme_dark_background
 
 @Composable
 @ReadOnlyComposable
@@ -49,6 +51,7 @@ annotation class PreviewAppLocales
 
 @Composable
 fun ComponentActivity.EdgeToEdgeEffect(darkTheme: Boolean) {
+    val backgroundColor: Int = md_theme_dark_background.toArgb()
     // Update the edge to edge configuration to match the theme
     // This is the same parameters as the default enableEdgeToEdge call, but we manually
     // resolve whether or not to show dark theme using uiState, since it can be different
@@ -64,22 +67,10 @@ fun ComponentActivity.EdgeToEdgeEffect(darkTheme: Boolean) {
                 ) { darkTheme },
             navigationBarStyle =
                 SystemBarStyle.auto(
-                    android.graphics.Color.TRANSPARENT,
-                    android.graphics.Color.TRANSPARENT,
+                    backgroundColor,
+                    backgroundColor,
                 ) { darkTheme },
         )
         onDispose {}
     }
 }
-
-/**
- * The default light scrim, as defined by androidx and the platform:
- * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=35-38;drc=27e7d52e8604a080133e8b842db10c89b4482598
- */
-private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
-
-/**
- * The default dark scrim, as defined by androidx and the platform:
- * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=40-44;drc=27e7d52e8604a080133e8b842db10c89b4482598
- */
-private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
