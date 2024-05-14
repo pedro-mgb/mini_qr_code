@@ -4,7 +4,6 @@ import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HAPTIC_FEEDBACK_DEFAULT_OFF
-import com.pedroid.qrcodecompose.androidapp.features.settings.domain.LANGUAGE_DEFAULT_SAME_AS_SYSTEM
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -15,7 +14,6 @@ class SettingsProtoSerializer
         override val defaultValue: SettingsProto =
             SettingsProto.getDefaultInstance()
                 .toBuilder()
-                .setAppLanguage(LANGUAGE_DEFAULT_SAME_AS_SYSTEM)
                 .setScanHapticFeedback(HAPTIC_FEEDBACK_DEFAULT_OFF)
                 .build()
 

@@ -66,7 +66,6 @@ class QRCodeSettingsRepositoryTest {
     @Test
     fun `given datastore with contents, returns FullSettings with the values`() =
         runTest(testScope.coroutineContext) {
-            sut.setAppLanguage("en")
             sut.setOpenUrlPreferences(OpenUrlPreferences.IN_BROWSER)
             sut.setScanHapticFeedback(true)
             sut.setScanHistorySavePreferences(HistorySavePreferences.UPON_USER_ACTION)
@@ -75,7 +74,6 @@ class QRCodeSettingsRepositoryTest {
                 FullSettings(
                     general =
                         GeneralSettings(
-                            language = "en",
                             openUrlPreferences = OpenUrlPreferences.IN_BROWSER,
                         ),
                     scan =

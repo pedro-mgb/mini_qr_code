@@ -9,7 +9,6 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSetting
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GeneralSettings
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GenerateSettings
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
-import com.pedroid.qrcodecompose.androidapp.features.settings.domain.LANGUAGE_DEFAULT_SAME_AS_SYSTEM
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.OpenUrlPreferences
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.ScanSettings
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsRepository
@@ -28,7 +27,6 @@ class QRCodeSettingsRepository
             FullSettings(
                 general =
                     GeneralSettings(
-                        language = this.appLanguage ?: LANGUAGE_DEFAULT_SAME_AS_SYSTEM,
                         openUrlPreferences = this.openUrlsIn.toDomainPreferences(),
                     ),
                 scan =
@@ -55,14 +53,6 @@ class QRCodeSettingsRepository
                 HistorySaveProto.DEFAULT_SAVE_BY_USER_ACTION -> HistorySavePreferences.UPON_USER_ACTION
                 else -> HistorySavePreferences.DEFAULT
             }
-
-        override suspend fun setAppLanguage(language: String) {
-            settingsDataStore.updateData {
-                it.copy {
-                    this.appLanguage = language
-                }
-            }
-        }
 
         override suspend fun setOpenUrlPreferences(preferences: OpenUrlPreferences) {
             settingsDataStore.updateData {

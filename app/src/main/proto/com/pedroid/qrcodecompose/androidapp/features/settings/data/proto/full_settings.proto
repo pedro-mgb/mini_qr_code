@@ -8,7 +8,8 @@ option java_multiple_files = true;
 
 message SettingsProto {
   // region general settings
-  string appLanguage = 1;
+  // app language was meant to be stored here, but now storage is managed by Android OS
+  reserved 1; // string appLanguage = 1;
   OpenUrlProto openUrlsIn = 2;
   // endregion general settings
 

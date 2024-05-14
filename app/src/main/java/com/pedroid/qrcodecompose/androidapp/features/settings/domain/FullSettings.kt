@@ -6,11 +6,9 @@ data class FullSettings(
     val generate: GenerateSettings = GenerateSettings(),
 )
 
-const val LANGUAGE_DEFAULT_SAME_AS_SYSTEM = ""
 const val HAPTIC_FEEDBACK_DEFAULT_OFF = false
 
 data class GeneralSettings(
-    val language: String = LANGUAGE_DEFAULT_SAME_AS_SYSTEM,
     val openUrlPreferences: OpenUrlPreferences = OpenUrlPreferences.DEFAULT,
 )
 
