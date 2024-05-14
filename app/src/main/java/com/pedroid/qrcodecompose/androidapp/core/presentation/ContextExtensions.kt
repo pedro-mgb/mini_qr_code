@@ -9,8 +9,12 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Patterns
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsClient
+import androidx.browser.customtabs.CustomTabsIntent
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 
@@ -20,6 +24,32 @@ fun Context.openAppToView(content: String): QRAppActions.OpenApp {
         QRAppActions.OpenApp(ActionStatus.SUCCESS)
     } catch (e: ActivityNotFoundException) {
         QRAppActions.OpenApp(ActionStatus.ERROR_NO_APP)
+    }
+}
+
+fun Context.launchBrowserCustomTab(
+    content: String,
+    toolbarColor: Int,
+    openWithViewIntentFallback: Boolean = true,
+): QRAppActions.OpenApp {
+    val isUrl = Patterns.WEB_URL.matcher(content).matches()
+    return if (!isUrl || CustomTabsClient.getPackageName(this, emptyList()) == null) {
+        if (openWithViewIntentFallback) {
+            openAppToView(content)
+        } else {
+            QRAppActions.OpenApp(ActionStatus.ERROR_NO_APP)
+        }
+    } else {
+        val customTabBarColor =
+            CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(toolbarColor).build()
+        CustomTabsIntent.Builder()
+        val customTabsIntent =
+            CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(customTabBarColor)
+                .build()
+        customTabsIntent.launchUrl(this, Uri.parse(content))
+        QRAppActions.OpenApp(ActionStatus.SUCCESS)
     }
 }
 

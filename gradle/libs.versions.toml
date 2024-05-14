@@ -2,6 +2,7 @@
 androidGradlePlugin = "8.3.2"
 androidxActivityCompose = "1.8.2"
 androidxAppcompat = "1.6.1"
+androidxBrowser = "1.8.0"
 androidxComposeBom = "2024.04.01"
 androidxComposeMaterial3Alpha = "1.0.0-alpha06"
 androidXConstraintLayoutCompose = "1.0.1"
@@ -33,6 +34,7 @@ zxing = "3.3.3"
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 androidx-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCameraX" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCameraX" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCameraX" }

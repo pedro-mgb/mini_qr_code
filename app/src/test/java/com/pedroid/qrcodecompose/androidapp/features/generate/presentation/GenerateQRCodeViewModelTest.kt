@@ -11,6 +11,10 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomi
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GenerateSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,6 +22,8 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -36,6 +42,12 @@ class GenerateQRCodeViewModelTest {
             coEvery { addHistoryEntry(any()) } returns 2L
         }
 
+    private val settingsMutableFlow = MutableStateFlow(FullSettings())
+    private val settingsRepository =
+        mockk<SettingsReadOnlyRepository> {
+            coEvery { getFullSettings() } returns settingsMutableFlow.asStateFlow()
+        }
+
     private lateinit var sut: GenerateQRCodeViewModel
 
     @Before
@@ -43,6 +55,7 @@ class GenerateQRCodeViewModelTest {
         sut =
             GenerateQRCodeViewModel(
                 historyRepository = historyRepository,
+                settingsRepository = settingsRepository,
                 savedStateHandle = SavedStateHandle(),
                 logger = mockk(relaxed = true),
                 generateMessageFactory =
@@ -457,6 +470,53 @@ class GenerateQRCodeViewModelTest {
                 historyRepository.addHistoryEntry(capture(list))
             }
             assertEquals(list.map { it.format }, listOf(QRCodeComposeXFormat.QR_CODE, newFormat))
+        }
+
+    @Test
+    fun `given action with generated code with history settings save off, not saved to history`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("some code"))
+            settingsMutableFlow.emit(FullSettings(generate = GenerateSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.SaveToFile(ActionStatus.SUCCESS)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given action with generated code before history settings save on, not saved to history`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("some code"))
+            settingsMutableFlow.emit(FullSettings(generate = GenerateSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.SaveToFile(ActionStatus.SUCCESS)))
+            settingsMutableFlow.emit(FullSettings(generate = GenerateSettings(historySave = HistorySavePreferences.UPON_USER_ACTION)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given action with generated code after history settings save on, code is saved to history`() =
+        runTest {
+            sut.onNewAction(GenerateQRCodeUIAction.UpdateText("some code"))
+            settingsMutableFlow.emit(FullSettings(generate = GenerateSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            // advancing time to make sure current actions have been processed
+            testScheduler.advanceTimeBy(1000L)
+
+            settingsMutableFlow.emit(FullSettings(generate = GenerateSettings(historySave = HistorySavePreferences.UPON_USER_ACTION)))
+            sut.onNewAction(GenerateQRCodeUIAction.QRActionComplete(QRAppActions.SaveToFile(ActionStatus.SUCCESS)))
+
+            coVerify(exactly = 1) {
+                historyRepository.addHistoryEntry(any())
+            }
         }
 
     private fun TemporaryMessageData?.assertHasError() {
