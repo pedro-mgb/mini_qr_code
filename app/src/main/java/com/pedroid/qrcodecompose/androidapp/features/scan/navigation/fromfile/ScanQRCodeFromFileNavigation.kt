@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.pedroid.qrcodecompose.androidapp.core.presentation.shortPhoneVibration
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanQRCodeCameraNavigationListeners
@@ -78,6 +79,8 @@ fun ScanQRCodeFromFileCoordinator(
         if (uiState is QRCodeFromFileUIState.Init) {
             fileLauncher.launch(imagesOnlyPicker)
             viewModel.onNewAction(QRCodeFromFileUIAction.StartFileSelection)
+        } else if ((uiState as? QRCodeFromFileUIState.Success)?.vibrate == true) {
+            context.shortPhoneVibration()
         }
     }
 
