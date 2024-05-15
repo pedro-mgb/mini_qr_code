@@ -17,7 +17,7 @@ class SettingsMainContentUIBuilderTest {
     fun `generalSettingsItems in correct order`() {
         val result =
             sut.generalSettingsItems(
-                GeneralSettings("", OpenUrlPreferences.IN_CUSTOM_TAB),
+                GeneralSettings(OpenUrlPreferences.IN_CUSTOM_TAB),
                 AppLanguage.PORTUGUESE,
             )
 
