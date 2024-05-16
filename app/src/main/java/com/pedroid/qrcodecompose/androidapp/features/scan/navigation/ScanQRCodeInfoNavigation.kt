@@ -1,10 +1,8 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.navigation
 
 import android.Manifest
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
@@ -18,9 +16,7 @@ import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessage
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
-import com.pedroid.qrcodecompose.androidapp.core.presentation.launchBrowserCustomTab
 import com.pedroid.qrcodecompose.androidapp.core.presentation.launchPermissionRequestOrRun
-import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.core.presentation.rememberPermissionState
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
@@ -28,7 +24,7 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInf
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInfoUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoViewModel
-import com.pedroid.qrcodecompose.androidapp.features.settings.domain.OpenUrlPreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.openUrl
 
 const val SCAN_ROUTE = "SCAN_QR_CODE_ROUTE"
 
@@ -60,7 +56,6 @@ private fun ScanCodeHomeCoordinator(
         viewModel.onNewAction(QRCodeInfoUIAction.CodeReceived(qrCode = it))
     }
     val uiState: QRCodeInfoUIState by viewModel.uiState.collectAsStateWithLifecycle()
-    val backgroundColor: Int = MaterialTheme.colorScheme.background.toArgb()
     val context = LocalContext.current
 
     ScanQRCodeInfoScreen(
@@ -84,12 +79,7 @@ private fun ScanCodeHomeCoordinator(
                     )
                 },
                 onCodeOpen = {
-                    val openActionResult =
-                        if (uiState.openUrlMode == OpenUrlPreferences.IN_CUSTOM_TAB) {
-                            context.launchBrowserCustomTab(it, toolbarColor = backgroundColor)
-                        } else {
-                            context.openAppToView(it)
-                        }
+                    val openActionResult = context.openUrl(it, uiState.openUrlMode)
                     viewModel.onNewAction(QRCodeInfoUIAction.QRActionComplete(openActionResult))
                 },
                 onCodeShared = {

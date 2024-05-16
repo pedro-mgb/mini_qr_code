@@ -18,3 +18,13 @@ fun <T, R> ViewModel.createStateFlow(
         SharingStarted.WhileSubscribed(5_000L),
         initialValue,
     )
+
+fun <T> ViewModel.createStateFlow(
+    originalFlow: Flow<T>,
+    initialValue: T,
+): StateFlow<T> =
+    createStateFlow(
+        originalFlow,
+        initialValue,
+        mapper = { it },
+    )

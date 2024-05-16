@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.pedroid.qrcodecompose.androidapp.core.presentation.openAppToView
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsExternalAction
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsMainContentItem
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsMainScreen
@@ -20,7 +21,7 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.Setti
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsOptionSelectionBottomSheet
 
 const val SETTINGS_ROUTE = "APP_SETTINGS_ROUTE"
-private const val CONTACT_EMAIL = "pedroid.apps.contact@gmail.com"
+private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.pedroid.qrcodecompose.androidapp"
 
 fun NavGraphBuilder.settingsMainRoute(navigationListeners: SettingsMainNavigationListeners) {
     composable(route = SETTINGS_ROUTE) {
@@ -54,7 +55,8 @@ private fun SettingsMainCoordinator(
                         }
 
                         SettingsExternalAction.RateApp -> {
-                            // TODO implement
+                            // not opening in custom tab because this should direct to play store app if user has it installed
+                            context.openAppToView(PLAY_STORE_URL)
                         }
 
                         SettingsExternalAction.MoreInfoAboutApp -> {
