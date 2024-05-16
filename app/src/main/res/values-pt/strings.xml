@@ -34,12 +34,12 @@
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
     <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tente com outro ficheiro.</string>
 
-
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code.</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>
     <string name="code_copied_success">Copiado para o clipboard!</string>
     <string name="code_saved_to_file_success">Guardado no ficheiro com successo!</string>
     <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tenta de novo.</string>
+    <string name="error_unable_to_open_url">Não foi possível abrir o link. Garante que tens uma app de browser (e.g. Chrome) instalada.</string>
 
     <string name="generate_code_header">Escreva o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
     <string name="generate_code_text_box_label">Inserir o teu texto</string>
@@ -52,7 +52,7 @@
 
     <string name="history_top_header_title">O teu Histórico</string>
     <string name="history_top_header_more_information_button">Sobre o histórico</string>
-    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico e controlar como este é salvo.</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico.</string>
     <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
     <string name="history_header_today">Hoje</string>
     <string name="history_header_yesterday">Ontem</string>
@@ -76,8 +76,33 @@
     <string name="settings_main_screen_general_open_urls_in_app_custom_tab_title">Browser In-app</string>
     <string name="settings_main_screen_general_open_urls_in_app_custom_tab_description">Abre o URL numa aba dentro da app.\nSe o seu telemóvel não suportar, abrirá na app browser.</string>
     <string name="settings_main_screen_header_scan">Definições de captura</string>
+    <string name="settings_main_screen_scan_save_history">Guardar no histórico</string>
+    <string name="settings_main_screen_scan_save_history_option_upon_user_action_title">Após interagir com QR Code</string>
+    <string name="settings_main_screen_scan_save_history_option_upon_user_action_description">Via aba de \"Captura\". Sempre que abrires os conteúdos de um QR Code numa app / browser, ou copiares, ou partilhares, o QR Code é guardado no histórico.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_scan_save_history_option_never_title">Nunca guardar</string>
+    <string name="settings_main_screen_scan_save_history_option_never_description">Os QR Codes e códigos de barras que capturares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_scan_haptic_feedback">Vibrar após captura</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_off">Desligado (pré-definição). Sem vibração após ler um QR Code ou código de barras.</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_on">Ligado. O teu telemóvel irá vibrar quando ler um QR Code ou código de barras.</string>
     <string name="settings_main_screen_header_generate">Definições de geração</string>
+    <string name="settings_main_screen_generate_save_history">Guardar no histórico</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">Após interagir com QR Code</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_description">Via aba de \"Gerar\". Sempre que salvares um QR code ou código de barras num ficheiro, ou copiares, ou partilhares, ele é guardado no histórico.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_generate_save_history_option_never_title">Nunca guardar</string>
+    <string name="settings_main_screen_generate_save_history_option_never_description">Os QR Codes e códigos de barras que gerares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nNuma versão futura da app, poderás remover o teu histórico.</string>
     <string name="settings_main_screen_header_other">Outros</string>
-    <string name="settings_contact_developer_description">Se estás a experienciar problemas com a app, ou queres sugerir um melhoramento, podes contactar o desenvolvedor por e-mail</string>
-    <string name="settings_contact_developer_email_action">Contactar pedroid.apps.contact@gmail.com</string>
+    <string name="settings_main_screen_other_contact_developer_title">Contactar o desenvoledor</string>
+    <string name="settings_main_screen_other_contact_developer_description">Várias opções de contacto disponíveis</string>
+    <string name="settings_main_screen_other_rate_app_title">Classificar a app</string>
+    <string name="settings_main_screen_other_rate_app_description">Irá abrir a páginda da app na Google Play</string>
+    <string name="settings_main_screen_other_about_the_app_title">Sobre a app</string>
+    <string name="settings_main_screen_other_about_the_app_description">Aprende mais sobre a app Mini QR Code</string>
+    <string name="settings_about_the_app_version">Versão da app: %s (%s)</string>
+    <string name="settings_about_the_app_information">Mini QR Code é uma aplicação para Android gratuita, para leitura e criação de QR Codes e códigos de barras.\nSem anúncios, e sem colecta de dados, e irá permanecer assim para sempre.\nA app não necessita de ligação à internet, excepto para abrir páginas web.\n\nA app é open-source, com o código-fonte público no Github, para qualquer pessoa consultar.\nA app é desenvolvida por uma única pessoa, mas qualquer pessoa pode contribuir via Github.</string>
+    <string name="settings_about_the_app_open_source_link">Repositório Github</string>
+    <string name="settings_about_the_app_privacy_policy_link">Política de Privacidade (inglês)</string>
+    <string name="settings_about_the_app_other_apps_link">Outras apps do desenvolvedor</string>
+    <string name="settings_contact_developer_description">Se estás a experienciar problemas com a app, ou queres sugerir um melhoramento, podes abrir um issue no Github.\nÉ importante saber que o Github issue é público, e deve ser escrito em Inglês.\n\nAlternativamente, se não quiseres ter uma conta de Github ou não quiseres que o teu pedido seja público, podes contactar o desenvolvedor por e-mail.\nPor favor usa apenas Inglês ou Português no e-mail.</string>
+    <string name="settings_contact_developer_github_issue_action">Criar issue no Github (público)</string>
+    <string name="settings_contact_developer_email_action">E-mail (pedroid.apps.contact@gmail.com)</string>
 </resources>
