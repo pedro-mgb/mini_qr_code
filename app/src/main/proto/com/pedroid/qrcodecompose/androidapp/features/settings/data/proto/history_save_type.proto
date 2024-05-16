@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.pedroid.qrcodecompose.androidapp.features.settings.data.proto";
+option java_multiple_files = true;
+
+enum HistorySaveProto {
+  DEFAULT_SAVE_BY_USER_ACTION = 0;
+  NEVER_SAVE = 1;
+}

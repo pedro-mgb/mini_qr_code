@@ -18,6 +18,8 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.data.format
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.qrCodeText
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.saveGeneratedCode
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXNotCompliantWithFormatException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,6 +51,7 @@ class GenerateQRCodeViewModel
     @Inject
     constructor(
         private val historyRepository: HistoryRepository,
+        private val settingsRepository: SettingsReadOnlyRepository,
         private val savedStateHandle: SavedStateHandle,
         private val logger: Logger,
         private val generateMessageFactory: GenerateMessageFactory,
@@ -114,29 +117,43 @@ class GenerateQRCodeViewModel
         }
 
         private fun setupSaveHistory() {
-            uiState
-                .map { it.content.generating }
-                .combine(newQRActionFlow) { generatingContent, actionWithCurrentContent ->
-                    // only emit if there's an actual new code that has been shared / copied / saved successfully
-                    logger.debug(LOG_TAG, "Processing to check if should save history - $generatingContent / $actionWithCurrentContent")
-                    when {
-                        generatingContent.empty -> null
-                        actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> null
-                        generatingContent == actionWithCurrentContent.code -> null
-                        else -> GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
+            combine(
+                uiState.map { it.content.generating },
+                newQRActionFlow,
+                settingsRepository.getFullSettings().map { it.generate.historySave },
+            ) { generatingContent, actionWithCurrentContent, savePreferences ->
+                // only emit if there's an actual new code that has been shared / copied / saved successfully
+                logger.debug(
+                    LOG_TAG,
+                    "Processing to check if should save history - $generatingContent / $actionWithCurrentContent / $savePreferences",
+                )
+                when {
+                    generatingContent.empty -> null
+                    savePreferences == HistorySavePreferences.NEVER_SAVE -> {
+                        resetActionComplete(actionWithCurrentContent)
+                        null
                     }
+                    actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> null
+                    generatingContent == actionWithCurrentContent.code -> null
+                    else -> GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
                 }
+            }
                 .filterNotNull()
                 .distinctUntilChanged()
                 .onEach { newCodeWithAction ->
                     // reset the action flow to avoid repeated emissions and repeated saves
-                    newQRActionFlow.update {
-                        it.copy(code = newCodeWithAction.code, actionComplete = null)
-                    }
+                    resetActionComplete(newCodeWithAction)
                     logger.debug(LOG_TAG, "Saving to history based on action - $newCodeWithAction")
                     historyRepository.saveGeneratedCode(newCodeWithAction.code)
                 }
                 .launchIn(viewModelScope)
+        }
+
+        private fun resetActionComplete(actionWithCode: GeneratedCodeWithAction) {
+            // reset the action flow to avoid repeated emissions and repeated saves
+            newQRActionFlow.update {
+                it.copy(code = actionWithCode.code, actionComplete = null)
+            }
         }
 
         fun onNewAction(action: GenerateQRCodeUIAction) {

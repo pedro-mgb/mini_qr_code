@@ -10,11 +10,17 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.ScanSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -33,11 +39,18 @@ class ScanQRCodeInfoViewModelTest {
             coEvery { addHistoryEntry(any()) } returns 1L
         }
 
+    private val settingsMutableFlow = MutableStateFlow(FullSettings())
+    private val settingsRepository =
+        mockk<SettingsReadOnlyRepository> {
+            coEvery { getFullSettings() } returns settingsMutableFlow.asStateFlow()
+        }
+
     @Before
     fun setUp() {
         sut =
             ScanQRCodeInfoViewModel(
                 historyRepository = historyRepository,
+                settingsRepository = settingsRepository,
                 logger = mockk(relaxed = true),
             )
     }
@@ -195,6 +208,47 @@ class ScanQRCodeInfoViewModelTest {
             assertEquals(list.map { it.value }, listOf("qr code", "123456"))
             assertEquals(list.map { it.format }, listOf(QRCodeComposeXFormat.QR_CODE, QRCodeComposeXFormat.BARCODE_ITF))
             assertEquals(list.map { it.fromImageFile }, listOf(false, true))
+        }
+
+    @Test
+    fun `given action with scanned code with history settings save off, not saved to history`() =
+        runTest {
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            sut.onNewAction(QRCodeInfoUIAction.CodeReceived(ScannedCode("qr code", QRCodeComposeXFormat.QR_CODE, ScanSource.CAMERA)))
+
+            sut.onNewAction(QRCodeInfoUIAction.QRActionComplete(QRAppActions.OpenApp(ActionStatus.SUCCESS)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given action with scanned code before history settings save on, not saved to history`() =
+        runTest {
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            sut.onNewAction(QRCodeInfoUIAction.CodeReceived(ScannedCode("qr code", QRCodeComposeXFormat.QR_CODE, ScanSource.CAMERA)))
+
+            sut.onNewAction(QRCodeInfoUIAction.QRActionComplete(QRAppActions.OpenApp(ActionStatus.SUCCESS)))
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(historySave = HistorySavePreferences.UPON_USER_ACTION)))
+
+            coVerify(inverse = true) {
+                historyRepository.addHistoryEntry(any())
+            }
+        }
+
+    @Test
+    fun `given action with scanned code after history settings save on, code is saved to history`() =
+        runTest {
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(historySave = HistorySavePreferences.NEVER_SAVE)))
+            sut.onNewAction(QRCodeInfoUIAction.CodeReceived(ScannedCode("qr code", QRCodeComposeXFormat.QR_CODE, ScanSource.CAMERA)))
+
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(historySave = HistorySavePreferences.UPON_USER_ACTION)))
+            sut.onNewAction(QRCodeInfoUIAction.QRActionComplete(QRAppActions.OpenApp(ActionStatus.SUCCESS)))
+
+            coVerify(exactly = 1) {
+                historyRepository.addHistoryEntry(any())
+            }
         }
 
     private fun TemporaryMessageData?.assertHasError() {

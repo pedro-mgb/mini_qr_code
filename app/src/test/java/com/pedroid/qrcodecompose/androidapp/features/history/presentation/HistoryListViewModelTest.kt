@@ -3,6 +3,7 @@ package com.pedroid.qrcodecompose.androidapp.features.history.presentation
 import app.cash.turbine.test
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
+import com.pedroid.qrcodecompose.androidapp.core.test.assertContains
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
@@ -189,9 +190,9 @@ class HistoryListViewModelTest {
                 assertEquals("Monday, 8 Apr 2024", (newResultList[0] as HistoryListItem.SectionHeader).text)
                 assertEquals("Saturday, 16 Mar 2024", (newResultList[2] as HistoryListItem.SectionHeader).text)
                 assertEquals("Wednesday, 4 Oct 2023", (newResultList[4] as HistoryListItem.SectionHeader).text)
-                assertTrue((newResultList[1] as HistoryListItem.Data).displayDate.contains("08-04-2024"))
-                assertTrue((newResultList[3] as HistoryListItem.Data).displayDate.contains("16-03-2024"))
-                assertTrue((newResultList[5] as HistoryListItem.Data).displayDate.contains("04-10-2023"))
+                assertContains((newResultList[1] as HistoryListItem.Data).displayDate, "08-04-2024")
+                assertContains((newResultList[3] as HistoryListItem.Data).displayDate, "16-03-2024")
+                assertContains((newResultList[5] as HistoryListItem.Data).displayDate, "04-10-2023")
             }
         }
 }

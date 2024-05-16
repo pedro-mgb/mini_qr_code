@@ -39,6 +39,7 @@
     <string name="code_copied_success">Copied to clipboard!</string>
     <string name="code_saved_to_file_success">Successfully saved to file!</string>
     <string name="code_saved_to_file_error">There was an error trying to save the image, please try again.</string>
+    <string name="error_unable_to_open_url">Unable to open the link. Make sure you have a browser app (e.g. Chrome) installed.</string>
 
     <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created.</string>
     <string name="generate_code_text_box_label">Input your text</string>
@@ -51,7 +52,7 @@
 
     <string name="history_top_header_title">Your History</string>
     <string name="history_top_header_more_information_button">About your history</string>
-    <string name="history_more_information_description">Every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nIn a future app version, you will be able to delete your history, or change how it is saved.</string>
+    <string name="history_more_information_description">By default, every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nYou can change how your QR Codes are saved in history in the \"Settings\" tab.\nIn a future app version, you will be able to delete your history.</string>
     <string name="history_empty_list">You history of scanned and generated codes is empty.</string>
     <string name="history_header_today">Today</string>
     <string name="history_header_yesterday">Yesterday</string>
@@ -63,6 +64,45 @@
     <string name="history_detail_generated_at">Created at:</string>
     <string name="history_detail_preview_generation_failed">Failed to generate image.\nTry closing the app and opening again.\nIf the issue persists, contact the developer (settings tab).</string>
 
-    <string name="settings_contact_developer_description">If you have are experiencing issues with the app, or have any suggestions, you can contact the developer by e-mail.</string>
-    <string name="settings_contact_developer_email_action">E-mail pedroid.apps.contact@gmail.com</string>
+    <string name="settings_main_screen_title">App Settings</string>
+    <string name="settings_main_screen_header_general">General settings</string>
+    <string name="settings_main_screen_general_app_language">App language</string>
+    <string name="settings_main_screen_general_app_language_option_same_as_system">Same as phone language</string>
+    <string name="settings_main_screen_general_app_language_option_english">English (United States)</string>
+    <string name="settings_main_screen_general_app_language_option_portuguese">Portuguese (Portugal)</string>
+    <string name="settings_main_screen_general_open_urls">Opening URLs</string>
+    <string name="settings_main_screen_general_open_urls_option_browser_title">External Browser</string>
+    <string name="settings_main_screen_general_open_urls_option_browser_description">Opens the default app browser in the phone (e.g. Chrome).\nThis is the app\'s default option.</string>
+    <string name="settings_main_screen_general_open_urls_in_app_custom_tab_title">In-app Browser</string>
+    <string name="settings_main_screen_general_open_urls_in_app_custom_tab_description">Opens the URL in a tab inside the app.\nIf your phone does not support it, it will open it in the browser app.</string>
+    <string name="settings_main_screen_header_scan">Scan settings</string>
+    <string name="settings_main_screen_scan_save_history">Save in history</string>
+    <string name="settings_main_screen_scan_save_history_option_upon_user_action_title">When interacting with QR Code</string>
+    <string name="settings_main_screen_scan_save_history_option_upon_user_action_description">Via \"Scan\" tab. Whenever you open the QR Code in the app / browser, or copy or share it, it is saved in history.\nIn a future app version, you will be able to delete your history.</string>
+    <string name="settings_main_screen_scan_save_history_option_never_title">Never Save</string>
+    <string name="settings_main_screen_scan_save_history_option_never_description">Your scanned QR Codes and barcodes are never saved in the app.\nExisting history records remain.\nIn a future app version, you will be able to delete your history.</string>
+    <string name="settings_main_screen_scan_haptic_feedback">Vibrate upon scan</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_off">Off (default). No vibration when a QR Code / barcode is scanned.</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_on">On. Phone will vibrate when a QR Code / barcode is scanned.</string>
+    <string name="settings_main_screen_header_generate">Generate settings</string>
+    <string name="settings_main_screen_generate_save_history">Save in history</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">When interacting with QR Code</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_description">Via \"Generate\" tab. Whenever you save a generated QR Code / barcode in a file, or copy or share it, it is saved in history.\nIn a future app version, you will be able to delete your history.</string>
+    <string name="settings_main_screen_generate_save_history_option_never_title">Never Save</string>
+    <string name="settings_main_screen_generate_save_history_option_never_description">Your generated QR Codes and barcodes are never saved in the app.\nExisting history records remain.\nIn a future app version, you will be able to delete your history.</string>
+    <string name="settings_main_screen_header_other">Other</string>
+    <string name="settings_main_screen_other_contact_developer_title">Contact the developer</string>
+    <string name="settings_main_screen_other_contact_developer_description">Multiple contact options available</string>
+    <string name="settings_main_screen_other_rate_app_title">Rate the app</string>
+    <string name="settings_main_screen_other_rate_app_description">Will open the app\'s Google Play page</string>
+    <string name="settings_main_screen_other_about_the_app_title">About the app</string>
+    <string name="settings_main_screen_other_about_the_app_description">Learn more about Mini QR Code app</string>
+    <string name="settings_about_the_app_version">App version: %s (%s)</string>
+    <string name="settings_about_the_app_information">The Mini QR Code is a free Android app for QR code and barcode scanning and generating.\nIt has no ads, and no data collection, and will remain like that forever.\nThe app also doesn\'t need any internet connection, apart from when opening web pages.\n\nThe app is open-source, the source code is publicly available on Github for anyone to see.\nThe app is worked on by a single developer, but anyone is welcome to contribute via Github, if they wish.</string>
+    <string name="settings_about_the_app_open_source_link">Github Repository</string>
+    <string name="settings_about_the_app_privacy_policy_link">Privacy Policy</string>
+    <string name="settings_about_the_app_other_apps_link">Other apps by the developer</string>
+    <string name="settings_contact_developer_description">If you have are experiencing issues with the app, or have any suggestions, you may open an issue on Github.\nKeep in mind that the Github issue is public, and you should open it in english.\n\nAlternatively, if you do not want to create a Github account or don\'t want your request to be public, you can contact the developer by e-mail.\nDeveloper speaks fluent English and Portuguese, so please send e-mails in those languages.</string>
+    <string name="settings_contact_developer_github_issue_action">Create Github issue (public)</string>
+    <string name="settings_contact_developer_email_action">E-mail (pedroid.apps.contact@gmail.com)</string>
 </resources>

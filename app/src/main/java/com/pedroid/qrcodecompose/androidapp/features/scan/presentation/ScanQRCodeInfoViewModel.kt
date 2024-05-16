@@ -11,11 +11,15 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepos
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.saveScannedCode
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.OpenUrlPreferences
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -30,6 +34,7 @@ class ScanQRCodeInfoViewModel
     @Inject
     constructor(
         private val historyRepository: HistoryRepository,
+        private val settingsRepository: SettingsReadOnlyRepository,
         private val logger: Logger,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(QRCodeInfoUIState())
@@ -40,27 +45,55 @@ class ScanQRCodeInfoViewModel
 
         init {
             setupSaveHistory()
+            setupSettings()
         }
 
         private fun setupSaveHistory() {
-            uiState
-                .map { (it.content as? QRCodeInfoContentUIState.CodeScanned)?.qrCode }
-                .combine(newQRActionFlow) { scannedCode, actionForCurrentScannedCode ->
-                    logger.debug(LOG_TAG, "Processing to check if should save history - $scannedCode / $actionForCurrentScannedCode")
-                    when {
-                        scannedCode == null || scannedCode.data.isBlank() -> null
-                        actionForCurrentScannedCode.actionComplete?.status != ActionStatus.SUCCESS -> null
-                        scannedCode == actionForCurrentScannedCode.code -> null
-                        else -> ScannedCodeWithAction(scannedCode, actionForCurrentScannedCode.actionComplete)
+            combine(
+                uiState.map { (it.content as? QRCodeInfoContentUIState.CodeScanned)?.qrCode },
+                newQRActionFlow,
+                settingsRepository.getFullSettings().map { it.scan.historySave },
+            ) { scannedCode, actionForCurrentScannedCode, savePreferences ->
+                logger.debug(
+                    LOG_TAG,
+                    "Processing to check if should save history - $scannedCode / $actionForCurrentScannedCode / $savePreferences",
+                )
+                when {
+                    scannedCode == null || scannedCode.data.isBlank() -> null
+                    savePreferences == HistorySavePreferences.NEVER_SAVE -> {
+                        resetActionComplete(actionForCurrentScannedCode)
+                        null
                     }
+                    actionForCurrentScannedCode.actionComplete?.status != ActionStatus.SUCCESS -> null
+                    scannedCode == actionForCurrentScannedCode.code -> null
+                    else -> ScannedCodeWithAction(scannedCode, actionForCurrentScannedCode.actionComplete)
                 }
+            }
                 .filterNotNull()
                 .onEach { newCodeWithAction ->
-                    newQRActionFlow.update {
-                        it.copy(code = newCodeWithAction.code, actionComplete = null)
-                    }
+                    resetActionComplete(newCodeWithAction)
                     logger.debug(LOG_TAG, "Saving to history based on action - $newCodeWithAction")
                     historyRepository.saveScannedCode(newCodeWithAction.code)
+                }
+                .launchIn(viewModelScope)
+        }
+
+        private fun resetActionComplete(actionWithCode: ScannedCodeWithAction) {
+            // reset the action flow to avoid repeated emissions and repeated saves
+            newQRActionFlow.update {
+                it.copy(code = actionWithCode.code, actionComplete = null)
+            }
+        }
+
+        private fun setupSettings() {
+            settingsRepository
+                .getFullSettings()
+                .distinctUntilChanged()
+                .map { it.general.openUrlPreferences }
+                .onEach { mode ->
+                    _uiState.update {
+                        it.copy(openUrlMode = mode)
+                    }
                 }
                 .launchIn(viewModelScope)
         }
@@ -98,6 +131,7 @@ class ScanQRCodeInfoViewModel
 
 data class QRCodeInfoUIState(
     val content: QRCodeInfoContentUIState = QRCodeInfoContentUIState.Initial,
+    val openUrlMode: OpenUrlPreferences = OpenUrlPreferences.DEFAULT,
     val temporaryMessage: TemporaryMessageData? = null,
 )
 

@@ -1,18 +1,40 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile
 
+import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.FullSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.ScanSettings
+import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class ScanQRCodeFromFileViewModelTest {
+    @get:Rule
+    val coroutineDispatcherTestRule = CoroutineDispatcherTestRule()
+
+    private val settingsMutableFlow = MutableStateFlow(FullSettings())
+    private val settingsRepository =
+        mockk<SettingsReadOnlyRepository> {
+            every { getFullSettings() } returns settingsMutableFlow.asStateFlow()
+        }
+
     private lateinit var sut: ScanQRCodeFromFileViewModel
 
     @Before
     fun setUp() {
-        sut = ScanQRCodeFromFileViewModel(logger = mockk(relaxed = true))
+        sut =
+            ScanQRCodeFromFileViewModel(
+                settingsRepository = settingsRepository,
+                logger = mockk(relaxed = true),
+            )
     }
 
     @Test
@@ -73,6 +95,18 @@ class ScanQRCodeFromFileViewModelTest {
 
         assertEquals(QRCodeFromFileUIState.Success(qrCodeData, format), sut.uiState.value)
     }
+
+    @Test
+    fun `given qr result action is with Scanned and haptic feedback settings, ui state is set to Success with vibrate=true`() =
+        runTest {
+            val qrCodeData = "qr_code_data"
+            val format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_13
+            settingsMutableFlow.emit(FullSettings(scan = ScanSettings(hapticFeedback = true)))
+
+            sut.onNewAction(QRCodeFromFileUIAction.ScanResult(QRCodeScanResult.Scanned(qrCodeData, format)))
+
+            assertEquals(QRCodeFromFileUIState.Success(qrCodeData, format, vibrate = true), sut.uiState.value)
+        }
 
     @Test
     fun `given qr result action is Cancelled after error, ui state is not updated`() {

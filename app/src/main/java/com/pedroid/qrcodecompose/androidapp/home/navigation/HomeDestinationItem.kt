@@ -15,6 +15,8 @@ import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.H
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_CAMERA_READER_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_ROUTE
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.SETTINGS_ROUTE
+import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.about.ABOUT_APP_ROUTE
+import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.contact.CONTACT_ROUTE
 
 /**
  * enum containing items used in bottom navigation / navigation rail
@@ -63,6 +65,12 @@ sealed class HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_settings,
         itemIcon = Icons.Rounded.Settings,
         routeLabel = SETTINGS_ROUTE,
+        encompassingRoutes =
+            listOf(
+                SETTINGS_ROUTE,
+                CONTACT_ROUTE,
+                ABOUT_APP_ROUTE,
+            ),
     )
 
     companion object {

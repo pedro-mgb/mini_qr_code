@@ -37,11 +37,11 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
+import com.pedroid.qrcodecompose.androidapp.core.presentation.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
-import com.pedroid.qrcodecompose.androidapp.designsystem.utils.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners

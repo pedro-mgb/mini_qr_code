@@ -22,7 +22,7 @@ If you have any questions or suggestions, feel free to open an issue!
   - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
   - [Room Database](https://developer.android.com/training/data-storage/room)
-  - [Splash Screen](https://developer.android.com/develop/ui/views/launch/splash-screen)
+  - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 - [Zxing](https://github.com/zxing/zxing)
 - [ML Kit barcode scanning](https://developers.google.com/ml-kit/vision/barcode-scanning)
 - [Arrow (optics)](https://arrow-kt.io/learn/immutable-data/lens/)
