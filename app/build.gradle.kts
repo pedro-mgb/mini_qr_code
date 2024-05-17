@@ -143,6 +143,7 @@ dependencies {
 
     kspAndroidTest(libs.androidx.room.compiler)
 
+    debugImplementation(libs.androidx.test.monitor)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
