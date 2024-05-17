@@ -16,6 +16,7 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.domain.GenerateSet
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.HistorySavePreferences
 import com.pedroid.qrcodecompose.androidapp.features.settings.domain.SettingsReadOnlyRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import com.pedroid.qrcodecomposelib.generate.QRCodeComposeXNotCompliantWithFormatException
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -337,6 +338,16 @@ class GenerateQRCodeViewModelTest {
                 awaitItem().temporaryMessage.assertHasError()
                 sut.onNewAction(GenerateQRCodeUIAction.TmpMessageShown)
                 assertTrue(awaitItem().temporaryMessage == null)
+            }
+        }
+
+    @Test
+    fun `given generate error actions for invalid format is sent, state errorMessageKey is updated`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // initial state
+                sut.onNewAction(GenerateQRCodeUIAction.GenerateErrorReceived(QRCodeComposeXNotCompliantWithFormatException()))
+                assertTrue(awaitItem().content.inputErrorMessage.isNotEmpty())
             }
         }
 

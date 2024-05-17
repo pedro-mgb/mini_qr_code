@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +54,9 @@ private fun GenerateQRCodeCoordinator(
     val context = LocalContext.current
     val uiState: GenerateQRCodeUIState by viewModel.uiState.collectAsStateWithLifecycle()
     (savedStateHandle.get<QRCodeComposeXFormat>(CODE_FORMAT_KEY))?.let {
-        viewModel.onNewAction(GenerateQRCodeUIAction.Customize(options = QRCodeCustomizationOptions(it)))
+        LaunchedEffect(key1 = it) {
+            viewModel.onNewAction(GenerateQRCodeUIAction.Customize(options = QRCodeCustomizationOptions(it)))
+        }
     }
     var currentQRCodeBitmap: Bitmap? by remember { mutableStateOf(null) }
     val saveImageLauncher =
