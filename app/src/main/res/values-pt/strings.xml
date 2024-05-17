@@ -17,42 +17,42 @@
     <string name="action_close">Fechar</string>
     <string name="to_be_implemented">Disponível em breve…</string>
 
-    <string name="scan_code_header">Pressiona o botão \'%s\' para começares a capturar QR Codes.</string>
-    <string name="scan_code_permission_info">É necessário conceder acesso à tua câmara.</string>
+    <string name="scan_code_header">Pressiona o botão \'%s\' para leres QR Codes.</string>
+    <string name="scan_code_permission_info">Vai ser pedido acesso à tua câmara.</string>
     <string name="scan_code_permission_denied_info">Negaste o acesso à câmara. Esta app necessita de acesso à câmara para ler QR Codes. Alternativamente, podes usar \'%s\'.</string>
     <string name="scan_code_camera_action_button">Capturar com câmara</string>
-    <string name="scan_code_image_action_button">Capturar de ficheiro</string>
+    <string name="scan_code_image_action_button">Capturar de um ficheiro</string>
     <string name="scan_another_code_camera_action_button">Capturar novamente (câmara)</string>
-    <string name="scan_another_code_image_action_button">Capturar novamente (file)</string>
+    <string name="scan_another_code_image_action_button">Capturar novamente (ficheiro)</string>
     <string name="scan_code_camera_toolbar_title">Capturar com a câmara traseira</string>
-    <string name="scan_code_camera_instructions">Aponte a câmara de modo a que o QR Code se enquadre na moduldura verde no ecrã do seu telemóvel.</string>
+    <string name="scan_code_camera_instructions">Aponta a câmara de modo a que o QR Code se enquadre na moduldura no centro do ecrã do teu telemóvel.</string>
     <string name="scan_code_read_camera_label">Código capturado (câmara)</string>
     <string name="scan_code_read_from_file_label">Código capturado (ficheiro)</string>
     <string name="scan_code_read_format">Formato: %s</string>
     <string name="scan_code_from_file_toolbar_title">Capturar a partir de um ficheiro</string>
-    <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos e escaneando QR Code na imagem…</string>
+    <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos para escanear QR Code…</string>
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
-    <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tente com outro ficheiro.</string>
+    <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tenta com outro ficheiro.</string>
 
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code.</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>
     <string name="code_copied_success">Copiado para o clipboard!</string>
     <string name="code_saved_to_file_success">Guardado no ficheiro com successo!</string>
     <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tenta de novo.</string>
-    <string name="error_unable_to_open_url">Não foi possível abrir o link. Garante que tens uma app de browser (e.g. Chrome) instalada.</string>
+    <string name="error_unable_to_open_url">Não foi possível abrir o link. É necessário uma app de browser (e.g. Chrome) instalada.</string>
 
-    <string name="generate_code_header">Escreva o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
+    <string name="generate_code_header">Escreve o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
     <string name="generate_code_text_box_label">Inserir o teu texto</string>
     <string name="generate_code_will_appear_here">Imagem aparecerá aqui.</string>
-    <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tente de novo.</string>
+    <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tenta de novo.</string>
     <string name="generate_code_current_customization_options">Formato: %s</string>
     <string name="generate_code_customize_action">Customizar</string>
     <string name="generate_code_select_format_title">Selecionar formato</string>
-    <string name="generate_code_select_format_description">Clique o formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
+    <string name="generate_code_select_format_description">Clica no formato desejado da lista abaixo.\nAlguns formatos seguem regras específicas - por exemplo apenas caracteres alfa-numéricos ou um comprimento específico.</string>
 
     <string name="history_top_header_title">O teu Histórico</string>
     <string name="history_top_header_more_information_button">Sobre o histórico</string>
-    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico. Podes também configurar nas Definições como o histórico é guardado.</string>
     <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
     <string name="history_header_today">Hoje</string>
     <string name="history_header_yesterday">Ontem</string>
@@ -60,7 +60,7 @@
     <string name="history_item_scan_image_file">Captura (ficheiro)</string>
     <string name="history_item_generate">Criado</string>
     <string name="history_detail_scan_camera_at">Capturado com câmara a:</string>
-    <string name="history_detail_scan_file_at">Capturado de ficheiro a:</string>
+    <string name="history_detail_scan_file_at">Capturado de um ficheiro a:</string>
     <string name="history_detail_generated_at">Criado a:</string>
     <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor (tab definições).</string>
 
@@ -72,7 +72,7 @@
     <string name="settings_main_screen_general_app_language_option_portuguese">Português (Portugal)</string>
     <string name="settings_main_screen_general_open_urls">Abertura de URLs</string>
     <string name="settings_main_screen_general_open_urls_option_browser_title">Browser Externo</string>
-    <string name="settings_main_screen_general_open_urls_option_browser_description">Abre a app browser default do telemóvel (e.g. Chrome).\nOpção pré-definida na app.</string>
+    <string name="settings_main_screen_general_open_urls_option_browser_description">Abre a app browser do telemóvel (e.g. Chrome).\nOpção pré-definida na app.</string>
     <string name="settings_main_screen_general_open_urls_in_app_custom_tab_title">Browser In-app</string>
     <string name="settings_main_screen_general_open_urls_in_app_custom_tab_description">Abre o URL numa aba dentro da app.\nSe o seu telemóvel não suportar, abrirá na app browser.</string>
     <string name="settings_main_screen_header_scan">Definições de captura</string>

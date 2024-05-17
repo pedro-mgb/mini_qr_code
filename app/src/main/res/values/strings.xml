@@ -18,14 +18,14 @@
     <string name="to_be_implemented">Available soon…</string>
 
     <string name="scan_code_header">Press the \'%s\' button to scan QR Codes</string>
-    <string name="scan_code_permission_info">You\'ll need to grant access to your camera.</string>
+    <string name="scan_code_permission_info">You\'ll be prompted to grant access to your camera.</string>
     <string name="scan_code_permission_denied_info">You\'ve denied camera permission. This app needs the camera permission to scan QR Codes. Alternatively, you may use \'%s\'.</string>
     <string name="scan_code_camera_action_button">Scan with camera</string>
     <string name="scan_code_image_action_button">Scan from file</string>
     <string name="scan_another_code_camera_action_button">Scan another (camera)</string>
     <string name="scan_another_code_image_action_button">Scan another (file)</string>
     <string name="scan_code_camera_toolbar_title">Scan with back camera</string>
-    <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the green frame in your phone\'s screen.</string>
+    <string name="scan_code_camera_instructions">Point your camera so that the QR Code fits the frame in the center of your phone\'s screen.</string>
     <string name="scan_code_read_camera_label">Scanned Code (camera)</string>
     <string name="scan_code_read_from_file_label">Scanned Code (file)</string>
     <string name="scan_code_read_format">Format: %s</string>
@@ -52,7 +52,7 @@
 
     <string name="history_top_header_title">Your History</string>
     <string name="history_top_header_more_information_button">About your history</string>
-    <string name="history_more_information_description">By default, every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nYou can change how your QR Codes are saved in history in the \"Settings\" tab.\nIn a future app version, you will be able to delete your history.</string>
+    <string name="history_more_information_description">By default, every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nYou can change how your QR Codes are saved in history in the \"Settings\" tab.\nIn a future app version, you will be able to delete your history. You can also configure how history is saved in the settings tab.</string>
     <string name="history_empty_list">You history of scanned and generated codes is empty.</string>
     <string name="history_header_today">Today</string>
     <string name="history_header_yesterday">Yesterday</string>

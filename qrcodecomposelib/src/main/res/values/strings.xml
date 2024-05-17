@@ -19,7 +19,7 @@
     <string name="qrcode_compose_lib_format_aztec_subtitle">2D format alternative to QR Code. Its center pattern resembles an Aztec pyramid - hence the name.</string>
     <string name="qrcode_compose_lib_format_data_matrix_subtitle">2D square format that can encode data in a very small surface area.</string>
     <string name="qrcode_compose_lib_format_pdf417_subtitle">2D linear barcode, used by United States Postal Service (USPS), among others.</string>
-    <string name="qrcode_compose_lib_format_barcode39_subtitle">1D barcode, not used worldwide when compared to Code 128.</string>
+    <string name="qrcode_compose_lib_format_barcode39_subtitle">1D barcode, not used worldwide, ancestor of the more popular Code 128.</string>
     <string name="qrcode_compose_lib_format_barcode93_subtitle">More compact than Code 39. Used by Canada Post.</string>
     <string name="qrcode_compose_lib_format_barcode128_subtitle">1D barcode used worldwide in shipping and packaging (particularly, its GS1–128 subset).</string>
     <string name="qrcode_compose_lib_format_ean8_subtitle">1D barcode used in small packages for which EAN-13 is too large.</string>
