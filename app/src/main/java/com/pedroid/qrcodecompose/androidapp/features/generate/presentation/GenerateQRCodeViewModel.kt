@@ -98,7 +98,6 @@ class GenerateQRCodeViewModel
                         savedStateHandle.updateState {
                             it.copy {
                                 GenerateQRCodeUIState.content.inputText.set(action.text)
-                                GenerateQRCodeUIState.content.inputErrorMessage.set("")
                             }
                         }
                         action
@@ -110,7 +109,10 @@ class GenerateQRCodeViewModel
                     // only update qrcode to generate if user as stopped typing for a small interval
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     savedStateHandle.updateState {
-                        GenerateQRCodeUIState.content.generating.qrCodeText.set(it, action.text)
+                        it.copy {
+                            GenerateQRCodeUIState.content.generating.qrCodeText.set(action.text)
+                            GenerateQRCodeUIState.content.inputErrorMessage.set("")
+                        }
                     }
                 }
                 .launchIn(viewModelScope)
@@ -134,7 +136,10 @@ class GenerateQRCodeViewModel
                         null
                     }
                     actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> null
-                    generatingContent == actionWithCurrentContent.code -> null
+                    generatingContent == actionWithCurrentContent.code -> {
+                        resetActionComplete(actionWithCurrentContent)
+                        null
+                    }
                     else -> GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
                 }
             }

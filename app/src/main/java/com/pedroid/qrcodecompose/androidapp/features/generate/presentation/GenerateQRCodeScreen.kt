@@ -3,14 +3,19 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -53,6 +58,7 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.Generat
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GenerateQRCodeScreen(
     state: GenerateQRCodeContentState,
@@ -64,6 +70,8 @@ fun GenerateQRCodeScreen(
         modifier =
             Modifier
                 .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .imePadding()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -281,7 +289,7 @@ private fun QRCodeActionButtons(actionListeners: GenerateQRCodeActionListeners =
         Icon(
             modifier = Modifier.size(Dimens.iconButtonSize),
             imageVector = Icons.Outlined.SaveAlt,
-            contentDescription = stringResource(id = R.string.action_open),
+            contentDescription = stringResource(id = R.string.action_save_to_file),
         )
     }
     Spacer(modifier = Modifier.size(Dimens.spacingMedium))
