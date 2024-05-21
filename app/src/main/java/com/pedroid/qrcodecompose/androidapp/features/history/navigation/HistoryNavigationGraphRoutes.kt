@@ -6,6 +6,8 @@ import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.H
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.historyDetailRoute
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.navigateToHistoryDetail
 
+const val DELETED_HISTORY_ITEM_UID_KEY = "DELETED_HISTORY_ITEM_UID"
+
 fun NavGraphBuilder.historyFeatureNavigationRoutes(
     navController: NavController,
     largeScreen: Boolean = false,
@@ -21,6 +23,12 @@ fun NavGraphBuilder.historyFeatureNavigationRoutes(
     historyDetailRoute(
         navigationListeners =
             HistoryDetailNavigationListeners(
+                onUserDelete = {
+                    navController.popBackStack()
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set(DELETED_HISTORY_ITEM_UID_KEY, it)
+                },
                 onGoBack = { navController.popBackStack() },
             ),
         largeScreen = largeScreen,

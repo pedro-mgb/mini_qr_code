@@ -2,17 +2,22 @@ package com.pedroid.qrcodecompose.androidapp.features.history.presentation
 
 import app.cash.turbine.test
 import com.pedroid.qrcodecompose.androidapp.core.logging.Logger
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageType
 import com.pedroid.qrcodecompose.androidapp.core.test.CoroutineDispatcherTestRule
 import com.pedroid.qrcodecompose.androidapp.core.test.assertContains
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryEntry
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepository
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -31,6 +36,7 @@ class HistoryListViewModelTest {
     private val historyRepository =
         mockk<HistoryRepository> {
             every { getAllHistory() } returns historyFlow.asSharedFlow()
+            coEvery { deleteHistoryEntries(any()) } just runs
         }
 
     private lateinit var sut: HistoryListViewModel
@@ -193,6 +199,33 @@ class HistoryListViewModelTest {
                 assertContains((newResultList[1] as HistoryListItem.Data).displayDate, "08-04-2024")
                 assertContains((newResultList[3] as HistoryListItem.Data).displayDate, "16-03-2024")
                 assertContains((newResultList[5] as HistoryListItem.Data).displayDate, "04-10-2023")
+            }
+        }
+
+    @Test
+    fun `given deleted from details action, temporary message updated as info snackbar`() =
+        runTest {
+            sut.uiState.test {
+                historyFlow.emit(emptyList())
+                skipItems(2) // idle + content state with list
+
+                sut.onNewAction(HistoryListUIAction.DeletedFromDetails(1L))
+
+                assertEquals(TemporaryMessageType.INFO_SNACKBAR, awaitItem().temporaryMessage?.type)
+            }
+        }
+
+    @Test
+    fun `given deleted success message shown, temporary message updated to null`() =
+        runTest {
+            sut.uiState.test {
+                historyFlow.emit(emptyList())
+                sut.onNewAction(HistoryListUIAction.DeletedFromDetails(1L))
+                skipItems(3) // idle + content state with list + snackbar
+
+                sut.onNewAction(HistoryListUIAction.TmpMessageShown)
+
+                assertNull(awaitItem().temporaryMessage)
             }
         }
 }
