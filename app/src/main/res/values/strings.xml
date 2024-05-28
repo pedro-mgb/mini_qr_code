@@ -72,8 +72,7 @@
     <string name="history_delete_multiple_items_notice_title">Delete %d history entries</string>
     <string name="history_delete_multiple_items_notice_description">Are you sure you want to delete all those history entries?\n\nThis action is permanent and cannot be reversed.</string>
     <string name="history_delete_multiple_items_notice_action">Delete %d entries</string>
-    <string name="history_delete_single_item_success_message">History record was deleted successfully.</string>
-    <string name="history_delete_multiple_items_success_message">History records were deleted successfully.</string>
+    <string name="history_delete_items_success_message">History records deleted successfully.</string>
 
     <string name="settings_main_screen_title">App Settings</string>
     <string name="settings_main_screen_header_general">General settings</string>

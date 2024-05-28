@@ -72,8 +72,7 @@
     <string name="history_delete_multiple_items_notice_title">Remover %d registos do histórico</string>
     <string name="history_delete_multiple_items_notice_description">Tens a certeza que queres apagar estes registos do teu histórico?\n\nEsta ação é permanente e não é possível reverter.</string>
     <string name="history_delete_multiple_items_notice_action">Remover %d registos</string>
-    <string name="history_delete_single_item_success_message">Registo do histórico foi removido com sucessso.</string>
-    <string name="history_delete_multiple_items_success_message">Registos do histórico foram removidos com sucessso.</string>
+    <string name="history_delete_items_success_message">Registos do histórico removidos com sucessso.</string>
 
     <string name="settings_main_screen_title">Definições da app</string>
     <string name="settings_main_screen_header_general">Definições gerais</string>
