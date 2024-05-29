@@ -2,6 +2,7 @@ package com.pedroid.qrcodecompose.androidapp.designsystem.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,7 @@ fun QRAppSelectableItem(
     regularClickListener: () -> Unit = {},
     longClickAccessibilityLabel: String? = null,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    checkboxPadding: PaddingValues = PaddingValues(all = Dimens.spacingSmall),
     content: @Composable RowScope.() -> Unit,
 ) {
     Row(
@@ -58,7 +60,7 @@ fun QRAppSelectableItem(
     ) {
         if (inSelectableMode) {
             Checkbox(
-                modifier = Modifier.padding(Dimens.spacingSmall),
+                modifier = Modifier.padding(checkboxPadding),
                 checked = isSelected,
                 onCheckedChange = onSelectionChange,
             )

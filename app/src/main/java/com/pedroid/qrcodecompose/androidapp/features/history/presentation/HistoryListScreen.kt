@@ -1,7 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.history.presentation
 
 import android.content.Context
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,8 +16,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -25,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -36,7 +40,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getString
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSelectableItem
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
+import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.SelectAll
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListActionListeners
@@ -49,23 +56,32 @@ import kotlin.random.Random
 @Composable
 fun HistoryListScreen(
     content: HistoryListContentState,
+    selectionMode: HistorySelectionMode,
     navigationListeners: HistoryListNavigationListeners,
     actionListeners: HistoryListActionListeners,
 ) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize()) {
-        HistoryInfoTopHeader(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Dimens.spacingLarge,
-                        end = Dimens.spacingLarge,
-                        top = Dimens.spacingLarge,
-                        bottom = Dimens.spacingSmall,
-                    ),
-            moreInformationClicked = actionListeners.onMoreInfoRequested,
-        )
+        if (selectionMode !is HistorySelectionMode.Selection) {
+            HistoryInfoTopHeader(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = Dimens.spacingLarge,
+                            end = Dimens.spacingLarge,
+                            top = Dimens.spacingLarge,
+                            bottom = Dimens.spacingSmall,
+                        ),
+                moreInformationClicked = actionListeners.onMoreInfoRequested,
+            )
+        } else {
+            HistorySelectionToolbar(
+                modifier = Modifier.fillMaxWidth(),
+                actionListeners = actionListeners,
+                selectedItemCount = selectionMode.currentlySelected,
+            )
+        }
 
         when (content) {
             HistoryListContentState.Idle -> {
@@ -83,7 +99,9 @@ fun HistoryListScreen(
                 HistoryDataList(
                     modifier = Modifier.fillMaxSize(),
                     content = content,
+                    selectionMode = selectionMode,
                     context = context,
+                    actionListeners = actionListeners,
                     onClick = navigationListeners.onSelectItem,
                 )
             }
@@ -91,12 +109,48 @@ fun HistoryListScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HistorySelectionToolbar(
+    modifier: Modifier = Modifier,
+    actionListeners: HistoryListActionListeners,
+    selectedItemCount: Int,
+) {
+    QRAppSimpleToolbar(
+        modifier = modifier,
+        title =
+            if (selectedItemCount > 1) {
+                stringResource(id = R.string.history_item_selected_multiple, selectedItemCount)
+            } else {
+                stringResource(id = R.string.history_item_selected_single)
+            },
+        onNavigationIconClick = actionListeners.onSelectionBackPressed,
+        actions = {
+            IconButton(onClick = actionListeners.onSelectAllItems) {
+                Icon(
+                    imageVector = Icons.Outlined.SelectAll,
+                    contentDescription = stringResource(id = R.string.history_item_select_all_action),
+                )
+            }
+            IconButton(onClick = { actionListeners.onDeletePressed(selectedItemCount) }) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    tint = MaterialTheme.colorScheme.secondary,
+                    contentDescription = stringResource(id = R.string.history_delete_action),
+                )
+            }
+        },
+    )
+}
+
 @Composable
 @ExperimentalComposeUiApi
 private fun HistoryDataList(
     modifier: Modifier = Modifier,
     content: HistoryListContentState.DataList,
+    selectionMode: HistorySelectionMode,
     context: Context,
+    actionListeners: HistoryListActionListeners,
     onClick: (Long) -> Unit,
 ) {
     LazyColumn(
@@ -127,14 +181,45 @@ private fun HistoryDataList(
                         context = context,
                     )
                 is HistoryListItem.Data ->
-                    HistoryListDataItem(
+                    QRAppSelectableItem(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .clickable { onClick(item.uid) }
-                                .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
-                        item,
-                    )
+                                .background(
+                                    color =
+                                        if (item.selected) {
+                                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+                                        } else {
+                                            Color.Transparent
+                                        },
+                                ),
+                        inSelectableMode = selectionMode is HistorySelectionMode.Selection,
+                        isSelected = item.selected,
+                        checkboxPadding =
+                            PaddingValues(
+                                start = Dimens.spacingSmall,
+                                top = Dimens.spacingSmall,
+                                bottom = Dimens.spacingSmall,
+                                end = Dimens.spacingNone,
+                            ),
+                        onSelectionChange = {
+                            actionListeners.onItemSelectedToggle(item.uid)
+                        },
+                        regularClickListener = {
+                            onClick(item.uid)
+                        },
+                    ) {
+                        HistoryListDataItem(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = Dimens.spacingMedium,
+                                        vertical = Dimens.spacingSmall,
+                                    ),
+                            item,
+                        )
+                    }
             }
         }
     }
@@ -223,7 +308,12 @@ private fun HistoryListDataItem(
     item: HistoryListItem.Data,
 ) {
     Card(modifier = modifier) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(Dimens.spacingSmall)) {
+        ConstraintLayout(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(Dimens.spacingSmall),
+        ) {
             val (icon, scanOrGenerateText, value, format, dateTime) = createRefs()
             val barrier = createStartBarrier(format, dateTime)
             Icon(
@@ -244,6 +334,7 @@ private fun HistoryListDataItem(
                     Modifier
                         .fillMaxWidth()
                         .constrainAs(scanOrGenerateText) {
+                            width = Dimension.fillToConstraints
                             linkTo(start = icon.end, end = barrier, bias = 0f)
                             linkTo(top = parent.top, bottom = value.top, bottomMargin = 2.dp)
                         }
@@ -254,11 +345,18 @@ private fun HistoryListDataItem(
             )
             Text(
                 modifier =
-                    Modifier.fillMaxWidth().constrainAs(value) {
-                        width = Dimension.fillToConstraints
-                        linkTo(start = icon.end, end = barrier, bias = 0f)
-                        linkTo(top = scanOrGenerateText.bottom, bottom = parent.bottom, topMargin = 2.dp)
-                    }.padding(horizontal = Dimens.spacingSmall),
+                    Modifier
+                        .fillMaxWidth()
+                        .constrainAs(value) {
+                            width = Dimension.fillToConstraints
+                            linkTo(start = icon.end, end = barrier, bias = 0f)
+                            linkTo(
+                                top = scanOrGenerateText.bottom,
+                                bottom = parent.bottom,
+                                topMargin = 2.dp,
+                            )
+                        }
+                        .padding(horizontal = Dimens.spacingSmall),
                 text = item.value,
                 fontStyle = FontStyle.Italic,
                 maxLines = 1,
@@ -299,6 +397,7 @@ fun HistoryListScreenEmptyPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         HistoryListScreen(
             content = HistoryListContentState.Empty,
+            selectionMode = HistorySelectionMode.None,
             navigationListeners = HistoryListNavigationListeners(),
             actionListeners = HistoryListActionListeners(),
         )
@@ -310,7 +409,21 @@ fun HistoryListScreenEmptyPreview() {
 fun HistoryListScreenWithContentPreview() {
     BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
         HistoryListScreen(
-            content = HistoryListContentState.DataList(mockHistoryDataList()),
+            content = HistoryListContentState.DataList(mockHistoryDataList(selectSomeItems = false)),
+            selectionMode = HistorySelectionMode.None,
+            navigationListeners = HistoryListNavigationListeners(),
+            actionListeners = HistoryListActionListeners(),
+        )
+    }
+}
+
+@PreviewScreenSizes
+@Composable
+fun HistoryListScreenSelectingPreview() {
+    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+        HistoryListScreen(
+            content = HistoryListContentState.DataList(mockHistoryDataList(selectSomeItems = true)),
+            selectionMode = HistorySelectionMode.Selection(5),
             navigationListeners = HistoryListNavigationListeners(),
             actionListeners = HistoryListActionListeners(),
         )
@@ -318,22 +431,22 @@ fun HistoryListScreenWithContentPreview() {
 }
 
 @Composable
-private fun mockHistoryDataList(): List<HistoryListItem> =
+private fun mockHistoryDataList(selectSomeItems: Boolean): List<HistoryListItem> =
     listOf(
         HistoryListItem.SectionHeader(stringResource(id = R.string.history_header_today)),
-        mockHistoryDataItem(),
+        mockHistoryDataItem(selected = selectSomeItems),
         HistoryListItem.SectionHeader(stringResource(id = R.string.history_header_yesterday)),
         mockHistoryDataItem("a very long text with new line, should eclipsize\nthis text should not be shown"),
         mockHistoryDataItem(typeUI = HistoryTypeUI.GENERATE, format = QRCodeComposeXFormat.BARCODE_128),
         HistoryListItem.SectionHeader("A year ago..."),
         mockHistoryDataItem(typeUI = HistoryTypeUI.SCAN_FILE),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
-        mockHistoryDataItem(),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
+        mockHistoryDataItem(selected = selectSomeItems),
     )
 
 private fun mockHistoryDataItem(
@@ -341,6 +454,7 @@ private fun mockHistoryDataItem(
     date: String = "a formatted\ndate 2 lines",
     typeUI: HistoryTypeUI = HistoryTypeUI.SCAN_CAMERA,
     format: QRCodeComposeXFormat = QRCodeComposeXFormat.QR_CODE,
+    selected: Boolean = false,
 ): HistoryListItem.Data =
     HistoryListItem.Data(
         uid = Random.nextLong(),
@@ -348,5 +462,6 @@ private fun mockHistoryDataItem(
         displayDate = date,
         typeUI = typeUI,
         formatStringId = format.titleStringId,
+        selected = selected,
     )
 // endregion screen previews

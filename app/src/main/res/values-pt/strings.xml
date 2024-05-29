@@ -52,7 +52,7 @@
 
     <string name="history_top_header_title">O teu Histórico</string>
     <string name="history_top_header_more_information_button">Sobre o histórico</string>
-    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nPodes remover o teu histórico abrindo um item e pressionando \"Remover do histórico\", ou pressionar e segurar um item do histórico, e selecionar quantos quiseres para remover.\nPodes também configurar nas Definições como o histórico é guardado.</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nPodes configurar na aba \"Definições\" como o histórico é guardado.\nPodes remover o teu histórico abrindo um item e pressionando \"Remover do histórico\", ou pressionar e segurar um item do histórico, e selecionar quantos quiseres para remover.</string>
     <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
     <string name="history_header_today">Hoje</string>
     <string name="history_header_yesterday">Ontem</string>
@@ -65,6 +65,7 @@
     <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor (tab definições).</string>
     <string name="history_item_selected_single">1 item selecionado</string>
     <string name="history_item_selected_multiple">%d itens selecionados</string>
+    <string name="history_item_select_all_action">Selecionar todos</string>
     <string name="history_delete_action">Remover do histórico</string>
     <string name="history_delete_single_item_notice_title">Remover 1 registo do histórico</string>
     <string name="history_delete_single_item_notice_description">Tens a certeza que queres apagar este registo do teu histórico?\n\nEsta ação é permanente e não é possível reverter.</string>

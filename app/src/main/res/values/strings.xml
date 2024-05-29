@@ -52,7 +52,7 @@
 
     <string name="history_top_header_title">Your History</string>
     <string name="history_top_header_more_information_button">About your history</string>
-    <string name="history_more_information_description">By default, every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nYou can change how your QR Codes are saved in history in the \"Settings\" tab.\nYou may remove your history opening an history item and pressing \"Remove from history\", or long press an history item in the list and select as many as you want to be removed.\nYou can also configure how history is saved in the settings tab.</string>
+    <string name="history_more_information_description">By default, every time you interact with a scanned code (open it in another app, copy it or share it), or a generated code (save it in a file, or copy it or share it), it is saved and can be consulted in this screen.\n\nYour history is local and never leaves your phone.\n\nYou can change how your QR Codes are saved in history in the \"Settings\" tab.\nYou may remove your history opening an history item and pressing \"Remove from history\", or long press an history item in the list and select as many as you want to be removed.</string>
     <string name="history_empty_list">You history of scanned and generated codes is empty.</string>
     <string name="history_header_today">Today</string>
     <string name="history_header_yesterday">Yesterday</string>
@@ -66,6 +66,7 @@
     <string name="history_delete_action">Remove from history</string>
     <string name="history_item_selected_single">1 item selected</string>
     <string name="history_item_selected_multiple">%d items selected</string>
+    <string name="history_item_select_all_action">Select all</string>
     <string name="history_delete_single_item_notice_title">Delete 1 history entry</string>
     <string name="history_delete_single_item_notice_description">Are you sure you want to delete this history entry?\n\nThis action is permanent and cannot be reversed.</string>
     <string name="history_delete_single_item_notice_action">Delete</string>
