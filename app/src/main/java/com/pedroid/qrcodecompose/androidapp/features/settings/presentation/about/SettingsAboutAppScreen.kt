@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.viewinterop.AndroidView
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.about.SettingsAboutAppActionListeners
@@ -44,9 +44,9 @@ fun SettingsAboutAppScreen(
     actionListeners: SettingsAboutAppActionListeners,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(
+        QRAppSimpleToolbar(
             modifier = Modifier.fillMaxWidth(),
-            titleRes = R.string.settings_main_screen_other_about_the_app_title,
+            title = stringResource(R.string.settings_main_screen_other_about_the_app_title),
             onNavigationIconClick = externalNavigationListeners.onGoBack,
         )
         Column(

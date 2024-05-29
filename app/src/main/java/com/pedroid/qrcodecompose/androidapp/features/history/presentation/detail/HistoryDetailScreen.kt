@@ -40,7 +40,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCode
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
@@ -60,7 +60,7 @@ fun HistoryDetailScreen(
     actionListeners: HistoryDetailActionListeners,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(titleRes = R.string.history_top_header_title, onNavigationIconClick = navigationListeners.onGoBack)
+        QRAppSimpleToolbar(title = stringResource(R.string.history_top_header_title), onNavigationIconClick = navigationListeners.onGoBack)
         Column(
             modifier =
                 Modifier

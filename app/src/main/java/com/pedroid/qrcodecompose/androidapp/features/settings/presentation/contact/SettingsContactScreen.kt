@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.Browser
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
@@ -43,9 +43,9 @@ fun SettingsContactScreen(
     actionListeners: SettingsContactActionListeners,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(
+        QRAppSimpleToolbar(
             modifier = Modifier.fillMaxWidth(),
-            titleRes = R.string.settings_main_screen_other_contact_developer_title,
+            title = stringResource(R.string.settings_main_screen_other_contact_developer_title),
             onNavigationIconClick = externalNavigationListeners.onGoBack,
         )
         Column(
