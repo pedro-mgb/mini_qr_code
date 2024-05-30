@@ -60,6 +60,7 @@ class HistoryDetailViewModel
         private val defaultZoneId get() = ZoneId.systemDefault()
         private val defaultLocale get() = Locale.getDefault()
         private val dateTimePattern get() = "EEEE, d MMM yyyy - ${getHourTimeFormat()}"
+        private var userDeletedUid: Long? = null
 
         private fun mapToUIState(input: Triple<HistoryEntry?, QRCodeGenerateResult?, TemporaryMessageData?>): HistoryDetailUIState {
             val entry: HistoryEntry? = input.first
@@ -69,7 +70,7 @@ class HistoryDetailViewModel
 
             val state: HistoryDetailUIState =
                 if (entry == null) {
-                    HistoryDetailUIState.Deleted
+                    HistoryDetailUIState.Deleted(userDeletedUid)
                 } else {
                     logger.debug(LOG_TAG, "result after generating qr code: $generateResult + with temporary message $temporaryMessage")
                     HistoryDetailUIState.Content(
@@ -108,6 +109,12 @@ class HistoryDetailViewModel
                     is HistoryDetailUIAction.TmpMessageShown -> {
                         temporaryMessageFlow.emit(null)
                     }
+                    is HistoryDetailUIAction.Delete -> {
+                        (uiState.value as? HistoryDetailUIState.Content)?.data?.uid?.let { uid ->
+                            historyRepository.deleteHistoryEntries(listOf(uid))
+                            userDeletedUid = uid
+                        }
+                    }
                 }
             }
         }
@@ -121,7 +128,7 @@ interface HistoryDetailViewModelFactory {
 sealed class HistoryDetailUIState {
     data object Idle : HistoryDetailUIState()
 
-    data object Deleted : HistoryDetailUIState()
+    data class Deleted(val deletedItemUid: Long?) : HistoryDetailUIState()
 
     data class Content(
         val data: HistoryDetail,
@@ -135,4 +142,6 @@ sealed class HistoryDetailUIAction {
     data class QRActionComplete(val action: QRAppActions) : HistoryDetailUIAction()
 
     data object TmpMessageShown : HistoryDetailUIAction()
+
+    data object Delete : HistoryDetailUIAction()
 }

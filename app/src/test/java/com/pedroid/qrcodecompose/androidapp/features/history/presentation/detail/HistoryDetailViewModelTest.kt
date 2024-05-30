@@ -10,8 +10,11 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepos
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryTypeUI
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
+import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.test.runTest
@@ -33,6 +36,7 @@ internal class HistoryDetailViewModelTest {
     private val historyRepository =
         mockk<HistoryRepository> {
             every { getSingleHistory(any()) } returns detailFlow.asSharedFlow()
+            coEvery { deleteHistoryEntries(any()) } just runs
         }
 
     private lateinit var sut: HistoryDetailViewModel
@@ -61,7 +65,7 @@ internal class HistoryDetailViewModelTest {
 
                 detailFlow.emit(null)
 
-                assertEquals(HistoryDetailUIState.Deleted, awaitItem())
+                assertEquals(HistoryDetailUIState.Deleted(deletedItemUid = null), awaitItem())
             }
         }
 
@@ -179,6 +183,21 @@ internal class HistoryDetailViewModelTest {
                 val result = awaitItem() as HistoryDetailUIState.Content
 
                 assertTrue(result.temporaryMessage == null)
+            }
+        }
+
+    @Test
+    fun `given item is deleted and repository emits null, Deleted state uid is emitted`() =
+        runTest {
+            sut.uiState.test {
+                awaitItem() // idle state
+                detailFlow.emit(historyEntryGenerate)
+                awaitItem() // state with data
+
+                sut.onNewAction(HistoryDetailUIAction.Delete)
+                detailFlow.emit(null)
+
+                assertEquals(HistoryDetailUIState.Deleted(deletedItemUid = historyEntryGenerate.uid), awaitItem())
             }
         }
 

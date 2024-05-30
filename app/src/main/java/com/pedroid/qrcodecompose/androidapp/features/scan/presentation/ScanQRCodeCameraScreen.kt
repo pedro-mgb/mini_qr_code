@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.content.ContextCompat
 import com.pedroid.qrcodecompose.androidapp.R
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
@@ -71,9 +71,9 @@ private fun ScanQRCodeCameraContent(
     cameraContent: @Composable (modifier: Modifier) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(
+        QRAppSimpleToolbar(
             modifier = Modifier.fillMaxWidth(),
-            titleRes = R.string.scan_code_camera_toolbar_title,
+            title = stringResource(R.string.scan_code_camera_toolbar_title),
             onNavigationIconClick = onBackInvoked,
         )
         Box(

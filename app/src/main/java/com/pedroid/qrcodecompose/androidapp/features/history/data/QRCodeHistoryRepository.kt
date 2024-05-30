@@ -33,6 +33,10 @@ class QRCodeHistoryRepository
             return dao.insert(entry.toDBEntity())
         }
 
+        override suspend fun deleteHistoryEntries(idList: List<Long>) {
+            dao.deleteAllMatchingIds(idList)
+        }
+
         private fun QRCodeHistoryDBEntity.toHistoryEntry(): HistoryEntry =
             when (type) {
                 HistoryType.GENERATE -> {

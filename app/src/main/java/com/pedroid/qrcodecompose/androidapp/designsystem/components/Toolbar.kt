@@ -1,8 +1,9 @@
 package com.pedroid.qrcodecompose.androidapp.designsystem.components
 
-import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,19 +15,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import com.pedroid.qrcodecompose.androidapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QRAppToolbar(
-    @StringRes titleRes: Int,
+fun QRAppSimpleToolbar(
+    title: String,
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = stringResource(id = titleRes)) },
+        title = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
@@ -36,17 +39,23 @@ fun QRAppToolbar(
                 )
             }
         },
+        actions = actions,
         colors = colors,
         modifier = modifier,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@PreviewFontScale
 @Composable
 fun QRAppToolbarPreview() {
-    QRAppToolbar(
-        titleRes = android.R.string.untitled,
+    QRAppSimpleToolbar(
+        title = "Title that is very long and most likely would take up more than one line on a phone screen",
+        actions = {
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
+            }
+        },
         onNavigationIconClick = { },
     )
 }

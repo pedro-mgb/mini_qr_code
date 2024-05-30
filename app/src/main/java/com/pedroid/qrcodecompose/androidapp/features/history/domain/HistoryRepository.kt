@@ -8,4 +8,6 @@ interface HistoryRepository {
     fun getSingleHistory(uid: Long): Flow<HistoryEntry?>
 
     suspend fun addHistoryEntry(entry: HistoryEntry): Long
+
+    suspend fun deleteHistoryEntries(idList: List<Long>)
 }

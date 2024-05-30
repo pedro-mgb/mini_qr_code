@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
@@ -48,9 +48,9 @@ fun ScanQRCodeFromFileScreen(
     largeScreen: Boolean = false,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(
+        QRAppSimpleToolbar(
             modifier = Modifier.fillMaxWidth(),
-            titleRes = R.string.scan_code_from_file_toolbar_title,
+            title = stringResource(R.string.scan_code_from_file_toolbar_title),
             onNavigationIconClick = scanFromFileActionListeners.onCancel,
         )
         if (uiState is QRCodeFromFileUIState.Error) {

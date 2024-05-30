@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,6 +18,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessage
@@ -25,6 +27,7 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboar
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.ID_INVALID
+import com.pedroid.qrcodecompose.androidapp.features.history.presentation.delete.HistoryDeleteConfirmationDialog
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailScreen
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailUIAction
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailUIState
@@ -73,6 +76,7 @@ private fun HistoryDetailCoordinator(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var showDeleteDialog: Boolean by rememberSaveable { mutableStateOf(false) }
     var currentImageBitmap: Bitmap? by remember { mutableStateOf(null) }
 
     when (uiState) {
@@ -81,7 +85,12 @@ private fun HistoryDetailCoordinator(
         }
         is HistoryDetailUIState.Deleted -> {
             LaunchedEffect(key1 = uiState) {
-                navigationListeners.onGoBack()
+                val deletedByUserUid: Long? = (uiState as? HistoryDetailUIState.Deleted)?.deletedItemUid
+                if (deletedByUserUid != null) {
+                    navigationListeners.onUserDelete(deletedByUserUid)
+                } else {
+                    navigationListeners.onGoBack()
+                }
             }
         }
         is HistoryDetailUIState.Content -> {
@@ -124,6 +133,9 @@ private fun HistoryDetailCoordinator(
                             }
                             viewModel.onNewAction(HistoryDetailUIAction.Generate(it))
                         },
+                        onDeleteItem = {
+                            showDeleteDialog = true
+                        },
                     ),
             )
 
@@ -131,6 +143,21 @@ private fun HistoryDetailCoordinator(
                 viewModel.onNewAction(action = HistoryDetailUIAction.TmpMessageShown)
             }
         }
+    }
+
+    if (showDeleteDialog) {
+        HistoryDeleteConfirmationDialog(
+            title = context.getString(R.string.history_delete_single_item_notice_title),
+            description = context.getString(R.string.history_delete_single_item_notice_description),
+            deleteActionButton = context.getString(R.string.history_delete_single_item_notice_action),
+            onDelete = {
+                viewModel.onNewAction(HistoryDetailUIAction.Delete)
+                showDeleteDialog = false
+            },
+            onDismiss = {
+                showDeleteDialog = false
+            },
+        )
     }
 }
 

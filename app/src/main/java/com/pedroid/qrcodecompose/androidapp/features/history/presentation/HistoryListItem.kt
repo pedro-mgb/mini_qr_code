@@ -15,5 +15,6 @@ sealed class HistoryListItem : Parcelable {
         val displayDate: String,
         val typeUI: HistoryTypeUI,
         @StringRes val formatStringId: Int,
+        val selected: Boolean = false,
     ) : HistoryListItem()
 }

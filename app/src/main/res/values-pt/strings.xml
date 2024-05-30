@@ -52,7 +52,7 @@
 
     <string name="history_top_header_title">O teu Histórico</string>
     <string name="history_top_header_more_information_button">Sobre o histórico</string>
-    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nNuma versão futura da app, poderás remover o teu histórico. Podes também configurar nas Definições como o histórico é guardado.</string>
+    <string name="history_more_information_description">Cada vez que interages com um código capturado (abrir noutra app, copiar ou partilhar), ou com um código gerado (guardar num ficheiro, copiar ou partilhar), este é salvo no histórico, e pode ser consultado neste ecrã.\n\nO histórico é local, e nunca sai do teu telemóvel.\n\nPodes configurar na aba \"Definições\" como o histórico é guardado.\nPodes remover o teu histórico abrindo um item e pressionando \"Remover do histórico\", ou pressionar e segurar um item do histórico, e selecionar quantos quiseres para remover.</string>
     <string name="history_empty_list">O teu histórico de códigos capturados e criados está vazio.</string>
     <string name="history_header_today">Hoje</string>
     <string name="history_header_yesterday">Ontem</string>
@@ -63,6 +63,17 @@
     <string name="history_detail_scan_file_at">Capturado de um ficheiro a:</string>
     <string name="history_detail_generated_at">Criado a:</string>
     <string name="history_detail_preview_generation_failed">Não foi possível gerar a imagem.\nExperimenta fechar a app e voltar a abrir.\nSe o problema persistir, contacta o desenvolvedor (tab definições).</string>
+    <string name="history_item_selected_single">1 item selecionado</string>
+    <string name="history_item_selected_multiple">%d itens selecionados</string>
+    <string name="history_item_select_all_action">Selecionar todos</string>
+    <string name="history_delete_action">Remover do histórico</string>
+    <string name="history_delete_single_item_notice_title">Remover 1 registo do histórico</string>
+    <string name="history_delete_single_item_notice_description">Tens a certeza que queres apagar este registo do teu histórico?\n\nEsta ação é permanente e não é possível reverter.</string>
+    <string name="history_delete_single_item_notice_action">Remover</string>
+    <string name="history_delete_multiple_items_notice_title">Remover %d registos do histórico</string>
+    <string name="history_delete_multiple_items_notice_description">Tens a certeza que queres apagar estes registos do teu histórico?\n\nEsta ação é permanente e não é possível reverter.</string>
+    <string name="history_delete_multiple_items_notice_action">Remover %d registos</string>
+    <string name="history_delete_items_success_message">Registos do histórico removidos com sucessso.</string>
 
     <string name="settings_main_screen_title">Definições da app</string>
     <string name="settings_main_screen_header_general">Definições gerais</string>
@@ -78,18 +89,18 @@
     <string name="settings_main_screen_header_scan">Definições de captura</string>
     <string name="settings_main_screen_scan_save_history">Guardar no histórico</string>
     <string name="settings_main_screen_scan_save_history_option_upon_user_action_title">Após interagir com QR Code</string>
-    <string name="settings_main_screen_scan_save_history_option_upon_user_action_description">Via aba de \"Captura\". Sempre que abrires os conteúdos de um QR Code numa app / browser, ou copiares, ou partilhares, o QR Code é guardado no histórico.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_scan_save_history_option_upon_user_action_description">Via aba de \"Captura\". Sempre que abrires os conteúdos de um QR Code numa app / browser, ou copiares, ou partilhares, o QR Code é guardado no histórico.\nPodes remover o histórico na aba \"Histórico\" a qualquer momento.</string>
     <string name="settings_main_screen_scan_save_history_option_never_title">Nunca guardar</string>
-    <string name="settings_main_screen_scan_save_history_option_never_description">Os QR Codes e códigos de barras que capturares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_scan_save_history_option_never_description">Os QR Codes e códigos de barras que capturares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nPodes remover o histórico na aba \"Histórico\" a qualquer momento.</string>
     <string name="settings_main_screen_scan_haptic_feedback">Vibrar após captura</string>
     <string name="settings_main_screen_scan_haptic_feedback_status_off">Desligado (pré-definição). Sem vibração após ler um QR Code ou código de barras.</string>
     <string name="settings_main_screen_scan_haptic_feedback_status_on">Ligado. O teu telemóvel irá vibrar quando ler um QR Code ou código de barras.</string>
     <string name="settings_main_screen_header_generate">Definições de geração</string>
     <string name="settings_main_screen_generate_save_history">Guardar no histórico</string>
     <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">Após interagir com QR Code</string>
-    <string name="settings_main_screen_generate_save_history_option_upon_user_action_description">Via aba de \"Gerar\". Sempre que salvares um QR code ou código de barras num ficheiro, ou copiares, ou partilhares, ele é guardado no histórico.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_generate_save_history_option_upon_user_action_description">Via aba de \"Gerar\". Sempre que salvares um QR code ou código de barras num ficheiro, ou copiares, ou partilhares, ele é guardado no histórico.\nPodes remover o histórico na aba \"Histórico\" a qualquer momento.</string>
     <string name="settings_main_screen_generate_save_history_option_never_title">Nunca guardar</string>
-    <string name="settings_main_screen_generate_save_history_option_never_description">Os QR Codes e códigos de barras que gerares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nNuma versão futura da app, poderás remover o teu histórico.</string>
+    <string name="settings_main_screen_generate_save_history_option_never_description">Os QR Codes e códigos de barras que gerares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nPodes remover o histórico na aba \"Histórico\" a qualquer momento.</string>
     <string name="settings_main_screen_header_other">Outros</string>
     <string name="settings_main_screen_other_contact_developer_title">Contactar o desenvoledor</string>
     <string name="settings_main_screen_other_contact_developer_description">Várias opções de contacto disponíveis</string>

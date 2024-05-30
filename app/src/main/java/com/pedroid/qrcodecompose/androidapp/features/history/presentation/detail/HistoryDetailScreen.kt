@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,13 +40,14 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCode
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
-import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppToolbar
+import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailNavigationListeners
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryTypeUI
+import com.pedroid.qrcodecompose.androidapp.features.history.presentation.delete.deleteButtonColors
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
@@ -57,7 +60,7 @@ fun HistoryDetailScreen(
     actionListeners: HistoryDetailActionListeners,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        QRAppToolbar(titleRes = R.string.history_top_header_title, onNavigationIconClick = navigationListeners.onGoBack)
+        QRAppSimpleToolbar(title = stringResource(R.string.history_top_header_title), onNavigationIconClick = navigationListeners.onGoBack)
         Column(
             modifier =
                 Modifier
@@ -79,6 +82,17 @@ fun HistoryDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     data = data,
                     actionListeners = actionListeners,
+                )
+            }
+            Button(
+                modifier = Modifier.padding(vertical = Dimens.spacingMedium),
+                colors = deleteButtonColors(),
+                onClick = actionListeners.onDeleteItem,
+            ) {
+                Icon(imageVector = Icons.Filled.Delete, contentDescription = null)
+                Text(
+                    modifier = Modifier.padding(horizontal = Dimens.spacingMedium),
+                    text = stringResource(id = R.string.history_delete_action),
                 )
             }
         }
@@ -143,10 +157,12 @@ private fun HistoryDetailContentLargeScreen(
 
             HistoryDetailActionButtons(
                 modifier =
-                    Modifier.padding(top = Dimens.spacingMedium).constrainAs(actionButtonsText) {
-                        linkTo(start = text.start, end = text.end)
-                        top.linkTo(text.bottom)
-                    },
+                    Modifier
+                        .padding(top = Dimens.spacingMedium)
+                        .constrainAs(actionButtonsText) {
+                            linkTo(start = text.start, end = text.end)
+                            top.linkTo(text.bottom)
+                        },
                 shareClickListener = {
                     actionListeners.onTextShare(data.value)
                 },
