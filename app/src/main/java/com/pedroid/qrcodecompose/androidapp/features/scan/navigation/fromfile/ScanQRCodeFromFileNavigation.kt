@@ -27,8 +27,11 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.
 import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
 import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
+import kotlinx.serialization.Serializable
 
-const val SCAN_FILE_READER_ROUTE = "SCAN_QR_CODE_FILE_READER_ROUTE"
+@Serializable
+data object ScanFileReaderRoute
+
 private val imagesOnlyPicker =
     PickVisualMediaRequest(
         mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
@@ -38,7 +41,7 @@ fun NavGraphBuilder.scanQRCodeFromFileRoute(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
     largeScreen: Boolean,
 ) {
-    composable(route = SCAN_FILE_READER_ROUTE) {
+    composable<ScanFileReaderRoute> {
         ScanQRCodeFromFileCoordinator(navigationListeners, largeScreen)
     }
 }
@@ -138,5 +141,5 @@ fun NavController.navigateToScanQRCodeFromFile(
             launchSingleTop = true
         },
 ) {
-    this.navigate(SCAN_FILE_READER_ROUTE, navOptions)
+    this.navigate(ScanFileReaderRoute, navOptions)
 }

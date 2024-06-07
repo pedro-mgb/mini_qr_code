@@ -17,6 +17,10 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.about
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.about.SettingsAboutAppUIState
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.about.SettingsAboutAppViewModel
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.openUrl
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object AboutAppRoute
 
 private const val GITHUB_REPOSITORY = "https://github.com/pedro-mgb/mini_qr_code"
 private const val PRIVACY_POLICY =
@@ -24,10 +28,8 @@ private const val PRIVACY_POLICY =
         "blob/main/docs/legal/privacy-policy-en.md#mini-qr-code---privacy-policy"
 private const val MORE_APPS_URL = "https://play.google.com/store/apps/developer?id=pedroid04"
 
-const val ABOUT_APP_ROUTE = "ABOUT_APP_ROUTE"
-
 fun NavGraphBuilder.settingsAboutAppRoute(navigationListeners: SettingsAboutAppNavigationListeners) {
-    composable(ABOUT_APP_ROUTE) {
+    composable<AboutAppRoute> {
         SettingsAboutAppCoordinator(navigationListeners = navigationListeners)
     }
 }
@@ -68,5 +70,5 @@ private fun SettingsAboutAppCoordinator(
 }
 
 fun NavController.navigateToSettingsAboutApp(navOptions: NavOptions? = null) {
-    this.navigate(ABOUT_APP_ROUTE, navOptions)
+    this.navigate(AboutAppRoute, navOptions)
 }

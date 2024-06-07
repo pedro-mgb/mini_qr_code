@@ -17,14 +17,16 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeCam
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeCameraUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeCameraScreen
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeCameraViewModel
+import kotlinx.serialization.Serializable
 
-const val SCAN_CAMERA_READER_ROUTE = "SCAN_QR_CODE_CAMERA_READER_ROUTE"
+@Serializable
+data object ScanCameraReaderRoute
 
 fun NavGraphBuilder.scanQRCodeCameraRoute(
     navigationListeners: ScanQRCodeCameraNavigationListeners,
     largeScreen: Boolean,
 ) {
-    composable(route = SCAN_CAMERA_READER_ROUTE) {
+    composable<ScanCameraReaderRoute> {
         ScanQRCodeCameraCoordinator(navigationListeners, largeScreen)
     }
 }
@@ -74,5 +76,5 @@ fun NavController.navigateToScanQRCodeCamera(
             launchSingleTop = true
         },
 ) {
-    this.navigate(SCAN_CAMERA_READER_ROUTE, navOptions)
+    this.navigate(ScanCameraReaderRoute, navOptions)
 }

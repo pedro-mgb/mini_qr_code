@@ -8,15 +8,17 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
-import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GENERATE_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.SELECT_FORMAT_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HISTORY_LIST_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HISTORY_DETAIL_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_CAMERA_READER_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.SCAN_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.SETTINGS_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.about.ABOUT_APP_ROUTE
-import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.contact.CONTACT_ROUTE
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeHomeRoute
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.SelectFormatRoute
+import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListRoute
+import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailRoute
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanCameraReaderRoute
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanQRCodeInfoRoute
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.ScanFileReaderRoute
+import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.SettingMainRoute
+import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.about.AboutAppRoute
+import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.contact.ContactRoute
+import kotlin.reflect.KClass
 
 /**
  * enum containing items used in bottom navigation / navigation rail
@@ -25,51 +27,52 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.contact
 sealed class HomeDestinationItem(
     @StringRes val itemTextId: Int,
     val itemIcon: ImageVector,
-    val routeLabel: String,
-    val encompassingRoutes: List<String> = listOf(routeLabel),
+    val routeClass: KClass<*>,
+    val encompassingRoutes: List<KClass<*>> = listOf(routeClass),
 ) {
     data object Scan : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_scan,
         itemIcon = Icons.Filled.ScanQRCode,
-        routeLabel = SCAN_ROUTE,
+        routeClass = ScanQRCodeInfoRoute::class,
         encompassingRoutes =
             listOf(
-                SCAN_ROUTE,
-                SCAN_CAMERA_READER_ROUTE,
+                ScanQRCodeInfoRoute::class,
+                ScanCameraReaderRoute::class,
+                ScanFileReaderRoute::class,
             ),
     )
 
     data object Generate : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_generate,
         itemIcon = Icons.Filled.AddCircle,
-        routeLabel = GENERATE_ROUTE,
+        routeClass = GenerateQRCodeHomeRoute::class,
         encompassingRoutes =
             listOf(
-                GENERATE_ROUTE,
-                SELECT_FORMAT_ROUTE,
+                GenerateQRCodeHomeRoute::class,
+                SelectFormatRoute::class,
             ),
     )
 
     data object History : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_history,
         itemIcon = Icons.Filled.DateRange,
-        routeLabel = HISTORY_LIST_ROUTE,
+        routeClass = HistoryListRoute::class,
         encompassingRoutes =
             listOf(
-                HISTORY_LIST_ROUTE,
-                HISTORY_DETAIL_ROUTE,
+                HistoryListRoute::class,
+                HistoryDetailRoute::class,
             ),
     )
 
     data object Settings : HomeDestinationItem(
         itemTextId = R.string.bottom_navigation_item_settings,
         itemIcon = Icons.Rounded.Settings,
-        routeLabel = SETTINGS_ROUTE,
+        routeClass = SettingMainRoute::class,
         encompassingRoutes =
             listOf(
-                SETTINGS_ROUTE,
-                CONTACT_ROUTE,
-                ABOUT_APP_ROUTE,
+                SettingMainRoute::class,
+                ContactRoute::class,
+                AboutAppRoute::class,
             ),
     )
 
@@ -84,4 +87,11 @@ sealed class HomeDestinationItem(
     }
 }
 
-val defaultStartRoute: String = HomeDestinationItem.Scan.routeLabel
+val defaultStartRoute: KClass<*> = HomeDestinationItem.Scan.routeClass
+
+fun HomeDestinationItem.encompassesRoute(route: String?): Boolean =
+    route?.let { r ->
+        encompassingRoutes.map { it.simpleName ?: "" }.any {
+            r.contains(it, ignoreCase = true)
+        }
+    } ?: false
