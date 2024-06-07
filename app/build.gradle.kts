@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
 }
@@ -116,6 +117,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.android.testing)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.protobuf.kotlin.lite)
     // region test utils
     implementation(libs.junit)
