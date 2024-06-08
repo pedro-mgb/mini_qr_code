@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
 }
@@ -108,6 +109,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
     implementation(libs.arrow.optics)
@@ -115,6 +117,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.android.testing)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.protobuf.kotlin.lite)
     // region test utils
     implementation(libs.junit)

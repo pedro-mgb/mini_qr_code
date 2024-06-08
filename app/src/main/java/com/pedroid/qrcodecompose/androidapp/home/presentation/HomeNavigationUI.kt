@@ -12,6 +12,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBottomN
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppNavRail
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppNavRailItem
 import com.pedroid.qrcodecompose.androidapp.home.navigation.HomeDestinationItem
+import com.pedroid.qrcodecompose.androidapp.home.navigation.encompassesRoute
 
 // region UI
 @Composable
@@ -71,9 +72,6 @@ private fun HomeDestinationItem.NavText() {
 // region utils
 private fun NavDestination?.isHomeItemInHierarchy(destination: HomeDestinationItem) =
     this?.hierarchy?.any {
-        destination.encompassingRoutes.any { encompassingRoute ->
-            // to make sure the item is still selected in the main navigation route or any of the subsequent navigation routes
-            it.route?.contains(encompassingRoute, ignoreCase = true) ?: false
-        }
+        destination.encompassesRoute(it.route)
     } ?: false
 // endregion utils

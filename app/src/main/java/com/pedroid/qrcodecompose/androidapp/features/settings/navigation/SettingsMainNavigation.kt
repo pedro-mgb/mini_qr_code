@@ -19,12 +19,15 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.Setti
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsMainUIState
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsMainViewModel
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.SettingsOptionSelectionBottomSheet
+import kotlinx.serialization.Serializable
 
-const val SETTINGS_ROUTE = "APP_SETTINGS_ROUTE"
+@Serializable
+data object SettingMainRoute
+
 private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.pedroid.qrcodecompose.androidapp"
 
 fun NavGraphBuilder.settingsMainRoute(navigationListeners: SettingsMainNavigationListeners) {
-    composable(route = SETTINGS_ROUTE) {
+    composable<SettingMainRoute> {
         SettingsMainCoordinator(navigationListeners)
     }
 }
@@ -79,5 +82,5 @@ private fun SettingsMainCoordinator(
 }
 
 fun NavController.navigateToMainSettings(navOptions: NavOptions? = null) {
-    this.navigate(SETTINGS_ROUTE, navOptions)
+    this.navigate(SettingMainRoute, navOptions)
 }

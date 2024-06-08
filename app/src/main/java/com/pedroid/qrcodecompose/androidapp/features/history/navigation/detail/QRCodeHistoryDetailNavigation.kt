@@ -15,9 +15,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.core.domain.ActionStatus
 import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
@@ -26,7 +25,6 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.copyImageToClipboa
 import com.pedroid.qrcodecompose.androidapp.core.presentation.copyTextToClipboard
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareImageToAnotherApp
 import com.pedroid.qrcodecompose.androidapp.core.presentation.shareTextToAnotherApp
-import com.pedroid.qrcodecompose.androidapp.features.history.domain.ID_INVALID
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.delete.HistoryDeleteConfirmationDialog
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailScreen
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailUIAction
@@ -35,33 +33,24 @@ import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail.HistoryDetailViewModelFactory
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
+import kotlinx.serialization.Serializable
 
-private const val ROUTE_START = "QR_CODE_HISTORY_DETAIL_ROUTE"
-private const val ARGUMENT_KEY = "historyId"
-const val HISTORY_DETAIL_ROUTE = "$ROUTE_START/{$ARGUMENT_KEY}"
-
-private val navArguments =
-    listOf(
-        navArgument(ARGUMENT_KEY) {
-            type = NavType.LongType
-            defaultValue = ID_INVALID
-        },
-    )
+@Serializable
+data class HistoryDetailRoute(val uid: Long)
 
 fun NavGraphBuilder.historyDetailRoute(
     navigationListeners: HistoryDetailNavigationListeners,
     largeScreen: Boolean,
 ) {
-    composable(route = HISTORY_DETAIL_ROUTE, navArguments) {
+    composable<HistoryDetailRoute> {
+        val route = it.toRoute<HistoryDetailRoute>()
         HistoryDetailCoordinator(
             navigationListeners = navigationListeners,
             largeScreen = largeScreen,
             viewModel =
                 hiltViewModel<HistoryDetailViewModel, HistoryDetailViewModelFactory>(
                     creationCallback = { factory ->
-                        factory.create(
-                            entryUid = it.arguments?.getLong(ARGUMENT_KEY, ID_INVALID) ?: ID_INVALID,
-                        )
+                        factory.create(entryUid = route.uid)
                     },
                 ),
         )
@@ -168,5 +157,5 @@ fun NavController.navigateToHistoryDetail(
     navOptions: NavOptions? = null,
     uid: Long,
 ) {
-    this.navigate("$ROUTE_START/$uid", navOptions)
+    this.navigate(HistoryDetailRoute(uid), navOptions)
 }

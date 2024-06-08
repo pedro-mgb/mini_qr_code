@@ -5,7 +5,6 @@ import java.time.Instant
 
 // when creating a new entry in history, to avoid specifying an id, use this new one
 const val ID_NEW_ENTRY: Long = 0L
-const val ID_INVALID: Long = -1L
 
 sealed class HistoryEntry(
     open val uid: Long,

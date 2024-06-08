@@ -32,14 +32,16 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.Gener
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.GenerateQRCodeViewModel
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
+import kotlinx.serialization.Serializable
 
-const val GENERATE_ROUTE = "GENERATE_QR_CODE_ROUTE"
+@Serializable
+data object GenerateQRCodeHomeRoute
 
 fun NavGraphBuilder.generateQRCodeRoute(
     navigationListeners: GenerateQRCodeHomeNavigationListeners,
     largeScreen: Boolean = false,
 ) {
-    composable(route = GENERATE_ROUTE) {
+    composable<GenerateQRCodeHomeRoute> {
         GenerateQRCodeCoordinator(navigationListeners, largeScreen, it.savedStateHandle)
     }
 }
@@ -142,5 +144,5 @@ private fun Context.getNameFromFormat(uiState: GenerateQRCodeUIState): String =
     this.getString(uiState.content.generating.format.titleStringId)
 
 fun NavController.navigateToGenerateQRCodeInfo(navOptions: NavOptions? = null) {
-    this.navigate(GENERATE_ROUTE, navOptions)
+    this.navigate(GenerateQRCodeHomeRoute, navOptions)
 }

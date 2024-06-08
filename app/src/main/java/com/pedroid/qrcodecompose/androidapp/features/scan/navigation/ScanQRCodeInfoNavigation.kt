@@ -25,14 +25,16 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.QRCodeInf
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoScreen
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.ScanQRCodeInfoViewModel
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.openUrl
+import kotlinx.serialization.Serializable
 
-const val SCAN_ROUTE = "SCAN_QR_CODE_ROUTE"
+@Serializable
+data object ScanQRCodeInfoRoute
 
 fun NavGraphBuilder.scanQRCodeInfoRoute(
     navigationListeners: ScanQRCodeInfoNavigationListeners,
     largeScreen: Boolean,
 ) {
-    composable(route = SCAN_ROUTE) {
+    composable<ScanQRCodeInfoRoute> {
         ScanCodeHomeCoordinator(navigationListeners, largeScreen, it.savedStateHandle)
     }
 }
@@ -101,5 +103,5 @@ private fun ScanCodeHomeCoordinator(
 }
 
 fun NavController.navigateToScanQRCodeInfo(navOptions: NavOptions? = null) {
-    this.navigate(SCAN_ROUTE, navOptions)
+    this.navigate(ScanQRCodeInfoRoute, navOptions)
 }

@@ -22,11 +22,13 @@ import com.pedroid.qrcodecompose.androidapp.features.history.presentation.Histor
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryListViewModel
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryMoreInfoBottomSheet
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.delete.HistoryDeleteConfirmationDialog
+import kotlinx.serialization.Serializable
 
-const val HISTORY_LIST_ROUTE = "QR_CODE_HISTORY_LIST_ROUTE"
+@Serializable
+data object HistoryListRoute
 
 fun NavGraphBuilder.historyListRoute(navigationListeners: HistoryListNavigationListeners) {
-    composable(route = HISTORY_LIST_ROUTE) {
+    composable<HistoryListRoute> {
         HistoryListCoordinator(navigationListeners, it.savedStateHandle)
     }
 }
@@ -123,5 +125,5 @@ fun HistoryListDeleteItemsDialog(
 }
 
 fun NavController.navigateToQRCodeHistoryList(navOptions: NavOptions? = null) {
-    this.navigate(HISTORY_LIST_ROUTE, navOptions)
+    this.navigate(HistoryListRoute, navOptions)
 }

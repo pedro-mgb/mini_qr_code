@@ -10,7 +10,7 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.navigateToS
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.navigateToMainSettings
 
 fun NavController.navigateToHomeDestinationItem(item: HomeDestinationItem) {
-    if (currentBackStackEntry?.destination?.route in item.encompassingRoutes) {
+    if (item.encompassesRoute(currentBackStackEntry?.destination?.route ?: "")) {
         // already in the current home destination, no need to navigate
         return
     }

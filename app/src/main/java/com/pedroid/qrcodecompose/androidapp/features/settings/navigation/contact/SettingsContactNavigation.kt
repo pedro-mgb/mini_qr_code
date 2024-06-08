@@ -16,13 +16,16 @@ import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.about
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.about.SettingsAboutAppViewModel
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.contact.SettingsContactScreen
 import com.pedroid.qrcodecompose.androidapp.features.settings.presentation.openUrl
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object ContactRoute
 
 private const val CONTACT_EMAIL = "pedroid.apps.contact@gmail.com"
 private const val GITHUB_ISSUE_URL = "https://github.com/pedro-mgb/mini_qr_code/issues/new"
-const val CONTACT_ROUTE = "CONTACT_DEVELOPER_ROUTE"
 
 fun NavGraphBuilder.settingsContactRoute(navigationListeners: SettingsContactNavigationListeners) {
-    composable(CONTACT_ROUTE) {
+    composable<ContactRoute> {
         SettingsContactCoordinator(navigationListeners = navigationListeners)
     }
 }
@@ -60,5 +63,5 @@ private fun SettingsContactCoordinator(
 }
 
 fun NavController.navigateToSettingsContact(navOptions: NavOptions? = null) {
-    this.navigate(CONTACT_ROUTE, navOptions)
+    this.navigate(ContactRoute, navOptions)
 }

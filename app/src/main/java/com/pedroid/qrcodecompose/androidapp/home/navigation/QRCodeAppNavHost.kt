@@ -10,13 +10,14 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.generat
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.historyFeatureNavigationRoutes
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.scanningFeatureNavigationRoutes
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.settingsFeatureNavigationRoutes
+import kotlin.reflect.KClass
 
 @Composable
 fun QRCodeAppNavHost(
     navHostController: NavHostController,
     windowWidthSizeClass: WindowWidthSizeClass,
     modifier: Modifier = Modifier,
-    startDestination: String = "",
+    startDestination: KClass<*>,
 ) {
     NavHost(
         navController = navHostController,

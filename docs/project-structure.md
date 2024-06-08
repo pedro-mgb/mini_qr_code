@@ -10,6 +10,7 @@ If you have any questions or suggestions, feel free to open an issue!
   - [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
   - [Flows](https://kotlinlang.org/docs/flow.html)
   - [Kotlin Symbol Processing (KSP)](https://kotlinlang.org/docs/ksp-overview.html)
+  - [Serialization](https://github.com/Kotlin/kotlinx.serialization)
   - [Parcelize Plugin](https://plugins.gradle.org/plugin/org.jetbrains.kotlin.plugin.parcelize)
 - [Android Studio + Android SDK](https://developer.android.com/studio)
 - [Jetpack Compose](https://developer.android.com/develop/ui/compose)
