@@ -5,6 +5,7 @@ androidxAppcompat = "1.7.0"
 androidxBrowser = "1.8.0"
 androidxComposeBom = "2024.06.00"
 androidxComposeMaterial3Alpha = "1.0.0-alpha06"
+androidxComposeAnimation = "1.7.0-beta03"
 androidXConstraintLayoutCompose = "1.0.1"
 androidxCore = "1.13.1"
 androidxCameraX = "1.3.4"
@@ -49,6 +50,7 @@ androidx-contraintlayout-compose = { group = "androidx.constraintlayout", name =
 
 # region Compose BOM and associated dependencies
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+animation = { group = "androidx.compose.animation", name = "animation", version.ref = "androidxComposeAnimation" }
 foundation = { group = "androidx.compose.foundation", name = "foundation" }
 foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 ui = { group = "androidx.compose.ui", name = "ui" }

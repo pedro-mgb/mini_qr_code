@@ -1,5 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.history.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailNavigationListeners
@@ -8,9 +10,11 @@ import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.n
 
 const val DELETED_HISTORY_ITEM_UID_KEY = "DELETED_HISTORY_ITEM_UID"
 
+@ExperimentalSharedTransitionApi
 fun NavGraphBuilder.historyFeatureNavigationRoutes(
     navController: NavController,
     largeScreen: Boolean = false,
+    sharedTransitionScope: SharedTransitionScope,
 ) {
     historyListRoute(
         navigationListeners =
@@ -32,5 +36,6 @@ fun NavGraphBuilder.historyFeatureNavigationRoutes(
                 onGoBack = { navController.popBackStack() },
             ),
         largeScreen = largeScreen,
+        sharedTransitionScope,
     )
 }

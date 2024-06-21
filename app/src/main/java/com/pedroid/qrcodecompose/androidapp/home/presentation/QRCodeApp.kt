@@ -1,5 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.home.presentation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -51,52 +53,56 @@ fun QRCodeApp(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun QRCodeAppFrame(
     windowSizeClass: WindowSizeClass,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     navController: NavHostController = rememberNavController(),
 ) {
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        bottomBar = {
-            if (windowSizeClass.showPhoneUI()) {
-                BottomNavigationItems(
-                    currentDestination = navController.currentDestination(),
-                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
-                )
-            }
-        },
-        snackbarHost = {
-            QRAppSnackbarHost(snackbarHostState)
-        },
-    ) { padding ->
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal,
+    SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            bottomBar = {
+                if (windowSizeClass.showPhoneUI()) {
+                    BottomNavigationItems(
+                        currentDestination = navController.currentDestination(),
+                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
+                    )
+                }
+            },
+            snackbarHost = {
+                QRAppSnackbarHost(snackbarHostState)
+            },
+        ) { padding ->
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .consumeWindowInsets(padding)
+                        .windowInsetsPadding(
+                            WindowInsets.safeDrawing.only(
+                                WindowInsetsSides.Horizontal,
+                            ),
                         ),
-                    ),
-        ) {
-            if (!windowSizeClass.showPhoneUI()) {
-                NavigationRailItems(
-                    modifier = Modifier.safeDrawingPadding(),
-                    currentDestination = navController.currentDestination(),
-                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
+            ) {
+                if (!windowSizeClass.showPhoneUI()) {
+                    NavigationRailItems(
+                        modifier = Modifier.safeDrawingPadding(),
+                        currentDestination = navController.currentDestination(),
+                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
+                    )
+                }
+                QRCodeAppNavHost(
+                    navHostController = navController,
+                    startDestination = defaultStartRoute,
+                    windowWidthSizeClass = windowSizeClass.widthSizeClass,
+                    sharedTransitionScope = this@SharedTransitionLayout,
                 )
             }
-            QRCodeAppNavHost(
-                navHostController = navController,
-                startDestination = defaultStartRoute,
-                windowWidthSizeClass = windowSizeClass.widthSizeClass,
-            )
         }
     }
 }

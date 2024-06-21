@@ -1,5 +1,7 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.navigateToScanQRCodeFromFile
@@ -7,9 +9,11 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.sc
 
 const val QR_CODE_SCANNED_KEY = "QRCodeMiniValue"
 
+@ExperimentalSharedTransitionApi
 fun NavGraphBuilder.scanningFeatureNavigationRoutes(
     navController: NavController,
     largeScreen: Boolean,
+    sharedTransitionScope: SharedTransitionScope,
 ) {
     scanQRCodeInfoRoute(
         navigationListeners =
@@ -22,6 +26,7 @@ fun NavGraphBuilder.scanningFeatureNavigationRoutes(
                 },
             ),
         largeScreen = largeScreen,
+        sharedTransitionScope,
     )
     scanQRCodeCameraRoute(
         navigationListeners = navController.createScanCodeDataNavigationListeners(),
