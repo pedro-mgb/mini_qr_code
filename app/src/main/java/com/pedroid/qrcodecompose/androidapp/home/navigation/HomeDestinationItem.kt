@@ -10,6 +10,7 @@ import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeHomeRoute
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.SelectFormatRoute
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.expand.ExpandGeneratedQRCodeRoute
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListRoute
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailRoute
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanCameraReaderRoute
@@ -50,6 +51,7 @@ sealed class HomeDestinationItem(
             listOf(
                 GenerateQRCodeHomeRoute::class,
                 SelectFormatRoute::class,
+                ExpandGeneratedQRCodeRoute::class,
             ),
     )
 

@@ -5,6 +5,10 @@ androidxAppcompat = "1.7.0"
 androidxBrowser = "1.8.0"
 androidxComposeBom = "2024.06.00"
 androidxComposeMaterial3Alpha = "1.0.0-alpha06"
+# This API is for usage with Shared Element Transitions, but there still seems to be issues
+#   Some previews don't work, and sometimes the app crashes with an error like below
+#   https://issuetracker.google.com/issues?q=Error:%20Placement%20happened%20before%20lookahead
+#   TODO update to a stable dependency, when there is one
 androidxComposeAnimation = "1.7.0-beta03"
 androidXConstraintLayoutCompose = "1.0.1"
 androidxCore = "1.13.1"

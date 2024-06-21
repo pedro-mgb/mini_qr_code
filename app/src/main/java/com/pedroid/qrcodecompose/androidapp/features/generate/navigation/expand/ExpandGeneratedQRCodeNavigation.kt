@@ -11,15 +11,18 @@ import androidx.navigation.toRoute
 import com.pedroid.qrcodecompose.androidapp.core.navigation.ofQRCodeComposeXFormat
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeNavigationListeners
-import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ofExpandQRCodeArguments
 import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.ExpandQRCodeScreen
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 
+// note this class is a copy of ExpandQRCodeArguments, but was not able to put it as an attribute inside this route class, as it was making navigation crash
+//  possibly some bug with the type-safety of navigation, but didn't bother to investigate further, as it's fairly minor to have it like this
 @Serializable
 data class ExpandGeneratedQRCodeRoute(
-    val arguments: ExpandQRCodeArguments,
+    val label: String,
+    val code: String,
+    val format: QRCodeComposeXFormat,
 )
 
 @ExperimentalSharedTransitionApi
@@ -30,13 +33,16 @@ fun NavGraphBuilder.expandGeneratedQRCodeRoute(
     composable<ExpandGeneratedQRCodeRoute>(
         typeMap =
             mapOf(
-                typeOf<ExpandQRCodeArguments>() to NavType.ofExpandQRCodeArguments(),
                 typeOf<QRCodeComposeXFormat>() to NavType.ofQRCodeComposeXFormat(),
             ),
     ) {
         val route = it.toRoute<ExpandGeneratedQRCodeRoute>()
         ExpandQRCodeScreen(
-            route.arguments,
+            ExpandQRCodeArguments(
+                route.label,
+                route.code,
+                route.format,
+            ),
             sharedTransitionScope = sharedTransitionScope,
             animatedVisibilityScope = this@composable,
             navigationListeners = navigationListeners,
@@ -48,5 +54,12 @@ fun NavController.navigateToExpandGeneratedQRCode(
     navOptions: NavOptions? = null,
     arguments: ExpandQRCodeArguments,
 ) {
-    this.navigate(ExpandGeneratedQRCodeRoute(arguments), navOptions)
+    this.navigate(
+        ExpandGeneratedQRCodeRoute(
+            label = arguments.label,
+            code = arguments.code,
+            format = arguments.format,
+        ),
+        navOptions,
+    )
 }

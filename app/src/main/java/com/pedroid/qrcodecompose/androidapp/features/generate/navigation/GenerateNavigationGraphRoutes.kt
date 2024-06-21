@@ -4,9 +4,12 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeNavigationListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.QRCodeSelectFormatListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.generateQRCodeSelectFormatRoute
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.format.navigateToQRCodeSelectFormat
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.expand.expandGeneratedQRCodeRoute
+import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.expand.navigateToExpandGeneratedQRCode
 
 const val CODE_FORMAT_KEY = "QRCodeMiniFormat"
 
@@ -21,6 +24,9 @@ fun NavGraphBuilder.generateFeatureNavigationRoutes(
             GenerateQRCodeHomeNavigationListeners(
                 onCustomize = {
                     navController.navigateToQRCodeSelectFormat(format = it.format)
+                },
+                onExpand = {
+                    navController.navigateToExpandGeneratedQRCode(arguments = it)
                 },
             ),
         largeScreen = largeScreen,
@@ -39,5 +45,14 @@ fun NavGraphBuilder.generateFeatureNavigationRoutes(
                     navController.popBackStack()
                 },
             ),
+    )
+    expandGeneratedQRCodeRoute(
+        navigationListeners =
+            ExpandQRCodeNavigationListeners(
+                goBack = {
+                    navController.popBackStack()
+                },
+            ),
+        sharedTransitionScope,
     )
 }

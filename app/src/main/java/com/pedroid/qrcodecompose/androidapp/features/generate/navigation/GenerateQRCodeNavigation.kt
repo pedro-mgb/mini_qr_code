@@ -129,8 +129,11 @@ private fun GenerateQRCodeCoordinator(
                         GenerateQRCodeUIAction.QRActionComplete(result),
                     )
                 },
+                onExpand = navigationListeners.onExpand,
             ),
         largeScreen = largeScreen,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
     )
 
     TemporaryMessage(data = uiState.temporaryMessage) {
