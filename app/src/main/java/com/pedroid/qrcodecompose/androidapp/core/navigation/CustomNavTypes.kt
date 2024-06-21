@@ -8,7 +8,7 @@ import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 /**
  * Necessary because by default Jetpack Navigation only supports specific navtypes
  *
- * Creidts: https://github.com/ioannisa/TypeSafeComposeNavigation/blob/main/app/src/main/java/eu/anifantakis/navdemo/navigation/NavRoute.kt#L22
+ * Credits: https://github.com/ioannisa/TypeSafeComposeNavigation/blob/main/app/src/main/java/eu/anifantakis/navdemo/navigation/NavRoute.kt#L22
  */
 fun NavType.Companion.ofQRCodeComposeXFormat(): NavType<QRCodeComposeXFormat> {
     return object : NavType<QRCodeComposeXFormat>(isNullableAllowed = false) {
