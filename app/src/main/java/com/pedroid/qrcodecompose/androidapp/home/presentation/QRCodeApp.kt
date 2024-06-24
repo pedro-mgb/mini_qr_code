@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -60,42 +61,44 @@ private fun QRCodeAppFrame(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     navController: NavHostController = rememberNavController(),
 ) {
-    SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            bottomBar = {
-                if (windowSizeClass.showPhoneUI()) {
-                    BottomNavigationItems(
-                        currentDestination = navController.currentDestination(),
-                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
-                    )
-                }
-            },
-            snackbarHost = {
-                QRAppSnackbarHost(snackbarHostState)
-            },
-        ) { padding ->
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .consumeWindowInsets(padding)
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal,
-                            ),
+    Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        bottomBar = {
+            if (windowSizeClass.showPhoneUI()) {
+                BottomNavigationItems(
+                    currentDestination = navController.currentDestination(),
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
+                )
+            }
+        },
+        snackbarHost = {
+            QRAppSnackbarHost(snackbarHostState)
+        },
+    ) { padding ->
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal,
                         ),
-            ) {
-                if (!windowSizeClass.showPhoneUI()) {
-                    NavigationRailItems(
-                        modifier = Modifier.safeDrawingPadding(),
-                        currentDestination = navController.currentDestination(),
-                        onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
-                    )
-                }
+                    ),
+        ) {
+            if (!windowSizeClass.showPhoneUI()) {
+                NavigationRailItems(
+                    modifier = Modifier.safeDrawingPadding(),
+                    currentDestination = navController.currentDestination(),
+                    onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
+                )
+            }
+            SharedTransitionLayout(modifier = Modifier.fillMaxWidth()) {
+                // Implementation Detail -> Putting nav-host as direct child of SharedTransitionLayout
+                //  initially was putting
                 QRCodeAppNavHost(
                     navHostController = navController,
                     startDestination = defaultStartRoute,
