@@ -22,13 +22,13 @@ arrowKt = "1.2.4"
 desugaring = "2.0.4"
 espressoCore = "3.5.1"
 googleAccompanist = "0.34.0"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlinter = "4.2.0"
 kotlinxCoroutines = "1.8.0"
 kotlinxSerialization = "1.6.3"
 junit = "4.13.2"
 hilt = "2.51"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.21"
 mlkitBarcodeScanning = "17.2.0"
 protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
@@ -97,6 +97,7 @@ zxing = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 androidx-room = { id = "androidx.room", version.ref = "androidxRoom" }
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

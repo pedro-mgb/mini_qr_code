@@ -3,6 +3,7 @@ import com.google.protobuf.gradle.GenerateProtoTask
 plugins {
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
+    alias(libs.plugins.compose)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
@@ -68,9 +69,6 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
     }
     packaging {
         resources {
