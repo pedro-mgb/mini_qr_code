@@ -3,7 +3,6 @@ package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,6 +55,7 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.SaveAlt
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppWithAnimationPreview
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
+import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.expandSharedElementTransition
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GeneratedQRCodeUpdateListeners
@@ -158,69 +158,65 @@ private fun GeneratedQRCodeContentLargeScreen(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
-    with(sharedTransitionScope) {
-        val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
-        val expandArguments =
-            ExpandQRCodeArguments(
-                code = state.generating.qrCodeText,
-                format = state.generating.format,
-                label = "generating",
-            )
-        ConstraintLayout(
-            modifier = modifier,
+    val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = state.generating.qrCodeText,
+            format = state.generating.format,
+            key = GENERATE_SHARED_TRANSITION_KEY,
+        )
+    ConstraintLayout(
+        modifier = modifier,
+    ) {
+        val (textBox, qrCodeImage, actionButtons) = createRefs()
+        QRCodeGenerateTextInput(
+            modifier =
+                Modifier
+                    .fillMaxWidth(fraction = 0.4f)
+                    .padding(end = Dimens.spacingExtraLarge)
+                    .constrainAs(textBox) {
+                        linkTo(start = parent.start, end = qrCodeImage.start)
+                        linkTo(top = parent.top, bottom = parent.bottom)
+                        height = Dimension.fillToConstraints
+                    },
+            state = state,
+            qrCodeUpdateListeners = qrCodeUpdateListeners,
+            largeScreen = true,
+        )
+
+        Card(
+            modifier =
+                Modifier
+                    .alpha(actionButtonsVisibilityAlpha)
+                    .constrainAs(actionButtons) {
+                        linkTo(start = qrCodeImage.end, end = parent.end)
+                        linkTo(top = parent.top, bottom = parent.bottom)
+                    },
         ) {
-            val (textBox, qrCodeImage, actionButtons) = createRefs()
-            QRCodeGenerateTextInput(
-                modifier =
-                    Modifier
-                        .fillMaxWidth(fraction = 0.4f)
-                        .padding(end = Dimens.spacingExtraLarge)
-                        .constrainAs(textBox) {
-                            linkTo(start = parent.start, end = qrCodeImage.start)
-                            linkTo(top = parent.top, bottom = parent.bottom)
-                            height = Dimension.fillToConstraints
-                        },
-                state = state,
-                qrCodeUpdateListeners = qrCodeUpdateListeners,
-                largeScreen = true,
-            )
-
-            Card(
-                modifier =
-                    Modifier
-                        .alpha(actionButtonsVisibilityAlpha)
-                        .constrainAs(actionButtons) {
-                            linkTo(start = qrCodeImage.end, end = parent.end)
-                            linkTo(top = parent.top, bottom = parent.bottom)
-                        },
-            ) {
-                Column(modifier = Modifier.padding(vertical = Dimens.spacingLarge, horizontal = Dimens.spacingSmall)) {
-                    QRCodeActionButtons(actionListeners = qrCodeActionListeners)
-                }
+            Column(modifier = Modifier.padding(vertical = Dimens.spacingLarge, horizontal = Dimens.spacingSmall)) {
+                QRCodeActionButtons(actionListeners = qrCodeActionListeners)
             }
-
-            QRCodeImageOrInfoContent(
-                modifier =
-                    Modifier
-                        .sharedElement(
-                            state = sharedTransitionScope.rememberSharedContentState(key = expandArguments.toString()),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            },
-                        )
-                        .fillMaxWidth(fraction = 0.4f)
-                        .constrainAs(qrCodeImage) {
-                            linkTo(start = textBox.end, end = actionButtons.start)
-                            linkTo(top = parent.top, bottom = parent.bottom)
-                        },
-                showInfoScreen = !state.canGenerate,
-                error = state.inputError,
-                qrCodeText = state.generating.qrCodeText,
-                format = state.generating.format,
-                onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
-            )
         }
+
+        QRCodeImageOrInfoContent(
+            modifier =
+                Modifier
+                    .expandSharedElementTransition(
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        key = expandArguments.key,
+                    )
+                    .fillMaxWidth(fraction = 0.4f)
+                    .constrainAs(qrCodeImage) {
+                        linkTo(start = textBox.end, end = actionButtons.start)
+                        linkTo(top = parent.top, bottom = parent.bottom)
+                    },
+            showInfoScreen = !state.canGenerate,
+            error = state.inputError,
+            qrCodeText = state.generating.qrCodeText,
+            format = state.generating.format,
+            onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
+        )
     }
 }
 
@@ -234,72 +230,68 @@ private fun GeneratedQRCodeContentPortrait(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
-    with(sharedTransitionScope) {
-        val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
-        val expandArguments =
-            ExpandQRCodeArguments(
-                code = state.generating.qrCodeText,
-                format = state.generating.format,
-                label = "generating",
-            )
-        Column(
-            modifier,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                val (qrCodeImage, actionButtons) = createRefs()
-                QRCodeImageOrInfoContent(
-                    modifier =
-                        Modifier
-                            .sharedElement(
-                                state = sharedTransitionScope.rememberSharedContentState(key = expandArguments.toString()),
-                                animatedVisibilityScope = animatedVisibilityScope,
-                                boundsTransform = { _, _ ->
-                                    tween(durationMillis = 1000)
-                                },
-                            )
-                            .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
-                            .fillMaxWidth(fraction = 0.6f)
-                            .constrainAs(qrCodeImage) {
-                                linkTo(start = parent.start, end = parent.end)
-                                linkTo(top = parent.top, bottom = parent.bottom)
-                            },
-                    showInfoScreen = !state.canGenerate,
-                    error = state.inputError,
-                    qrCodeText = state.generating.qrCodeText,
-                    format = state.generating.format,
-                    onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
-                )
-                Card(
-                    modifier =
-                        Modifier
-                            .alpha(actionButtonsVisibilityAlpha)
-                            .constrainAs(actionButtons) {
-                                linkTo(top = parent.top, bottom = parent.bottom)
-                                linkTo(start = qrCodeImage.end, end = parent.end)
-                            },
-                ) {
-                    Column(
-                        modifier =
-                            Modifier.padding(
-                                vertical = Dimens.spacingMedium,
-                                horizontal = Dimens.spacingExtraSmall,
-                            ),
-                    ) {
-                        QRCodeActionButtons(actionListeners = qrCodeActionListeners)
-                    }
-                }
-            }
-            QRCodeGenerateTextInput(
+    val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = state.generating.qrCodeText,
+            format = state.generating.format,
+            key = GENERATE_SHARED_TRANSITION_KEY,
+        )
+    Column(
+        modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+            val (qrCodeImage, actionButtons) = createRefs()
+            QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
-                state = state,
-                qrCodeUpdateListeners = qrCodeUpdateListeners,
-                largeScreen = false,
+                        .expandSharedElementTransition(
+                            sharedTransitionScope = sharedTransitionScope,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            key = expandArguments.key,
+                        )
+                        .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
+                        .fillMaxWidth(fraction = 0.6f)
+                        .constrainAs(qrCodeImage) {
+                            linkTo(start = parent.start, end = parent.end)
+                            linkTo(top = parent.top, bottom = parent.bottom)
+                        },
+                showInfoScreen = !state.canGenerate,
+                error = state.inputError,
+                qrCodeText = state.generating.qrCodeText,
+                format = state.generating.format,
+                onResultUpdate = qrCodeUpdateListeners.onGeneratorResult,
             )
+            Card(
+                modifier =
+                    Modifier
+                        .alpha(actionButtonsVisibilityAlpha)
+                        .constrainAs(actionButtons) {
+                            linkTo(top = parent.top, bottom = parent.bottom)
+                            linkTo(start = qrCodeImage.end, end = parent.end)
+                        },
+            ) {
+                Column(
+                    modifier =
+                        Modifier.padding(
+                            vertical = Dimens.spacingMedium,
+                            horizontal = Dimens.spacingExtraSmall,
+                        ),
+                ) {
+                    QRCodeActionButtons(actionListeners = qrCodeActionListeners)
+                }
+            }
         }
+        QRCodeGenerateTextInput(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
+            state = state,
+            qrCodeUpdateListeners = qrCodeUpdateListeners,
+            largeScreen = false,
+        )
     }
 }
 
@@ -386,6 +378,8 @@ private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState)
             if (!state.generating.empty) 1f else 0f
         }
     }
+
+private const val GENERATE_SHARED_TRANSITION_KEY = "generating"
 // endregion screen composables
 
 // region screen previews

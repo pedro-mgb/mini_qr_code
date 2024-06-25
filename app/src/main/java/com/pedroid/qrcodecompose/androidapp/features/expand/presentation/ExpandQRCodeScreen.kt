@@ -3,7 +3,6 @@ package com.pedroid.qrcodecompose.androidapp.features.expand.presentation
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
 import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppWithAnimationPreview
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeNavigationListeners
@@ -31,35 +29,30 @@ fun ExpandQRCodeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     navigationListeners: ExpandQRCodeNavigationListeners,
 ) {
-    with(sharedTransitionScope) {
-        Box(
+    Box(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .clickable { navigationListeners.goBack() },
+    ) {
+        QRCodeComposeXGenerator(
             modifier =
                 Modifier
-                    .fillMaxSize()
-                    .clickable { navigationListeners.goBack() },
-        ) {
-            QRCodeComposeXGenerator(
-                modifier =
-                    Modifier
-                        .sharedElement(
-                            state = sharedTransitionScope.rememberSharedContentState(key = arguments.toString()),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            },
-                        )
-                        .aspectRatio(arguments.format.preferredAspectRatio)
-                        .background(Color.White)
-                        .fillMaxWidth(fraction = 0.9f)
-                        .align(Alignment.Center),
-                text = arguments.code,
-                qrCodePadding = Dimens.spacingExtraLarge,
-                format = arguments.format,
-                onResult = {
-                    // nothing to handle here; should just display image
-                },
-            )
-        }
+                    .expandSharedElementTransition(
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        key = arguments.key,
+                    )
+                    .aspectRatio(arguments.format.preferredAspectRatio)
+                    .background(Color.White)
+                    .fillMaxWidth(fraction = 0.9f)
+                    .align(Alignment.Center),
+            text = arguments.code,
+            format = arguments.format,
+            onResult = {
+                // nothing to handle here; should just display image
+            },
+        )
     }
 }
 // endregion screen composables
@@ -73,7 +66,7 @@ fun ExpandQRCodeScreenPreview() {
         ExpandQRCodeScreen(
             arguments =
                 ExpandQRCodeArguments(
-                    label = "generated",
+                    key = "generated",
                     code = "1234678",
                     format = QRCodeComposeXFormat.BARCODE_EUROPE_EAN_8,
                 ),

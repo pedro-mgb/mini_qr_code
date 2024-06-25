@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class ExpandQRCodeArguments(
-    val label: String,
+    val key: String,
     val code: String,
     val format: QRCodeComposeXFormat,
 ) : Parcelable

@@ -56,7 +56,7 @@ fun NavController.navigateToExpandGeneratedQRCode(
 ) {
     this.navigate(
         ExpandGeneratedQRCodeRoute(
-            label = arguments.label,
+            label = arguments.key,
             code = arguments.code,
             format = arguments.format,
         ),
