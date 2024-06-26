@@ -8,7 +8,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.pedroid.qrcodecompose.androidapp.core.navigation.ofQRCodeComposeXFormat
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customize.QRCodeSelectFormatListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.presentation.customize.format.QRCodeFormatSelectionScreen
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
@@ -27,7 +26,8 @@ fun NavGraphBuilder.generateQRCodeSelectFormatRoute(
     largeScreen: Boolean = false,
 ) {
     composable<SelectFormatRoute>(
-        typeMap = mapOf(typeOf<QRCodeComposeXFormat>() to NavType.ofQRCodeComposeXFormat()),
+        // TODO remove this type map once https://issuetracker.google.com/issues/346475493 is addressed
+        typeMap = mapOf(typeOf<QRCodeComposeXFormat>() to NavType.EnumType(QRCodeComposeXFormat::class.java)),
     ) {
         val route = it.toRoute<SelectFormatRoute>()
         QRCodeFormatSelectionCoordinator(
