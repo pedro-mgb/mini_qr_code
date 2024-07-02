@@ -136,6 +136,8 @@ private fun HistoryDetailCoordinator(
                             showDeleteDialog = true
                         },
                     ),
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
 
             TemporaryMessage(data = (uiState as? HistoryDetailUIState.Content)?.temporaryMessage) {
