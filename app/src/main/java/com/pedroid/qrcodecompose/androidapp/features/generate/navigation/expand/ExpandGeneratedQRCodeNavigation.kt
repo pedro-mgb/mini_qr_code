@@ -8,7 +8,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.pedroid.qrcodecompose.androidapp.core.navigation.ofQRCodeComposeXFormat
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
 import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeNavigationListeners
 import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.ExpandQRCodeScreen
@@ -31,10 +30,7 @@ fun NavGraphBuilder.expandGeneratedQRCodeRoute(
     sharedTransitionScope: SharedTransitionScope,
 ) {
     composable<ExpandGeneratedQRCodeRoute>(
-        typeMap =
-            mapOf(
-                typeOf<QRCodeComposeXFormat>() to NavType.ofQRCodeComposeXFormat(),
-            ),
+        typeMap = mapOf(typeOf<QRCodeComposeXFormat>() to NavType.EnumType(QRCodeComposeXFormat::class.java)),
     ) {
         val route = it.toRoute<ExpandGeneratedQRCodeRoute>()
         ExpandQRCodeScreen(

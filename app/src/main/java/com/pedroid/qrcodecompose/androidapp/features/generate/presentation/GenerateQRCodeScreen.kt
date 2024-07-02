@@ -206,6 +206,7 @@ private fun GeneratedQRCodeContentLargeScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         key = expandArguments.key,
                     )
+                    .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
                     .fillMaxWidth(fraction = 0.4f)
                     .constrainAs(qrCodeImage) {
                         linkTo(start = textBox.end, end = actionButtons.start)
