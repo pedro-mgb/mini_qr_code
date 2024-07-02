@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.filled.ScanQRCode
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeHomeRoute
@@ -91,9 +93,9 @@ sealed class HomeDestinationItem(
 
 val defaultStartRoute: KClass<*> = HomeDestinationItem.Scan.routeClass
 
-fun HomeDestinationItem.encompassesRoute(route: String?): Boolean =
-    route?.let { r ->
-        encompassingRoutes.map { it.simpleName ?: "" }.any {
-            r.contains(it, ignoreCase = true)
+fun HomeDestinationItem.encompassesDestination(destination: NavDestination?): Boolean =
+    destination?.let { d ->
+        encompassingRoutes.any { route ->
+            d.hasRoute(route)
         }
     } ?: false

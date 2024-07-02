@@ -4,7 +4,7 @@ androidxActivityCompose = "1.9.0"
 androidxAppcompat = "1.7.0"
 androidxBrowser = "1.8.0"
 androidxComposeBom = "2024.06.00"
-androidxComposeMaterial3Alpha = "1.0.0-alpha06"
+androidxComposeMaterial3Adaptive = "1.0.0-beta01"
 # This API is for usage with Shared Element Transitions, but there still seems to be issues
 #   Some previews don't work, and sometimes the app crashes with an error like below
 #   https://issuetracker.google.com/issues?q=Error:%20Placement%20happened%20before%20lookahead
@@ -27,13 +27,13 @@ arrowKt = "1.2.4"
 desugaring = "2.0.4"
 espressoCore = "3.5.1"
 googleAccompanist = "0.34.0"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlinter = "4.2.0"
 kotlinxCoroutines = "1.8.0"
 kotlinxSerialization = "1.6.3"
 junit = "4.13.2"
-hilt = "2.51"
-ksp = "1.9.23-1.0.20"
+hilt = "2.51.1"
+ksp = "2.0.0-1.0.21"
 mlkitBarcodeScanning = "17.2.0"
 protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
@@ -64,7 +64,7 @@ ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
-material3-adaptive = { group = "androidx.compose.material3", name = "material3-adaptive", version.ref = "androidxComposeMaterial3Alpha" }
+material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "androidxComposeMaterial3Adaptive" }
 material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 # endregion Compose BOM and associated dependencies
 
@@ -103,6 +103,7 @@ zxing = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 androidx-room = { id = "androidx.room", version.ref = "androidxRoom" }
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

@@ -6,13 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBottomNavBar
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBottomNavBarItem
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppNavRail
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppNavRailItem
 import com.pedroid.qrcodecompose.androidapp.home.navigation.HomeDestinationItem
-import com.pedroid.qrcodecompose.androidapp.home.navigation.encompassesRoute
+import com.pedroid.qrcodecompose.androidapp.home.navigation.encompassesDestination
 
 // region UI
 @Composable
@@ -24,7 +23,7 @@ fun BottomNavigationItems(
 ) {
     QRAppBottomNavBar(modifier = modifier) {
         items.forEach { item ->
-            val isSelected = currentDestination.isHomeItemInHierarchy(item)
+            val isSelected = item.encompassesDestination(currentDestination)
             QRAppBottomNavBarItem(
                 selected = isSelected,
                 onClick = { onNavigateToHomeItem(item) },
@@ -44,7 +43,7 @@ fun NavigationRailItems(
 ) {
     QRAppNavRail(modifier = modifier) {
         items.forEach { item ->
-            val isSelected = currentDestination.isHomeItemInHierarchy(item)
+            val isSelected = item.encompassesDestination(currentDestination)
             QRAppNavRailItem(
                 selected = isSelected,
                 onClick = { onNavigateToHomeItem(item) },
@@ -68,10 +67,3 @@ private fun HomeDestinationItem.NavText() {
     Text(text = stringResource(id = itemTextId))
 }
 // endregion UI
-
-// region utils
-private fun NavDestination?.isHomeItemInHierarchy(destination: HomeDestinationItem) =
-    this?.hierarchy?.any {
-        destination.encompassesRoute(it.route)
-    } ?: false
-// endregion utils
