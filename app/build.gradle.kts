@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -121,6 +122,10 @@ dependencies {
     implementation(libs.junit)
     implementation(libs.kotlinx.coroutines.test)
     // endregion test utils
+    //region baseline profile
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(":baselineprofile"))
+    //endregion baseline profile
 
     coreLibraryDesugaring(libs.desugaring.jdk)
 
