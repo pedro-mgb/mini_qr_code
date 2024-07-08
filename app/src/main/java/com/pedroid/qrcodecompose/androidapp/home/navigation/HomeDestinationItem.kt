@@ -15,8 +15,10 @@ import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.customi
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.expand.ExpandGeneratedQRCodeRoute
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.HistoryListRoute
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailRoute
+import com.pedroid.qrcodecompose.androidapp.features.history.navigation.expand.ExpandHistoryQRCodeRoute
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanCameraReaderRoute
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScanQRCodeInfoRoute
+import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.expand.ExpandScannedQRCodeRoute
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.fromfile.ScanFileReaderRoute
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.SettingMainRoute
 import com.pedroid.qrcodecompose.androidapp.features.settings.navigation.about.AboutAppRoute
@@ -42,6 +44,7 @@ sealed class HomeDestinationItem(
                 ScanQRCodeInfoRoute::class,
                 ScanCameraReaderRoute::class,
                 ScanFileReaderRoute::class,
+                ExpandScannedQRCodeRoute::class,
             ),
     )
 
@@ -65,6 +68,7 @@ sealed class HomeDestinationItem(
             listOf(
                 HistoryListRoute::class,
                 HistoryDetailRoute::class,
+                ExpandHistoryQRCodeRoute::class,
             ),
     )
 

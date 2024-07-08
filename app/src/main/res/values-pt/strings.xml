@@ -33,6 +33,7 @@
     <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos para escanear QR Code…</string>
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
     <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tenta com outro ficheiro.</string>
+    <string name="scan_code_click_to_expand_label">Pré-visualização - pode ser diferente visualmente do código capturado. Clica na imagem para expandir</string>
 
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code.</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>

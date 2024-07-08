@@ -105,10 +105,15 @@ private fun ScanCodeHomeCoordinator(
                         ),
                     )
                 },
+                onExpand = {
+                    navigationListeners.onExpand(it)
+                },
             ),
         cameraPermissionStatus = cameraPermissionState.status,
         uiState = uiState,
         largeScreen = largeScreen,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
     )
 
     TemporaryMessage(data = uiState.temporaryMessage) {

@@ -33,6 +33,7 @@
     <string name="scan_code_from_file_in_progress_description">Opening photo picker and scanning image for QR Code…</string>
     <string name="scan_code_from_file_error_title">Failed to scan QR Code</string>
     <string name="scan_code_from_file_error_description">Either the file does not contain any QR Codes, or perhaps the image quality is insufficient.\nPlease try again with another image.</string>
+    <string name="scan_code_click_to_expand_label">Preview - may not visually match the scanned code. Click image to expand</string>
 
     <string name="code_open_app_error">There are no apps on the phone that are able to open the code\'s content.</string>
     <string name="code_share_app_error">There are no apps on the phone to share the content.</string>
