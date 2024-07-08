@@ -9,9 +9,10 @@ androidxComposeMaterial3Adaptive = "1.0.0-beta04"
 #   Some previews don't work, and sometimes the app crashes with an error like below
 #   when rotating in GenerateQRCodeScreen
 #   https://issuetracker.google.com/issues?q=Error:%20Placement%20happened%20before%20lookahead
+#   Updating the constraint layout dependency to 1.1.0 alpha fixed the issue
 #   TODO update to a stable dependency, when there is one
 androidxComposeAnimation = "1.7.0-beta04"
-androidXConstraintLayoutCompose = "1.0.1"
+androidXConstraintLayoutCompose = "1.1.0-alpha13"
 androidxCore = "1.13.1"
 androidxCameraX = "1.3.4"
 androidxCoreSplashscreen = "1.0.1"
