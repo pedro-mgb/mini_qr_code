@@ -41,7 +41,7 @@
     <string name="code_saved_to_file_error">There was an error trying to save the image, please try again.</string>
     <string name="error_unable_to_open_url">Unable to open the link. Make sure you have a browser app (e.g. Chrome) installed.</string>
 
-    <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created.</string>
+    <string name="generate_code_header">Input the text in the box below, and the QR Code will automatically be created. Click the image to expand.</string>
     <string name="generate_code_text_box_label">Input your text</string>
     <string name="generate_code_will_appear_here">Image will appear here.</string>
     <string name="generate_code_error">An error occurred trying to generate the QR Code, please try again.</string>
