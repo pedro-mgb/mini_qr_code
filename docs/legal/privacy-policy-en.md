@@ -58,4 +58,4 @@ The list of changes will appear at the top of this page.
 
 ## Contact Us
 
-If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at **pedroid.apps.support@gmail.com**.
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at **pedroid.apps.contact@gmail.com**.
