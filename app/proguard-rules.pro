@@ -25,3 +25,5 @@
 -keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite* {
    <fields>;
 }
+# to not crash due to missing compose navigation type-safe mapping.
+-keep class com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
