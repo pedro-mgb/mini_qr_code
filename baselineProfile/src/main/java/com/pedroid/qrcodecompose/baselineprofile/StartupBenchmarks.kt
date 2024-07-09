@@ -44,8 +44,15 @@ class StartupBenchmarks {
         benchmark(CompilationMode.None())
 
     @Test
-    fun startupCompilationBaselineProfiles() =
-        benchmark(CompilationMode.Partial(BaselineProfileMode.Require))
+    fun startupPrecompiledAndDisabledBaselineProfile() =
+        benchmark(CompilationMode.Partial(baselineProfileMode = BaselineProfileMode.Disable, warmupIterations = 1))
+
+    @Test
+    fun startupPrecompiledWithBaselineProfile() =
+        benchmark(CompilationMode.Partial(baselineProfileMode = BaselineProfileMode.Require))
+
+    @Test
+    fun startupFullyPrecompiled() = benchmark(CompilationMode.Full())
 
     private fun benchmark(compilationMode: CompilationMode) {
         // The application id for the running build variant is read from the instrumentation arguments.
