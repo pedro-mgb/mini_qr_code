@@ -37,7 +37,7 @@ jobs:
         run: brew install gnu-sed
 
       - name: Manually increment versionCode
-        run: gsed -i -r 's/(versionCode = )([0-9]+)/echo "\t\t\1$((\2 + 1))"/e' app/build.gradle.kts
+        run: gsed -i -r 's/(versionCode = )([0-9]+)/echo "        \1$((\2 + 1))"/e' app/build.gradle.kts
 
       - name: Manually update versionName from input
         env:
