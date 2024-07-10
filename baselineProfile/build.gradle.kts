@@ -32,9 +32,9 @@ android {
     // To use GMD please invoke generation through the command line:
     // ./gradlew :app:generateBaselineProfile
     testOptions.managedDevices.devices {
-        create<ManagedVirtualDevice>("pixel6Api34") {
+        create<ManagedVirtualDevice>("pixel6Api33") {
             device = "Pixel 6"
-            apiLevel = 34
+            apiLevel = 33
             // set to Android Open Source Project because app should work without google services
             //  as Automated test Device to reduce resource consumption
             systemImageSource = "aosp-atd"
@@ -45,7 +45,7 @@ android {
 // This is the configuration block for the Baseline Profile plugin.
 // You can specify to run the generators on a managed devices or connected devices.
 baselineProfile {
-    managedDevices += "pixel6Api34"
+    managedDevices += "pixel6Api33"
     useConnectedDevices = false
 }
 
