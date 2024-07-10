@@ -36,7 +36,8 @@ android {
             device = "Pixel 6"
             apiLevel = 34
             // set to Android Open Source Project because app should work without google services
-            systemImageSource = "aosp"
+            //  as Automated test Device to reduce resource consumption
+            systemImageSource = "aosp-atd"
         }
     }
 }
