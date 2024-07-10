@@ -31,15 +31,18 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Manually increment versionCode
-        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\t\1$((\2 + 1))"/e' app/build.gradle.kts
+        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\1$((\2 + 1))"/e' app/build.gradle.kts
 
       - name: Manually update versionName from input
         env:
           VERSION_TAG: ${{ inputs.tag }}
         run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
 
-      - name: Generate baseline profile
-        run: ./gradlew :app:generateBaselineProfile
+      - name: Show updated build.gradle.kts file
+        run: cat app/build.gradle.kts
+
+      #- name: Generate baseline profile
+      #  run: ./gradlew --scan :app:generateBaselineProfile
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
