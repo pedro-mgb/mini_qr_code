@@ -32,16 +32,16 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x ./gradlew
 
-      - name: Manually increment versionCode
-        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\t\1$((\2 + 1))"/e' app/build.gradle.kts
+      #- name: Manually increment versionCode
+        #run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\t\1$((\2 + 1))"/e' app/build.gradle.kts
 
-      - name: Manually update versionName from input
-        env:
-          VERSION_TAG: ${{ inputs.tag }}
-        run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
+      #- name: Manually update versionName from input
+        #env:
+          #VERSION_TAG: ${{ inputs.tag }}
+        #run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
 
-      - name: Show updated build.gradle.kts file
-        run: cat app/build.gradle.kts
+      #- name: Show updated build.gradle.kts file
+        #run: cat app/build.gradle.kts
 
       - name: Accept Android licenses
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
