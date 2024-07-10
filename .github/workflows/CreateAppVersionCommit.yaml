@@ -43,8 +43,11 @@ jobs:
           VERSION_TAG: ${{ inputs.tag }}
         run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
 
-      #- name: Show updated build.gradle.kts file
-        #run: cat app/build.gradle.kts
+      - name: Show updated build.gradle.kts file
+        run: cat app/build.gradle.kts
+
+      - name: Install GMD image for baseline profile generation
+        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager "system-images;android-34;aosp-atd;x86_64"
 
       - name: Accept Android licenses
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
