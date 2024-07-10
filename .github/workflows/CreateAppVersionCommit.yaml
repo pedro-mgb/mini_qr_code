@@ -43,6 +43,9 @@ jobs:
       - name: Show updated build.gradle.kts file
         run: cat app/build.gradle.kts
 
+      - name: Accept Android licenses
+        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
       - name: Generate baseline profile
         run: ./gradlew --scan :app:generateBaselineProfile
 
