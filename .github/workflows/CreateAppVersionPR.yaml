@@ -5,8 +5,8 @@ name: CreateAppVersionCommit
 # can only be run manually
 on:
   workflow_dispatch:
-    #branches:
-      #main
+    branches:
+      main
     inputs:
       tag:
         description: 'New version tag for the app - X.Y.Z'
@@ -38,8 +38,8 @@ jobs:
           VERSION_TAG: ${{ inputs.tag }}
         run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
 
-      #- name: Generate baseline profile
-        #run: ./gradlew :app:generateBaselineProfile
+      - name: Generate baseline profile
+        run: ./gradlew :app:generateBaselineProfile
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
