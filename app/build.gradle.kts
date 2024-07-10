@@ -22,8 +22,8 @@ android {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
         minSdk = 21
         targetSdk = 34
-	versionCode = 8
-        versionName = "0.5.1"
+	    versionCode = 7
+        versionName = "0.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
