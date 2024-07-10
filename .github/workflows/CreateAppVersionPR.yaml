@@ -34,7 +34,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Manually increment versionCode
-        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\1$((\2 + 1))"/e' app/build.gradle.kts
+        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\1$((\2 + 1))"/e' app/build.gradle.kts
 
       - name: Manually update versionName from input
         env:
