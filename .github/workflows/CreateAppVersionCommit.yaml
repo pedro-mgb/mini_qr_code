@@ -15,7 +15,7 @@ on:
 
 jobs:
   create-commit-release:
-    runs-on: macos-latest
+    runs-on: macos-13
     timeout-minutes: 25
     permissions: write-all
     steps:
