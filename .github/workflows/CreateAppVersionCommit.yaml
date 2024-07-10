@@ -15,8 +15,15 @@ on:
 
 jobs:
   create-commit-release:
+    # using macos-13 because
+    #  - with ubuntu baselineprofile module isn't even recognized for some reason
+    #  - with macos-latest (or macos-14) M1 chip is being used, and that is making gradle managed device fail
+    # Useful links:
+    # - https://medium.com/google-developer-experts/automating-baseline-profile-end-to-end-on-ci-fc11f8389c0b
+    # - https://stackoverflow.com/questions/75230994/run-android-gradle-managed-device-on-gitlab-ci
+    # - https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md
+    # - https://github.com/siarhei-luskanau/android-managed-virtual-device
     runs-on: macos-13
-    timeout-minutes: 25
     permissions: write-all
     steps:
       - name: Checkout code
@@ -33,7 +40,7 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x ./gradlew
 
-      - name: Install sed
+      - name: Install sed on mac
         run: brew install gnu-sed
 
       - name: Manually increment versionCode
@@ -54,6 +61,7 @@ jobs:
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Generate baseline profile
+        # the gpu flag is to make sure gradle managed device is setup correctly
         run: ./gradlew :app:generateBaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
