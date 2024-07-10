@@ -21,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.0
 
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -37,6 +37,9 @@ jobs:
         env:
           VERSION_TAG: ${{ inputs.tag }}
         run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
+
+      - name: Show updated build.gradle.kts file
+        run: cat app/build.gradle.kts
 
       - name: Generate baseline profile
         run: ./gradlew :app:generateBaselineProfile
