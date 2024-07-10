@@ -41,8 +41,8 @@ jobs:
       - name: Show updated build.gradle.kts file
         run: cat app/build.gradle.kts
 
-      - name: Generate baseline profile
-        run: ./gradlew --scan :app:generateBaselineProfile
+      #- name: Generate baseline profile
+      #  run: ./gradlew --scan :app:generateBaselineProfile
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
