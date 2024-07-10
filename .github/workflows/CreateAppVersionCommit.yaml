@@ -16,6 +16,7 @@ on:
 jobs:
   create-commit-release:
     runs-on: macos-latest
+    timeout-minutes: 25
     permissions: write-all
     steps:
       - name: Checkout code
