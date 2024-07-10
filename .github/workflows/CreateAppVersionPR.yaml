@@ -1,0 +1,50 @@
+# Create an App Version Commit with specified app version and baseline profile
+#  The commit is accompanied by a version tag
+name: CreateAppVersionCommit
+
+# can only be run manually
+on:
+  workflow_dispatch:
+    branches:
+      main
+    inputs:
+      tag:
+        description: 'New version tag for the app - X.Y.Z'
+        required: true
+        type: string
+
+jobs:
+  create-commit-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.0
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 8
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Manually increment versionCode
+        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\t\1$((\2 + 1))"/e' app/build.gradle.kts
+
+      - name: Manually update versionName from input
+        env:
+          VERSION_TAG: ${{ inputs.tag }}
+        run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
+
+      - name: Generate baseline profile
+        run: ./gradlew :app:generateBaselineProfile
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: user_info
+          message: 'App version ${{ inputs.tag }}'
+          tag: v${{ inputs.tag }}
+          push: true
