@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -21,7 +22,7 @@ android {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
         minSdk = 21
         targetSdk = 34
-        versionCode = 7
+	    versionCode = 7
         versionName = "0.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -122,6 +123,10 @@ dependencies {
     implementation(libs.junit)
     implementation(libs.kotlinx.coroutines.test)
     // endregion test utils
+    //region baseline profile
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(":baselineprofile"))
+    //endregion baseline profile
 
     coreLibraryDesugaring(libs.desugaring.jdk)
 

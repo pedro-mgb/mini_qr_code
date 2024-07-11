@@ -374,9 +374,9 @@ private fun QRCodeActionButtons(actionListeners: GenerateQRCodeActionListeners =
  */
 @Composable
 private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState): State<Float> =
-    remember(key1 = state.generating.qrCodeText) {
+    remember(key1 = state.canGenerate) {
         derivedStateOf {
-            if (!state.generating.empty) 1f else 0f
+            if (state.canGenerate) 1f else 0f
         }
     }
 
