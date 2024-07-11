@@ -5,8 +5,6 @@ name: CreateAppVersionCommit
 # can only be run manually
 on:
   workflow_dispatch:
-    branches:
-      main
     inputs:
       tag:
         description: 'New version tag for the app - X.Y.Z'
