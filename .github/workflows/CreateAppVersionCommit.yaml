@@ -15,11 +15,21 @@ on:
 
 jobs:
   create-commit-release:
-    runs-on: ubuntu-latest
+    # using macos-13 because
+    #  - with ubuntu baselineprofile module isn't even recognized for some reason
+    #  - with macos-latest (or macos-14) M1 chip is being used, and that is making gradle managed device fail
+    # Useful links:
+    # - https://medium.com/google-developer-experts/automating-baseline-profile-end-to-end-on-ci-fc11f8389c0b
+    # - https://stackoverflow.com/questions/75230994/run-android-gradle-managed-device-on-gitlab-ci
+    # - https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md
+    # - https://github.com/siarhei-luskanau/android-managed-virtual-device
+    runs-on: macos-13
     permissions: write-all
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.0
+        with:
+          token: ${{ secrets.PEDROID_PERSONAL_ACCESS_TOKEN }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -30,19 +40,30 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x ./gradlew
 
+      - name: Install sed on mac
+        run: brew install gnu-sed
+
       - name: Manually increment versionCode
-        run: sed -i -r 's/(versionCode = )([0-9]+)/echo "\t\1$((\2 + 1))"/e' app/build.gradle.kts
+        run: gsed -i -r 's/(versionCode = )([0-9]+)/echo "        \1$((\2 + 1))"/e' app/build.gradle.kts
 
       - name: Manually update versionName from input
         env:
           VERSION_TAG: ${{ inputs.tag }}
-        run: sed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
+        run: gsed -i -r 's/(versionName = )"([^"]+)"/\1"'$VERSION_TAG'"/' app/build.gradle.kts
 
       - name: Show updated build.gradle.kts file
         run: cat app/build.gradle.kts
 
-      #- name: Generate baseline profile
-      #  run: ./gradlew --scan :app:generateBaselineProfile
+      #- name: Install GMD image for baseline profile generation
+        #run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager "system-images;android-33;aosp-atd;x86_64"
+
+      - name: Accept Android licenses
+        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Generate baseline profile
+        # the gpu flag is to make sure gradle managed device is setup correctly
+        run: ./gradlew :app:generateBaselineProfile
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
