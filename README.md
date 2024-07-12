@@ -9,7 +9,7 @@
 
 [![Min API Version](https://img.shields.io/badge/Min_API-21-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 [![Target API Version](https://img.shields.io/badge/Target_API-34-brightgreen.svg)](https://developer.android.com/about/versions/14)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.x-blue.svg)](https://kotlinlang.org)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-2.0.x-blue.svg)](https://kotlinlang.org)
 [![Jetpack Compose Version](https://img.shields.io/badge/Compose-1.6.x-blue.svg)](https://developer.android.com/develop/ui/compose)
 
 This repository contains the source code for the Mini QR Code Android app - Scan and generate QR Codes and various barcodes.
