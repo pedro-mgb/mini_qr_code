@@ -1,8 +1,15 @@
 # Mini QR Code - Privacy Policy
 
-**Version 1.0**
+**Version 1.1**
 
-Last updated: 28th April 2024
+Last updated: 12th July 2024
+
+### Version history
+
+| Version                                                                                                                                                                   | Changes                                                            |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| 1.1 (current)                                                                                                                                                             | Update contact e-mail; clarify information "Removing Data" section |
+| [1.0 (April 2024)](https://github.com/pedro-mgb/mini_qr_code/blob/4392318c1b654671e7f5c1bbab3f662a3ae9828d/docs/legal/privacy-policy-en.md#mini-qr-code---privacy-policy) | Initial version of privacy policy                                  |
 
 ## Introduction
 
@@ -40,14 +47,14 @@ We have no control over and assume no responsibility for the content, privacy po
 
 Our App is not targeted for anyone under the age of 13.
 
-In the event that it becomes targetted for children, we promise to never collect personal data of anyone under the age of 13.
+In the event that it becomes targeted for children, we promise to never collect personal data of anyone under the age of 13.
 
 ## Removing data
 
 We locally save non-personal data, such as app settings, and history of past scans and created QR Codes, as part of the app's core functionalities.
 This data never leaves your phone, and is never shared with any third parties.
 
-If you wish to remove this data, you may uninstall the app, and all the aforementioned data will be deleted.
+The user may remove your history of QR Codes in the app's History tab. For that, the user should have latest version of the App, on https://play.google.com/store/apps/details?id=com.pedroid.qrcodecompose.androidapp
 
 ## Changes to This Privacy Policy
 
@@ -58,4 +65,4 @@ The list of changes will appear at the top of this page.
 
 ## Contact Us
 
-If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at **pedroid.apps.support@gmail.com**.
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at **pedroid.apps.contact@gmail.com**.
