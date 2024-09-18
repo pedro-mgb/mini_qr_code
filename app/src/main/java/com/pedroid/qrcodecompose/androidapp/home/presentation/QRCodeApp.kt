@@ -97,8 +97,6 @@ private fun QRCodeAppFrame(
                 )
             }
             SharedTransitionLayout(modifier = Modifier.fillMaxWidth()) {
-                // Implementation Detail -> Putting nav-host as direct child of SharedTransitionLayout
-                //  initially was putting
                 QRCodeAppNavHost(
                     navHostController = navController,
                     startDestination = defaultStartRoute,

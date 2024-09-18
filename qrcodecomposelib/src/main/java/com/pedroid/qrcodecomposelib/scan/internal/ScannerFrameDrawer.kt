@@ -18,8 +18,7 @@ import androidx.compose.ui.unit.dp
 fun Modifier.drawScannerFrame(
     color: Color,
     verticalMarginPercent: Float = 0.5f,
-) = this then
-    drawWithCache {
+) = this.drawWithCache {
         onDrawWithContent {
             val squareFrameSize = Size(size.minDimension / 1.5f, size.minDimension / 1.5f)
             val frameOffset =

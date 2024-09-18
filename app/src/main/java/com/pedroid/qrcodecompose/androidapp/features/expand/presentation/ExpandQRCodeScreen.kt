@@ -218,7 +218,7 @@ private suspend fun animateDoubleTapZoom(
             val offsetStepY = (newOffset - currentOffset.y) * i / animationSteps
             updateOffset(currentOffset + Offset(x = offsetStepX, y = offsetStepY))
         }
-        // small delay to give the visual of an animation
+        // very small delay to give the visual of an animation
         delay(timeMillis = 20L)
     }
 }

@@ -37,7 +37,6 @@ fun BaseQRCodeAppWithAnimationPreview(
     modifier: Modifier = Modifier,
     previewContent: @Composable (SharedTransitionScope, AnimatedVisibilityScope) -> Unit,
 ) {
-    Modifier.Companion
     BaseQRCodeAppPreview(modifier = modifier) {
         SharedTransitionLayout {
             AnimatedVisibility(visible = true) {
