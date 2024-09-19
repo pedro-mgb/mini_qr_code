@@ -66,16 +66,15 @@ private fun Modifier.baseQRCodeImageModifier(
     aspectRatio: Float,
     error: Boolean,
 ): Modifier =
-    this then
-        fillMaxWidth()
-            .aspectRatio(aspectRatio)
-            .border(
-                width = Dimens.borderWidthMedium,
-                color =
-                    if (error) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onBackground
-                    },
-                shape = qrCodeCornerShape,
-            )
+    this.fillMaxWidth()
+        .aspectRatio(aspectRatio)
+        .border(
+            width = Dimens.borderWidthMedium,
+            color =
+                if (error) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                },
+            shape = qrCodeCornerShape,
+        )

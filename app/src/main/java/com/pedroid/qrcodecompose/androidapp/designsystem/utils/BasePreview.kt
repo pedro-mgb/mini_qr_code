@@ -1,5 +1,10 @@
 package com.pedroid.qrcodecompose.androidapp.designsystem.utils
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppBackground
@@ -23,5 +28,20 @@ fun BaseQRCodeAppPreview(
             modifier,
             content = previewContent,
         )
+    }
+}
+
+@ExperimentalSharedTransitionApi
+@Composable
+fun BaseQRCodeAppWithAnimationPreview(
+    modifier: Modifier = Modifier,
+    previewContent: @Composable (SharedTransitionScope, AnimatedVisibilityScope) -> Unit,
+) {
+    BaseQRCodeAppPreview(modifier = modifier) {
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                previewContent(this@SharedTransitionLayout, this@AnimatedVisibility)
+            }
+        }
     }
 }

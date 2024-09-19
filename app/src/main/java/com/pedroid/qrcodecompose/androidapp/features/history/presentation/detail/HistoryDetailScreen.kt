@@ -1,5 +1,9 @@
 package com.pedroid.qrcodecompose.androidapp.features.history.presentation.detail
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +47,9 @@ import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
-import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppWithAnimationPreview
+import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
+import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.expandSharedElementTransition
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail.HistoryDetailNavigationListeners
 import com.pedroid.qrcodecompose.androidapp.features.history.presentation.HistoryTypeUI
@@ -51,13 +57,15 @@ import com.pedroid.qrcodecompose.androidapp.features.history.presentation.delete
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun HistoryDetailScreen(
     data: HistoryDetail,
     largeScreen: Boolean,
     navigationListeners: HistoryDetailNavigationListeners,
     actionListeners: HistoryDetailActionListeners,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         QRAppSimpleToolbar(title = stringResource(R.string.history_top_header_title), onNavigationIconClick = navigationListeners.onGoBack)
@@ -75,13 +83,19 @@ fun HistoryDetailScreen(
                 HistoryDetailContentLargeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     data = data,
+                    navigationListeners = navigationListeners,
                     actionListeners = actionListeners,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                 )
             } else {
                 HistoryDetailContentPortrait(
                     modifier = Modifier.fillMaxWidth(),
                     data = data,
+                    navigationListeners = navigationListeners,
                     actionListeners = actionListeners,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                 )
             }
             Button(
@@ -129,12 +143,23 @@ private fun HistoryDetailHeader(data: HistoryDetail) {
     )
 }
 
+@ExperimentalSharedTransitionApi
 @Composable
 private fun HistoryDetailContentLargeScreen(
     modifier: Modifier = Modifier,
     data: HistoryDetail,
+    navigationListeners: HistoryDetailNavigationListeners,
     actionListeners: HistoryDetailActionListeners,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = data.value,
+            format = data.format,
+            key = HISTORY_SHARED_TRANSITION_KEY,
+        )
+
     ConstraintLayout(modifier = modifier) {
         val (text, actionButtonsText, errorText, image, actionButtonsImage) = createRefs()
 
@@ -209,6 +234,12 @@ private fun HistoryDetailContentLargeScreen(
             QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
+                        .expandSharedElementTransition(
+                            sharedTransitionScope = sharedTransitionScope,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            key = expandArguments.key,
+                        )
+                        .clickable { navigationListeners.onExpand(expandArguments) }
                         .fillMaxWidth(0.4f)
                         .constrainAs(image) {
                             linkTo(start = startAnchor(), end = endAnchor())
@@ -258,12 +289,23 @@ private fun HistoryDetailContentLargeScreen(
     }
 }
 
+@ExperimentalSharedTransitionApi
 @Composable
 private fun HistoryDetailContentPortrait(
     modifier: Modifier = Modifier,
     data: HistoryDetail,
+    navigationListeners: HistoryDetailNavigationListeners,
     actionListeners: HistoryDetailActionListeners,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = data.value,
+            format = data.format,
+            key = HISTORY_SHARED_TRANSITION_KEY,
+        )
+
     @Composable
     fun TextPortrait() {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
@@ -333,6 +375,12 @@ private fun HistoryDetailContentPortrait(
             QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
+                        .expandSharedElementTransition(
+                            sharedTransitionScope = sharedTransitionScope,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            key = expandArguments.key,
+                        )
+                        .clickable { navigationListeners.onExpand(expandArguments) }
                         .fillMaxWidth(0.6f)
                         .constrainAs(image) {
                             linkTo(start = parent.start, end = parent.end)
@@ -413,15 +461,17 @@ private fun HistoryDetailActionButtons(
         }
     }
 }
+
+private const val HISTORY_SHARED_TRANSITION_KEY = "history_detail"
 // endregion screen composables
 
 // region screen previews
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalSharedTransitionApi::class)
 @PreviewScreenSizes
 @Composable
 fun HistoryDetailScreenScannedPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         HistoryDetailScreen(
             data =
                 HistoryDetail(
@@ -437,16 +487,18 @@ fun HistoryDetailScreenScannedPreview() {
             largeScreen = !phoneUI,
             navigationListeners = HistoryDetailNavigationListeners(),
             actionListeners = HistoryDetailActionListeners(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalSharedTransitionApi::class)
 @PreviewScreenSizes
 @Composable
 fun HistoryDetailScreenGeneratedPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         HistoryDetailScreen(
             data =
                 HistoryDetail(
@@ -459,16 +511,18 @@ fun HistoryDetailScreenGeneratedPreview() {
             largeScreen = !phoneUI,
             navigationListeners = HistoryDetailNavigationListeners(),
             actionListeners = HistoryDetailActionListeners(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalSharedTransitionApi::class)
 @PreviewScreenSizes
 @Composable
 fun HistoryDetailScreenScannedErrorPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         HistoryDetailScreen(
             data =
                 HistoryDetail(
@@ -482,16 +536,18 @@ fun HistoryDetailScreenScannedErrorPreview() {
             largeScreen = !phoneUI,
             navigationListeners = HistoryDetailNavigationListeners(),
             actionListeners = HistoryDetailActionListeners(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalSharedTransitionApi::class)
 @PreviewScreenSizes
 @Composable
 fun HistoryDetailScreenGeneratedErrorPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         HistoryDetailScreen(
             data =
                 HistoryDetail(
@@ -505,6 +561,8 @@ fun HistoryDetailScreenGeneratedErrorPreview() {
             largeScreen = !phoneUI,
             navigationListeners = HistoryDetailNavigationListeners(),
             actionListeners = HistoryDetailActionListeners(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }

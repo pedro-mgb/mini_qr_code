@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.androidx.contraintlayout.compose)
     // region compose bom
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.animation)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)

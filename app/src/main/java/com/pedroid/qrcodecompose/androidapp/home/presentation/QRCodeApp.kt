@@ -1,10 +1,13 @@
 package com.pedroid.qrcodecompose.androidapp.home.presentation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -51,6 +54,7 @@ fun QRCodeApp(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun QRCodeAppFrame(
     windowSizeClass: WindowSizeClass,
@@ -92,11 +96,14 @@ private fun QRCodeAppFrame(
                     onNavigateToHomeItem = navController::navigateToHomeDestinationItem,
                 )
             }
-            QRCodeAppNavHost(
-                navHostController = navController,
-                startDestination = defaultStartRoute,
-                windowWidthSizeClass = windowSizeClass.widthSizeClass,
-            )
+            SharedTransitionLayout(modifier = Modifier.fillMaxWidth()) {
+                QRCodeAppNavHost(
+                    navHostController = navController,
+                    startDestination = defaultStartRoute,
+                    windowWidthSizeClass = windowSizeClass.widthSizeClass,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                )
+            }
         }
     }
 }

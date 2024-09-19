@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,20 +40,31 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object GenerateQRCodeHomeRoute
 
+@ExperimentalSharedTransitionApi
 fun NavGraphBuilder.generateQRCodeRoute(
     navigationListeners: GenerateQRCodeHomeNavigationListeners,
     largeScreen: Boolean = false,
+    sharedTransitionScope: SharedTransitionScope,
 ) {
     composable<GenerateQRCodeHomeRoute> {
-        GenerateQRCodeCoordinator(navigationListeners, largeScreen, it.savedStateHandle)
+        GenerateQRCodeCoordinator(
+            navigationListeners,
+            largeScreen,
+            it.savedStateHandle,
+            sharedTransitionScope,
+            animatedVisibilityScope = this@composable,
+        )
     }
 }
 
 @Composable
+@ExperimentalSharedTransitionApi
 private fun GenerateQRCodeCoordinator(
     navigationListeners: GenerateQRCodeHomeNavigationListeners,
     largeScreen: Boolean,
     savedStateHandle: SavedStateHandle,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     viewModel: GenerateQRCodeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -115,8 +129,11 @@ private fun GenerateQRCodeCoordinator(
                         GenerateQRCodeUIAction.QRActionComplete(result),
                     )
                 },
+                onExpand = navigationListeners.onExpand,
             ),
         largeScreen = largeScreen,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
     )
 
     TemporaryMessage(data = uiState.temporaryMessage) {

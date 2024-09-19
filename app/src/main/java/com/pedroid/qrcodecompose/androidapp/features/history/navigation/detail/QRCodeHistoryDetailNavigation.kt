@@ -2,6 +2,9 @@ package com.pedroid.qrcodecompose.androidapp.features.history.navigation.detail
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,15 +41,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HistoryDetailRoute(val uid: Long)
 
+@ExperimentalSharedTransitionApi
 fun NavGraphBuilder.historyDetailRoute(
     navigationListeners: HistoryDetailNavigationListeners,
     largeScreen: Boolean,
+    sharedTransitionScope: SharedTransitionScope,
 ) {
     composable<HistoryDetailRoute> {
         val route = it.toRoute<HistoryDetailRoute>()
         HistoryDetailCoordinator(
             navigationListeners = navigationListeners,
             largeScreen = largeScreen,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = this@composable,
             viewModel =
                 hiltViewModel<HistoryDetailViewModel, HistoryDetailViewModelFactory>(
                     creationCallback = { factory ->
@@ -57,10 +64,13 @@ fun NavGraphBuilder.historyDetailRoute(
     }
 }
 
+@ExperimentalSharedTransitionApi
 @Composable
 private fun HistoryDetailCoordinator(
     navigationListeners: HistoryDetailNavigationListeners,
     largeScreen: Boolean,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     viewModel: HistoryDetailViewModel,
 ) {
     val context = LocalContext.current
@@ -126,6 +136,8 @@ private fun HistoryDetailCoordinator(
                             showDeleteDialog = true
                         },
                     ),
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
 
             TemporaryMessage(data = (uiState as? HistoryDetailUIState.Content)?.temporaryMessage) {

@@ -26,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +51,6 @@ import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 import kotlin.random.Random
 
 // region screen composables
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HistoryListScreen(
     content: HistoryListContentState,
@@ -144,7 +142,6 @@ private fun HistorySelectionToolbar(
 }
 
 @Composable
-@ExperimentalComposeUiApi
 private fun HistoryDataList(
     modifier: Modifier = Modifier,
     content: HistoryListContentState.DataList,
@@ -301,7 +298,6 @@ private fun HistorySectionHeader(
     )
 }
 
-@ExperimentalComposeUiApi
 @Composable
 private fun HistoryListDataItem(
     modifier: Modifier = Modifier,

@@ -1,10 +1,12 @@
 package com.pedroid.qrcodecompose.androidapp.features.generate.navigation
 
+import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeCustomizationOptions
 import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 
 data class GenerateQRCodeHomeNavigationListeners(
     val onCustomize: (currentOptions: QRCodeCustomizationOptions) -> Unit,
+    val onExpand: (ExpandQRCodeArguments) -> Unit = {},
 )
 
 data class GeneratedQRCodeUpdateListeners(
@@ -17,4 +19,5 @@ data class GenerateQRCodeActionListeners(
     val onImageSaveToFile: () -> Unit = {},
     val onImageShare: () -> Unit = {},
     val onImageCopyToClipboard: () -> Unit = {},
+    val onExpand: (ExpandQRCodeArguments) -> Unit = {},
 )

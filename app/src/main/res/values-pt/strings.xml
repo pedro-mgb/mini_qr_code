@@ -33,6 +33,7 @@
     <string name="scan_code_from_file_in_progress_description">A abrir selector de fotos para escanear QR Code…</string>
     <string name="scan_code_from_file_error_title">Captura de QR Code falhou</string>
     <string name="scan_code_from_file_error_description">Isto acontece se o ficheiro não tiver QR Codes, ou então a qualidade da imagem é insuficiente.\nPor favor tenta com outro ficheiro.</string>
+    <string name="scan_code_click_to_expand_label">Pré-visualização - pode ser diferente visualmente do código capturado. Clica na imagem para expandir</string>
 
     <string name="code_open_app_error">Não existem apps no seu telemóvel que consigam abrir o conteúdo do QR Code.</string>
     <string name="code_share_app_error">Não existem apps no seu telemóvel para partilhar o conteúdo.</string>
@@ -41,7 +42,7 @@
     <string name="code_saved_to_file_error">Houve um erro a tentar guardar a imagem, por favor tenta de novo.</string>
     <string name="error_unable_to_open_url">Não foi possível abrir o link. É necessário uma app de browser (e.g. Chrome) instalada.</string>
 
-    <string name="generate_code_header">Escreve o texto na caixa abaixo, e o QR Code será automaticamente criado.</string>
+    <string name="generate_code_header">Escreve o texto na caixa abaixo, e o QR Code será automaticamente criado. Clica na imagem para expandir.</string>
     <string name="generate_code_text_box_label">Inserir o teu texto</string>
     <string name="generate_code_will_appear_here">Imagem aparecerá aqui.</string>
     <string name="generate_code_error">Occoreu um erro a tentar gerar o QR Code, por favor tenta de novo.</string>

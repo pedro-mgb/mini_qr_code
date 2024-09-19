@@ -1,27 +1,33 @@
 [versions]
-androidGradlePlugin = "8.5.0"
-androidxActivityCompose = "1.9.0"
+androidGradlePlugin = "8.5.2"
+androidxActivityCompose = "1.9.2"
 androidxAppcompat = "1.7.0"
 androidxBrowser = "1.8.0"
-androidxComposeBom = "2024.06.00"
-androidxComposeMaterial3Adaptive = "1.0.0-beta04"
-androidXConstraintLayoutCompose = "1.0.1"
+androidxComposeBom = "2024.09.01"
+androidxComposeMaterial3Adaptive = "1.0.0"
+# The compose animation API is for usage with Shared Element Transitions, but there still seems to be issues
+#   Some previews don't work, and sometimes the app crashes with an error like below
+#   when rotating in GenerateQRCodeScreen
+#   https://issuetracker.google.com/issues?q=Error:%20Placement%20happened%20before%20lookahead
+#   Updating the constraint layout dependency to 1.1.0 alpha fixed the issue
+#   TODO update to a stable constraint layout dependency, when there is one
+androidXConstraintLayoutCompose = "1.1.0-alpha13"
 androidxCore = "1.13.1"
-androidxCameraX = "1.3.3"
+androidxCameraX = "1.3.4"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.1.1"
 androidxHiltNavigationCompose = "1.2.0"
 # currently androidxLifecycle 2.8.0 relies on a Beta version of compose, so won't be updating it for now
 #   see https://issuetracker.google.com/issues/336842920#comment5
-androidxLifecycle = "2.7.0"
-androidxNavigation = "2.8.0-beta04"
+androidxLifecycle = "2.8.5"
+androidxNavigation = "2.8.0"
 androidxRoom = "2.6.1"
 androidxTestExtJunit = "1.2.1"
-androidxTestMonitor = "1.7.1"
+androidxTestMonitor = "1.7.2"
 arrowKt = "1.2.4"
-baselineprofile = "1.2.4"
-benchmarkMacroJunit4 = "1.2.4"
-desugaring = "2.0.4"
+baselineprofile = "1.3.0"
+benchmarkMacroJunit4 = "1.3.0"
+desugaring = "2.1.2"
 espressoCore = "3.6.1"
 googleAccompanist = "0.34.0"
 kotlin = "2.0.0"
@@ -31,7 +37,7 @@ kotlinxSerialization = "1.7.0"
 junit = "4.13.2"
 hilt = "2.51.1"
 ksp = "2.0.0-1.0.21"
-mlkitBarcodeScanning = "17.2.0"
+mlkitBarcodeScanning = "17.3.0"
 protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
 mockk = "1.13.10"
@@ -54,6 +60,7 @@ androidx-contraintlayout-compose = { group = "androidx.constraintlayout", name =
 
 # region Compose BOM and associated dependencies
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+animation = { group = "androidx.compose.animation", name = "animation" }
 foundation = { group = "androidx.compose.foundation", name = "foundation" }
 foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 ui = { group = "androidx.compose.ui", name = "ui" }

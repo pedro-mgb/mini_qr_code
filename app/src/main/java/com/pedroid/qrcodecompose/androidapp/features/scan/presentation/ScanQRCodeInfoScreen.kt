@@ -1,15 +1,24 @@
 package com.pedroid.qrcodecompose.androidapp.features.scan.presentation
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -36,12 +45,15 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.pedroid.qrcodecompose.androidapp.R
+import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeImageOrInfoContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.QRCodeTextContent
 import com.pedroid.qrcodecompose.androidapp.core.presentation.getWindowSizeClassInPreview
 import com.pedroid.qrcodecompose.androidapp.core.presentation.showPhoneUI
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
-import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppWithAnimationPreview
+import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
+import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.expandSharedElementTransition
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScanSource
 import com.pedroid.qrcodecompose.androidapp.features.scan.data.ScannedCode
 import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.ScannedQRCodeActionListeners
@@ -49,7 +61,7 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.navigation.StartScanAc
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun ScanQRCodeInfoScreen(
     buttonListeners: StartScanActionListeners = StartScanActionListeners(),
@@ -57,11 +69,14 @@ fun ScanQRCodeInfoScreen(
     cameraPermissionStatus: PermissionStatus,
     uiState: QRCodeInfoUIState = QRCodeInfoUIState(),
     largeScreen: Boolean = false,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     Column(
         modifier =
             Modifier
                 .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top))
                 .padding(Dimens.spacingMedium)
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -74,15 +89,16 @@ fun ScanQRCodeInfoScreen(
                     actionListeners = actionListeners,
                     qrCode = uiState.content.qrCode,
                     largeScreen = largeScreen,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                 )
             }
 
             else -> {
                 InitialInfoHeader()
+                CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
             }
         }
-        Spacer(modifier = Modifier.height(Dimens.spacingMedium))
-        CameraPermissionContent(cameraPermissionStatus = cameraPermissionStatus)
         Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         ScanFromCameraButton(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
@@ -98,37 +114,22 @@ fun ScanQRCodeInfoScreen(
     }
 }
 
-@Composable
-private fun InitialInfoHeader() {
-    Text(
-        modifier = Modifier.fillMaxWidth(fraction = 0.8f).padding(vertical = Dimens.spacingMedium),
-        text = stringResource(id = R.string.app_name),
-        textAlign = TextAlign.Center,
-        style =
-            MaterialTheme.typography.displaySmall.copy(
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Monospace,
-            ),
-        color = MaterialTheme.colorScheme.primary,
-    )
-    Text(
-        modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-        text =
-            stringResource(
-                id = R.string.scan_code_header,
-                stringResource(id = R.string.scan_code_camera_action_button),
-            ),
-        style = MaterialTheme.typography.titleLarge,
-    )
-}
-
+@ExperimentalSharedTransitionApi
 @Composable
 private fun QRCodeReadContent(
     modifier: Modifier = Modifier,
     actionListeners: ScannedQRCodeActionListeners = ScannedQRCodeActionListeners(),
     qrCode: ScannedCode,
     largeScreen: Boolean,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val expandArguments =
+        ExpandQRCodeArguments(
+            key = SCAN_SHARED_TRANSITION_KEY,
+            code = qrCode.data,
+            format = qrCode.format,
+        )
     Column(modifier = modifier) {
         Text(
             modifier =
@@ -170,7 +171,64 @@ private fun QRCodeReadContent(
         } else {
             QRCodeContentPortrait(qrCode = qrCode.data, actionListeners = actionListeners)
         }
+        Spacer(modifier = Modifier.size(Dimens.spacingLarge))
+        Text(
+            modifier =
+                Modifier
+                    .fillMaxWidth(fraction = 0.8f)
+                    .align(Alignment.CenterHorizontally),
+            text = stringResource(id = R.string.scan_code_click_to_expand_label),
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.size(Dimens.spacingExtraSmall))
+        QRCodeImageOrInfoContent(
+            modifier =
+                Modifier
+                    .expandSharedElementTransition(
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        key = expandArguments.key,
+                    )
+                    .clickable { actionListeners.onExpand(expandArguments) }
+                    .fillMaxWidth(0.4f)
+                    .align(Alignment.CenterHorizontally),
+            showInfoScreen = false,
+            error = false,
+            qrCodeText = qrCode.data,
+            format = qrCode.format,
+            onResultUpdate = {
+                // nothing to do with the result, this is merely for displaying the scanned code
+            },
+        )
     }
+}
+
+@Composable
+private fun InitialInfoHeader() {
+    Text(
+        modifier =
+            Modifier
+                .fillMaxWidth(fraction = 0.8f)
+                .padding(vertical = Dimens.spacingMedium),
+        text = stringResource(id = R.string.app_name),
+        textAlign = TextAlign.Center,
+        style =
+            MaterialTheme.typography.displaySmall.copy(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
+            ),
+        color = MaterialTheme.colorScheme.primary,
+    )
+    Text(
+        modifier = Modifier.fillMaxWidth(fraction = 0.8f),
+        text =
+            stringResource(
+                id = R.string.scan_code_header,
+                stringResource(id = R.string.scan_code_camera_action_button),
+            ),
+        style = MaterialTheme.typography.titleLarge,
+    )
 }
 
 @Composable
@@ -271,8 +329,8 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
             // nothing to show here, as permission has already been granted
             Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         }
-
         is PermissionStatus.Denied -> {
+            Spacer(modifier = Modifier.height(Dimens.spacingMedium))
             Text(
                 modifier = Modifier.fillMaxWidth(fraction = 0.8f),
                 text =
@@ -295,29 +353,35 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
         }
     }
 }
+
+private const val SCAN_SHARED_TRANSITION_KEY = "scanned"
 // endregion screen composables
 
 // region screen previews
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalSharedTransitionApi::class)
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionGrantedPreview() {
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         ScanQRCodeInfoScreen(
             buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Granted,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalSharedTransitionApi::class)
 @Preview
 @Composable
 fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         ScanQRCodeInfoScreen(
             buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Denied(shouldShowRationale = true),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
@@ -325,12 +389,13 @@ fun ScanQRCodeInfoScreenPermissionDeniedPreview() {
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterial3WindowSizeClassApi::class,
+    ExperimentalSharedTransitionApi::class,
 )
 @PreviewScreenSizes
 @Composable
 fun ScanQRCodeInfoScreenWithCodeReadPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         ScanQRCodeInfoScreen(
             buttonListeners = StartScanActionListeners(),
             cameraPermissionStatus = PermissionStatus.Granted,
@@ -352,6 +417,8 @@ fun ScanQRCodeInfoScreenWithCodeReadPreview() {
                     ),
                 ),
             largeScreen = !phoneUI,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }

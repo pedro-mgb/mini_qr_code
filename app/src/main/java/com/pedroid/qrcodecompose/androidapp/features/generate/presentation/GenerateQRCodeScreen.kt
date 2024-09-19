@@ -1,9 +1,11 @@
 package com.pedroid.qrcodecompose.androidapp.features.generate.presentation
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -51,20 +53,24 @@ import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppTextBox
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.ContentCopy
 import com.pedroid.qrcodecompose.androidapp.designsystem.icons.outlined.SaveAlt
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
-import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppPreview
+import com.pedroid.qrcodecompose.androidapp.designsystem.utils.BaseQRCodeAppWithAnimationPreview
+import com.pedroid.qrcodecompose.androidapp.features.expand.navigation.ExpandQRCodeArguments
+import com.pedroid.qrcodecompose.androidapp.features.expand.presentation.expandSharedElementTransition
 import com.pedroid.qrcodecompose.androidapp.features.generate.data.QRCodeGeneratingContent
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GenerateQRCodeActionListeners
 import com.pedroid.qrcodecompose.androidapp.features.generate.navigation.GeneratedQRCodeUpdateListeners
 import com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
 
 // region screen composables
-@OptIn(ExperimentalLayoutApi::class)
+@ExperimentalSharedTransitionApi
 @Composable
 fun GenerateQRCodeScreen(
     state: GenerateQRCodeContentState,
     qrCodeUpdateListeners: GeneratedQRCodeUpdateListeners,
     qrCodeActionListeners: GenerateQRCodeActionListeners,
     largeScreen: Boolean = false,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     Column(
         modifier =
@@ -101,6 +107,8 @@ fun GenerateQRCodeScreen(
                 state = state,
                 qrCodeUpdateListeners = qrCodeUpdateListeners,
                 qrCodeActionListeners = qrCodeActionListeners,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
         } else {
             GeneratedQRCodeContentPortrait(
@@ -108,6 +116,8 @@ fun GenerateQRCodeScreen(
                 state = state,
                 qrCodeUpdateListeners = qrCodeUpdateListeners,
                 qrCodeActionListeners = qrCodeActionListeners,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
         }
     }
@@ -139,13 +149,22 @@ private fun QRCodeCustomization(
 }
 
 @Composable
+@ExperimentalSharedTransitionApi
 private fun GeneratedQRCodeContentLargeScreen(
     modifier: Modifier = Modifier,
     state: GenerateQRCodeContentState,
     qrCodeUpdateListeners: GeneratedQRCodeUpdateListeners,
     qrCodeActionListeners: GenerateQRCodeActionListeners,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = state.generating.qrCodeText,
+            format = state.generating.format,
+            key = GENERATE_SHARED_TRANSITION_KEY,
+        )
     ConstraintLayout(
         modifier = modifier,
     ) {
@@ -182,6 +201,12 @@ private fun GeneratedQRCodeContentLargeScreen(
         QRCodeImageOrInfoContent(
             modifier =
                 Modifier
+                    .expandSharedElementTransition(
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        key = expandArguments.key,
+                    )
+                    .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
                     .fillMaxWidth(fraction = 0.4f)
                     .constrainAs(qrCodeImage) {
                         linkTo(start = textBox.end, end = actionButtons.start)
@@ -196,14 +221,23 @@ private fun GeneratedQRCodeContentLargeScreen(
     }
 }
 
+@ExperimentalSharedTransitionApi
 @Composable
 private fun GeneratedQRCodeContentPortrait(
     modifier: Modifier = Modifier,
     state: GenerateQRCodeContentState,
     qrCodeUpdateListeners: GeneratedQRCodeUpdateListeners,
     qrCodeActionListeners: GenerateQRCodeActionListeners,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     val actionButtonsVisibilityAlpha by rememberActionButtonsTransparency(state)
+    val expandArguments =
+        ExpandQRCodeArguments(
+            code = state.generating.qrCodeText,
+            format = state.generating.format,
+            key = GENERATE_SHARED_TRANSITION_KEY,
+        )
     Column(
         modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -213,6 +247,12 @@ private fun GeneratedQRCodeContentPortrait(
             QRCodeImageOrInfoContent(
                 modifier =
                     Modifier
+                        .expandSharedElementTransition(
+                            sharedTransitionScope = sharedTransitionScope,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            key = expandArguments.key,
+                        )
+                        .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
                         .fillMaxWidth(fraction = 0.6f)
                         .constrainAs(qrCodeImage) {
                             linkTo(start = parent.start, end = parent.end)
@@ -233,13 +273,22 @@ private fun GeneratedQRCodeContentPortrait(
                             linkTo(start = qrCodeImage.end, end = parent.end)
                         },
             ) {
-                Column(modifier = Modifier.padding(vertical = Dimens.spacingMedium, horizontal = Dimens.spacingExtraSmall)) {
+                Column(
+                    modifier =
+                        Modifier.padding(
+                            vertical = Dimens.spacingMedium,
+                            horizontal = Dimens.spacingExtraSmall,
+                        ),
+                ) {
                     QRCodeActionButtons(actionListeners = qrCodeActionListeners)
                 }
             }
         }
         QRCodeGenerateTextInput(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.spacingMedium, vertical = Dimens.spacingSmall),
             state = state,
             qrCodeUpdateListeners = qrCodeUpdateListeners,
             largeScreen = false,
@@ -330,46 +379,57 @@ private fun rememberActionButtonsTransparency(state: GenerateQRCodeContentState)
             if (state.canGenerate) 1f else 0f
         }
     }
+
+private const val GENERATE_SHARED_TRANSITION_KEY = "generating"
 // endregion screen composables
 
 // region screen previews
+@ExperimentalSharedTransitionApi
 @Preview
 @Composable
 fun GenerateQRCodeEmptyScreenPreview() {
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("", "", QRCodeGeneratingContent()),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
             largeScreen = false,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
+@ExperimentalSharedTransitionApi
 @Preview
 @Composable
 fun GenerateQRCodeInputErrorPreview() {
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("bad input", "There is an error", QRCodeGeneratingContent()),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
             largeScreen = false,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
 
+@ExperimentalSharedTransitionApi
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @PreviewScreenSizes
 @Composable
 fun GenerateQRCodeWithContentScreenPreview() {
     val phoneUI = getWindowSizeClassInPreview().showPhoneUI()
-    BaseQRCodeAppPreview(modifier = Modifier.fillMaxSize()) {
+    BaseQRCodeAppWithAnimationPreview(modifier = Modifier.fillMaxSize()) { sharedTransitionScope, animatedVisibilityScope ->
         GenerateQRCodeScreen(
             state = GenerateQRCodeContentState("qrCode", "", QRCodeGeneratingContent("some code", QRCodeComposeXFormat.QR_CODE)),
             qrCodeUpdateListeners = GeneratedQRCodeUpdateListeners(),
             qrCodeActionListeners = GenerateQRCodeActionListeners(),
             largeScreen = !phoneUI,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         )
     }
 }
