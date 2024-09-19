@@ -19,22 +19,22 @@ fun Modifier.drawScannerFrame(
     color: Color,
     verticalMarginPercent: Float = 0.5f,
 ) = this.drawWithCache {
-        onDrawWithContent {
-            val squareFrameSize = Size(size.minDimension / 1.5f, size.minDimension / 1.5f)
-            val frameOffset =
-                Offset(
-                    (size.width - squareFrameSize.width) * 0.5f,
-                    (size.height - squareFrameSize.height) * verticalMarginPercent.coerceIn(0.0f, 1.0f),
-                )
-            drawRoundRect(
-                color = color,
-                topLeft = frameOffset,
-                size = squareFrameSize,
-                style = Stroke(width = 16.0f),
-                cornerRadius = CornerRadius(32.0f),
+    onDrawWithContent {
+        val squareFrameSize = Size(size.minDimension / 1.5f, size.minDimension / 1.5f)
+        val frameOffset =
+            Offset(
+                (size.width - squareFrameSize.width) * 0.5f,
+                (size.height - squareFrameSize.height) * verticalMarginPercent.coerceIn(0.0f, 1.0f),
             )
-        }
+        drawRoundRect(
+            color = color,
+            topLeft = frameOffset,
+            size = squareFrameSize,
+            style = Stroke(width = 16.0f),
+            cornerRadius = CornerRadius(32.0f),
+        )
     }
+}
 
 @Preview
 @Composable

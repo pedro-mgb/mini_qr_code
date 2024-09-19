@@ -70,10 +70,11 @@ private fun Modifier.baseQRCodeImageModifier(
         .aspectRatio(aspectRatio)
         .border(
             width = Dimens.borderWidthMedium,
-            color = if (error) {
-                MaterialTheme.colorScheme.error
-            } else {
-                MaterialTheme.colorScheme.onBackground
-            },
+            color =
+                if (error) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                },
             shape = qrCodeCornerShape,
         )
