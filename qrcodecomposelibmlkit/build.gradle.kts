@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.pedroid.qrcodecomposelib.extensions.mlkit"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
