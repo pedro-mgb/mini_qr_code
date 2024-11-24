@@ -13,6 +13,9 @@ on:
         required: true
         type: string
 
+env:
+  PEDROID_QR_CODE_KEYSTORE_FILE_NAME: pedroid_qr_code.jks
+
 jobs:
   create-commit-release:
     # using macos-13 because
