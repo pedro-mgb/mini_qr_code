@@ -95,7 +95,7 @@
     <string name="settings_main_screen_scan_save_history_option_never_description">Os QR Codes e códigos de barras que capturares nunca vão ser guardados na app.\nOs registos existentes no histórico permenacem.\nPodes remover o histórico na aba \"Histórico\" a qualquer momento.</string>
     <string name="settings_main_screen_scan_haptic_feedback">Vibrar após captura</string>
     <string name="settings_main_screen_scan_haptic_feedback_status_off">Desligado (pré-definição). Sem vibração após ler um QR Code ou código de barras.</string>
-    <string name="settings_main_screen_scan_haptic_feedback_status_on">Ligado. O teu telemóvel irá vibrar quando ler um QR Code ou código de barras.</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_on">Ligado. O teu telemóvel irá vibrar quando ler um QR Code ou código de barras. Se a vibração estiver desligada nas definições do telemóvel, poderá não vibrar.</string>
     <string name="settings_main_screen_header_generate">Definições de geração</string>
     <string name="settings_main_screen_generate_save_history">Guardar no histórico</string>
     <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">Após interagir com QR Code</string>

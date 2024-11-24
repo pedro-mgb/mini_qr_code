@@ -95,7 +95,7 @@
     <string name="settings_main_screen_scan_save_history_option_never_description">Your scanned QR Codes and barcodes are never saved in the app.\nExisting history records remain.\nYou may also delete your history in History tab at any time.</string>
     <string name="settings_main_screen_scan_haptic_feedback">Vibrate upon scan</string>
     <string name="settings_main_screen_scan_haptic_feedback_status_off">Off (default). No vibration when a QR Code / barcode is scanned.</string>
-    <string name="settings_main_screen_scan_haptic_feedback_status_on">On. Phone will vibrate when a QR Code / barcode is scanned.</string>
+    <string name="settings_main_screen_scan_haptic_feedback_status_on">On. Phone will vibrate when a QR Code / barcode is scanned. If haptic feedback is off on your phone settings, it may not vibrate.</string>
     <string name="settings_main_screen_header_generate">Generate settings</string>
     <string name="settings_main_screen_generate_save_history">Save in history</string>
     <string name="settings_main_screen_generate_save_history_option_upon_user_action_title">When interacting with QR Code</string>
