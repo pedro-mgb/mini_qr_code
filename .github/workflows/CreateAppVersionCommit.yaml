@@ -60,10 +60,23 @@ jobs:
       - name: Accept Android licenses
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
+      - name: Create Key Store File
+        env:
+          PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED }}
+        run: |
+          echo $PEDROID_QR_CODE_KEY_STORE_FILE_ENCODED | base64 --decode > "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
+
       - name: Generate baseline profile
+        env:
+          PEDROID_QR_CODE_KEY_ALIAS: ${{ secrets.PEDROID_QR_CODE_KEY_ALIAS }}
+          PEDROID_QR_CODE_KEY_STORE_PW: ${{ secrets.PEDROID_QR_CODE_KEY_STORE_PW }}
+          PEDROID_QR_CODE_KEY_PW: ${{ secrets.PEDROID_QR_CODE_KEY_PW }}
         # the gpu flag is to make sure gradle managed device is setup correctly
         run: ./gradlew :app:generateBaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+
+      - name: Remove Key Store file
+        run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
