@@ -6181,6 +6181,15 @@ Landroidx/compose/ui/graphics/FilterQuality$Companion;
 HSPLandroidx/compose/ui/graphics/FilterQuality$Companion;-><init>()V
 HSPLandroidx/compose/ui/graphics/FilterQuality$Companion;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 HSPLandroidx/compose/ui/graphics/FilterQuality$Companion;->getLow-f-v9h1I()I
+Landroidx/compose/ui/graphics/Float16;
+HSPLandroidx/compose/ui/graphics/Float16;-><clinit>()V
+HSPLandroidx/compose/ui/graphics/Float16;->constructor-impl(F)S
+HSPLandroidx/compose/ui/graphics/Float16;->constructor-impl(S)S
+Landroidx/compose/ui/graphics/Float16$Companion;
+HSPLandroidx/compose/ui/graphics/Float16$Companion;-><init>()V
+HSPLandroidx/compose/ui/graphics/Float16$Companion;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+Landroidx/compose/ui/graphics/Float16Kt;
+HSPLandroidx/compose/ui/graphics/Float16Kt;-><clinit>()V
 Landroidx/compose/ui/graphics/GraphicsContext;
 Landroidx/compose/ui/graphics/GraphicsLayerElement;
 HSPLandroidx/compose/ui/graphics/GraphicsLayerElement;-><init>(FFFFFFFFFFJLandroidx/compose/ui/graphics/Shape;ZLandroidx/compose/ui/graphics/RenderEffect;JJI)V
@@ -18841,7 +18850,6 @@ HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getBufferEndIndex()J
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getHead()J
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getLastReplayedLocked()Ljava/lang/Object;
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getPeekedValueLockedAt(J)Ljava/lang/Object;
-HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getQueueEndIndex()J
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getReplaySize()I
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->getTotalSize()I
 HSPLkotlinx/coroutines/flow/SharedFlowImpl;->growBuffer([Ljava/lang/Object;II)[Ljava/lang/Object;
@@ -18895,8 +18903,6 @@ Lkotlinx/coroutines/flow/StartedLazily;
 HSPLkotlinx/coroutines/flow/StartedLazily;-><init>()V
 Lkotlinx/coroutines/flow/StartedWhileSubscribed;
 HSPLkotlinx/coroutines/flow/StartedWhileSubscribed;-><init>(JJ)V
-HSPLkotlinx/coroutines/flow/StartedWhileSubscribed;->access$getReplayExpiration$p(Lkotlinx/coroutines/flow/StartedWhileSubscribed;)J
-HSPLkotlinx/coroutines/flow/StartedWhileSubscribed;->access$getStopTimeout$p(Lkotlinx/coroutines/flow/StartedWhileSubscribed;)J
 HSPLkotlinx/coroutines/flow/StartedWhileSubscribed;->command(Lkotlinx/coroutines/flow/StateFlow;)Lkotlinx/coroutines/flow/Flow;
 HSPLkotlinx/coroutines/flow/StartedWhileSubscribed;->equals(Ljava/lang/Object;)Z
 Lkotlinx/coroutines/flow/StartedWhileSubscribed$command$1;
@@ -19011,8 +19017,6 @@ HSPLkotlinx/coroutines/flow/internal/ChannelFlowTransformLatest$flowCollect$3$1$
 Lkotlinx/coroutines/flow/internal/ChannelFlowTransformLatest$flowCollect$3$1$emit$1;
 HSPLkotlinx/coroutines/flow/internal/ChannelFlowTransformLatest$flowCollect$3$1$emit$1;-><init>(Lkotlinx/coroutines/flow/internal/ChannelFlowTransformLatest$flowCollect$3$1;Lkotlin/coroutines/Continuation;)V
 Lkotlinx/coroutines/flow/internal/ChildCancelledException;
-HSPLkotlinx/coroutines/flow/internal/ChildCancelledException;-><init>()V
-HSPLkotlinx/coroutines/flow/internal/ChildCancelledException;->fillInStackTrace()Ljava/lang/Throwable;
 Lkotlinx/coroutines/flow/internal/CombineKt;
 HSPLkotlinx/coroutines/flow/internal/CombineKt;->combineInternal(Lkotlinx/coroutines/flow/FlowCollector;[Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 Lkotlinx/coroutines/flow/internal/CombineKt$combineInternal$2;
@@ -19283,7 +19287,6 @@ HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->getControlState$volatile$
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->getParkedWorkersStack$volatile$FU()Ljava/util/concurrent/atomic/AtomicLongFieldUpdater;
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->get_isTerminated$volatile$FU()Ljava/util/concurrent/atomic/AtomicIntegerFieldUpdater;
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->isTerminated()Z
-HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->parkedWorkersStackNextIndex(Lkotlinx/coroutines/scheduling/CoroutineScheduler$Worker;)I
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->parkedWorkersStackPop()Lkotlinx/coroutines/scheduling/CoroutineScheduler$Worker;
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->parkedWorkersStackPush(Lkotlinx/coroutines/scheduling/CoroutineScheduler$Worker;)Z
 HSPLkotlinx/coroutines/scheduling/CoroutineScheduler;->runSafely(Lkotlinx/coroutines/scheduling/Task;)V
