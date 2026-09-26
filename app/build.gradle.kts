@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
         minSdk = 21
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 10
         versionName = "0.7.1"
 
