@@ -15,7 +15,7 @@ plugins {
 
 android {
     namespace = "com.pedroid.qrcodecompose.androidapp"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
