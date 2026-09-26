@@ -18,24 +18,26 @@ env:
 
 jobs:
   create-commit-release:
-    # using macos-13 because
+    # using macos-15-intel because
     #  - with ubuntu baselineprofile module isn't even recognized for some reason
-    #  - with macos-latest (or macos-14) M1 chip is being used, and that is making gradle managed device fail
+    #  - macos after 15 only have M* chip is being used, and that is making gradle managed device fail
+    #  - worth validating one day if we can switch to arm
     # Useful links:
     # - https://medium.com/google-developer-experts/automating-baseline-profile-end-to-end-on-ci-fc11f8389c0b
     # - https://stackoverflow.com/questions/75230994/run-android-gradle-managed-device-on-gitlab-ci
     # - https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md
     # - https://github.com/siarhei-luskanau/android-managed-virtual-device
-    runs-on: macos-13
+    # - https://github.com/actions/runner-images/issues/13045
+    runs-on: macos-15-intel
     permissions: write-all
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.PEDROID_PERSONAL_ACCESS_TOKEN }}
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: 17
@@ -82,7 +84,7 @@ jobs:
         run: rm "app/$PEDROID_QR_CODE_KEYSTORE_FILE_NAME"
 
       - name: Commit changes
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v11
         with:
           default_author: user_info
           message: 'App version ${{ inputs.tag }}'
