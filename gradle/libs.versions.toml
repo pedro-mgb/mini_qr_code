@@ -1,42 +1,42 @@
 [versions]
 androidGradlePlugin = "9.4.0"
-androidxActivityCompose = "1.9.3"
-androidxAppcompat = "1.7.0"
-androidxBrowser = "1.8.0"
-androidxComposeBom = "2024.11.00"
-androidxComposeMaterial3Adaptive = "1.0.0"
-androidXConstraintLayoutCompose = "1.1.0"
-androidxCore = "1.15.0"
-androidxCameraX = "1.4.0"
-androidxCoreSplashscreen = "1.0.1"
-androidxDataStore = "1.1.1"
-androidxHiltNavigationCompose = "1.2.0"
-androidxLifecycle = "2.8.7"
-androidxNavigation = "2.8.4"
-androidxRoom = "2.6.1"
-androidxTestExtJunit = "1.2.1"
-androidxTestMonitor = "1.7.2"
-arrowKt = "1.2.4"
-baselineprofile = "1.3.3"
-benchmarkMacroJunit4 = "1.3.3"
-desugaring = "2.1.3"
-espressoCore = "3.6.1"
-googleAccompanist = "0.34.0"
-kotlin = "2.0.0"
-kotlinter = "4.2.0"
-kotlinxCoroutines = "1.8.0"
-kotlinxSerialization = "1.7.0"
+androidxActivityCompose = "1.13.0"
+androidxAppcompat = "1.8.0"
+androidxBrowser = "1.10.0"
+androidxComposeBom = "2026.09.00"
+androidxComposeMaterial3Adaptive = "1.3.0"
+androidXConstraintLayoutCompose = "1.1.2"
+androidxCore = "1.19.1"
+androidxCameraX = "1.6.2"
+androidxCoreSplashscreen = "1.2.0"
+androidxDataStore = "1.2.1"
+androidxHiltNavigationCompose = "1.4.0"
+androidxLifecycle = "2.11.0"
+androidxNavigation = "2.10.2"
+androidxRoom = "2.8.5"
+androidxTestExtJunit = "1.3.0"
+androidxTestMonitor = "1.8.0"
+arrowKt = "2.2.3"
+baselineprofile = "1.5.0"
+benchmarkMacroJunit4 = "1.5.0"
+desugaring = "2.1.5"
+espressoCore = "3.7.0"
+googleAccompanist = "0.37.2"
+kotlin = "2.4.20"
+kotlinter = "5.7.0"
+kotlinxCoroutines = "1.11.0"
+kotlinxSerialization = "1.11.0"
 junit = "4.13.2"
-hilt = "2.51.1"
-ksp = "2.0.0-1.0.21"
+hilt = "2.60.1"
+ksp = "2.3.12"
 mlkitBarcodeScanning = "17.3.0"
-protobuf = "3.25.2"
-protobufPlugin = "0.9.4"
-mockk = "1.13.10"
+protobuf = "4.36.2"
+protobufPlugin = "0.10.0"
+mockk = "1.14.11"
 profileinstaller = "1.4.1"
-turbine = "1.1.0"
-uiautomator = "2.3.0"
-zxing = "3.3.3"
+turbine = "1.2.1"
+uiautomator = "2.4.0"
+zxing = "3.5.4"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
@@ -76,7 +76,7 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit" }
-androidx-test-monitor = { group = "androidx.test", name = "monitor", version.ref="androidxTestMonitor" }
+androidx-test-monitor = { group = "androidx.test", name = "monitor", version.ref = "androidxTestMonitor" }
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 arrow-optics = { group = "io.arrow-kt", name = "arrow-optics", version.ref = "arrowKt" }
 arrow-optics-ksp = { group = "io.arrow-kt", name = "arrow-optics-ksp-plugin", version.ref = "arrowKt" }
@@ -113,4 +113,3 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
-
