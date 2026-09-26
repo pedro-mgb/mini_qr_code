@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.compose)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinter)
 }
 
@@ -32,8 +31,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

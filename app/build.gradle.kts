@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.compose)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
@@ -64,9 +63,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -75,6 +71,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
