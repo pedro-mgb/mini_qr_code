@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.compose)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
@@ -16,12 +15,12 @@ plugins {
 
 android {
     namespace = "com.pedroid.qrcodecompose.androidapp"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
         minSdk = 21
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 10
         versionName = "0.7.1"
 
@@ -61,11 +60,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
     buildFeatures {
         buildConfig = true
@@ -75,6 +71,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
     }
 }
 
