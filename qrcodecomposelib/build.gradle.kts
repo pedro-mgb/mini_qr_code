@@ -1,16 +1,15 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.compose)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinter)
 }
 
 android {
     namespace = "com.pedroid.qrcodecomposelib"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -29,16 +28,20 @@ android {
         compose = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
     }
 }
 
 kotlinter {
-    ignoreFailures = false
+    ignoreFormatFailures = false
+    ignoreLintFailures = false
     reporters = arrayOf("plain")
 }
 

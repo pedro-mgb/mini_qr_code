@@ -66,15 +66,19 @@ class SettingsMainViewModel
                     is SettingsMainUIAction.ChangeAppLanguage -> {
                         languageManager.setAppLanguage(action.newLanguage)
                     }
+
                     is SettingsMainUIAction.ChangeOpenUrlMode -> {
                         settingsRepository.setOpenUrlPreferences(action.newMode)
                     }
+
                     is SettingsMainUIAction.ChangeScanHistorySave -> {
                         settingsRepository.setScanHistorySavePreferences(action.option)
                     }
+
                     SettingsMainUIAction.ToggleScanHapticFeedback -> {
                         settingsRepository.toggleScanHapticFeedback()
                     }
+
                     is SettingsMainUIAction.ChangeGenerateHistorySave -> {
                         settingsRepository.setGenerateHistorySavePreferences(action.option)
                     }
@@ -86,7 +90,9 @@ class SettingsMainViewModel
 sealed class SettingsMainUIState {
     data object Idle : SettingsMainUIState()
 
-    data class Content(val sections: List<SettingsMainContentSection>) : SettingsMainUIState()
+    data class Content(
+        val sections: List<SettingsMainContentSection>,
+    ) : SettingsMainUIState()
 
     companion object {
         fun emptyContent() = Content(sections = emptyList())
@@ -94,13 +100,21 @@ sealed class SettingsMainUIState {
 }
 
 sealed class SettingsMainUIAction {
-    data class ChangeAppLanguage(val newLanguage: AppLanguage) : SettingsMainUIAction()
+    data class ChangeAppLanguage(
+        val newLanguage: AppLanguage,
+    ) : SettingsMainUIAction()
 
-    data class ChangeOpenUrlMode(val newMode: OpenUrlPreferences) : SettingsMainUIAction()
+    data class ChangeOpenUrlMode(
+        val newMode: OpenUrlPreferences,
+    ) : SettingsMainUIAction()
 
-    data class ChangeScanHistorySave(val option: HistorySavePreferences) : SettingsMainUIAction()
+    data class ChangeScanHistorySave(
+        val option: HistorySavePreferences,
+    ) : SettingsMainUIAction()
 
     data object ToggleScanHapticFeedback : SettingsMainUIAction()
 
-    data class ChangeGenerateHistorySave(val option: HistorySavePreferences) : SettingsMainUIAction()
+    data class ChangeGenerateHistorySave(
+        val option: HistorySavePreferences,
+    ) : SettingsMainUIAction()
 }

@@ -5,8 +5,8 @@ import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageData
 import com.pedroid.qrcodecompose.androidapp.core.presentation.composables.TemporaryMessageType
 
-fun QRAppActions.asTemporaryMessage(): TemporaryMessageData? {
-    return when (this.status) {
+fun QRAppActions.asTemporaryMessage(): TemporaryMessageData? =
+    when (this.status) {
         ActionStatus.ERROR_NO_APP -> {
             this.asErrorNoApp()
         }
@@ -22,7 +22,6 @@ fun QRAppActions.asTemporaryMessage(): TemporaryMessageData? {
             this.asSuccess()
         }
     }
-}
 
 private fun QRAppActions.asErrorNoApp() =
     when (this) {

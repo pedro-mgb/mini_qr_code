@@ -32,10 +32,11 @@ internal class QRCodeHistoryDaoInstrumentedTest {
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db =
-            Room.inMemoryDatabaseBuilder(
-                context,
-                QRCodeDatabase::class.java,
-            ).build()
+            Room
+                .inMemoryDatabaseBuilder(
+                    context,
+                    QRCodeDatabase::class.java,
+                ).build()
         sut = db.qrCodeHistoryDao()
     }
 

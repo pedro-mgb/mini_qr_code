@@ -59,23 +59,33 @@ class ScanQRCodeInfoViewModel
                     "Processing to check if should save history - $scannedCode / $actionForCurrentScannedCode / $savePreferences",
                 )
                 when {
-                    scannedCode == null || scannedCode.data.isBlank() -> null
+                    scannedCode == null || scannedCode.data.isBlank() -> {
+                        null
+                    }
+
                     savePreferences == HistorySavePreferences.NEVER_SAVE -> {
                         resetActionComplete(actionForCurrentScannedCode)
                         null
                     }
-                    actionForCurrentScannedCode.actionComplete?.status != ActionStatus.SUCCESS -> null
-                    scannedCode == actionForCurrentScannedCode.code -> null
-                    else -> ScannedCodeWithAction(scannedCode, actionForCurrentScannedCode.actionComplete)
+
+                    actionForCurrentScannedCode.actionComplete?.status != ActionStatus.SUCCESS -> {
+                        null
+                    }
+
+                    scannedCode == actionForCurrentScannedCode.code -> {
+                        null
+                    }
+
+                    else -> {
+                        ScannedCodeWithAction(scannedCode, actionForCurrentScannedCode.actionComplete)
+                    }
                 }
-            }
-                .filterNotNull()
+            }.filterNotNull()
                 .onEach { newCodeWithAction ->
                     resetActionComplete(newCodeWithAction)
                     logger.debug(LOG_TAG, "Saving to history based on action - $newCodeWithAction")
                     historyRepository.saveScannedCode(newCodeWithAction.code)
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
 
         private fun resetActionComplete(actionWithCode: ScannedCodeWithAction) {
@@ -94,8 +104,7 @@ class ScanQRCodeInfoViewModel
                     _uiState.update {
                         it.copy(openUrlMode = mode)
                     }
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
 
         fun onNewAction(action: QRCodeInfoUIAction) {
@@ -138,13 +147,19 @@ data class QRCodeInfoUIState(
 sealed class QRCodeInfoContentUIState {
     data object Initial : QRCodeInfoContentUIState()
 
-    data class CodeScanned(val qrCode: ScannedCode) : QRCodeInfoContentUIState()
+    data class CodeScanned(
+        val qrCode: ScannedCode,
+    ) : QRCodeInfoContentUIState()
 }
 
 sealed class QRCodeInfoUIAction {
-    data class CodeReceived(val qrCode: ScannedCode?) : QRCodeInfoUIAction()
+    data class CodeReceived(
+        val qrCode: ScannedCode?,
+    ) : QRCodeInfoUIAction()
 
-    data class QRActionComplete(val action: QRAppActions) : QRCodeInfoUIAction()
+    data class QRActionComplete(
+        val action: QRAppActions,
+    ) : QRCodeInfoUIAction()
 
     data object TmpMessageShown : QRCodeInfoUIAction()
 }

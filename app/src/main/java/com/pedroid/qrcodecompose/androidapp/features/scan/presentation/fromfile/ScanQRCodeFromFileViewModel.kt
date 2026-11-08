@@ -40,8 +40,8 @@ class ScanQRCodeFromFileViewModel
             }
         }
 
-        private suspend fun QRCodeScanResult.toUIState(): QRCodeFromFileUIState? {
-            return when (this) {
+        private suspend fun QRCodeScanResult.toUIState(): QRCodeFromFileUIState? =
+            when (this) {
                 QRCodeScanResult.Cancelled -> {
                     if (uiState.value is QRCodeFromFileUIState.InitialState) {
                         QRCodeFromFileUIState.Cancelled
@@ -60,7 +60,11 @@ class ScanQRCodeFromFileViewModel
                     QRCodeFromFileUIState.Success(
                         qrCode,
                         format,
-                        vibrate = settingsRepository.getFullSettings().first().scan.hapticFeedback,
+                        vibrate =
+                            settingsRepository
+                                .getFullSettings()
+                                .first()
+                                .scan.hapticFeedback,
                     )
                 }
 
@@ -69,7 +73,6 @@ class ScanQRCodeFromFileViewModel
                     null
                 }
             }
-        }
     }
 
 sealed class QRCodeFromFileUIState {
@@ -95,5 +98,7 @@ sealed class QRCodeFromFileUIState {
 sealed class QRCodeFromFileUIAction {
     data object StartFileSelection : QRCodeFromFileUIAction()
 
-    data class ScanResult(val result: QRCodeScanResult) : QRCodeFromFileUIAction()
+    data class ScanResult(
+        val result: QRCodeScanResult,
+    ) : QRCodeFromFileUIAction()
 }

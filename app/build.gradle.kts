@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.compose)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.kotlin.parcelize)
@@ -16,12 +15,12 @@ plugins {
 
 android {
     namespace = "com.pedroid.qrcodecompose.androidapp"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
-        minSdk = 21
-        targetSdk = 36
+        minSdk = 24
+        targetSdk = 37
         versionCode = 10
         versionName = "0.7.1"
 
@@ -31,23 +30,31 @@ android {
         }
     }
 
-    signingConfigs {
-        create("qr_app_release") {
-            keyAlias = System.getenv("PEDROID_QR_CODE_KEY_ALIAS") ?: ""
-            keyPassword = System.getenv("PEDROID_QR_CODE_KEY_PW") ?: ""
-            storeFile = file(System.getenv("PEDROID_QR_CODE_KEYSTORE_FILE_NAME") ?: "invalidPath")
-            storePassword = System.getenv("PEDROID_QR_CODE_KEY_STORE_PW") ?: ""
+    // AGP 9 validates the keystore of the signing config of any variant that is built, so only
+    //  register it when a keystore is provided (e.g. not for CI jobs that run instrumented tests)
+    val releaseKeystoreFileName: String? = System.getenv("PEDROID_QR_CODE_KEYSTORE_FILE_NAME")
+    if (releaseKeystoreFileName != null) {
+        signingConfigs {
+            create("qr_app_release") {
+                keyAlias = System.getenv("PEDROID_QR_CODE_KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("PEDROID_QR_CODE_KEY_PW") ?: ""
+                storeFile = file(releaseKeystoreFileName)
+                storePassword = System.getenv("PEDROID_QR_CODE_KEY_STORE_PW") ?: ""
+            }
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("qr_app_release")
+            if (releaseKeystoreFileName != null) {
+                signingConfig = signingConfigs.getByName("qr_app_release")
+            }
         }
     }
 
@@ -61,11 +68,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
     buildFeatures {
         buildConfig = true
@@ -78,8 +82,15 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
+    }
+}
+
 kotlinter {
-    ignoreFailures = false
+    ignoreFormatFailures = false
+    ignoreLintFailures = false
     reporters = arrayOf("plain")
 }
 
@@ -102,6 +113,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material.icons.extended)
     implementation(libs.material3.adaptive)
     implementation(libs.material3.windowSizeClass)
     // endregion compose bom
@@ -165,9 +177,6 @@ androidComponents {
 
             project.tasks.getByName("ksp" + variant.name.replaceFirstChar { it.uppercaseChar() } + "Kotlin") {
                 dependsOn(protoTask)
-                (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>).setSource(
-                    protoTask.outputBaseDir
-                )
             }
         }
     }

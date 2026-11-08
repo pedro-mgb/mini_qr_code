@@ -12,7 +12,8 @@ class SettingsProtoSerializer
     @Inject
     constructor() : Serializer<SettingsProto> {
         override val defaultValue: SettingsProto =
-            SettingsProto.getDefaultInstance()
+            SettingsProto
+                .getDefaultInstance()
                 .toBuilder()
                 .setScanHapticFeedback(HAPTIC_FEEDBACK_DEFAULT_OFF)
                 .build()

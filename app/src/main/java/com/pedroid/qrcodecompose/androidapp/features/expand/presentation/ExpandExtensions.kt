@@ -14,14 +14,13 @@ fun Modifier.expandSharedElementTransition(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     key: Any,
-): Modifier {
-    return with(sharedTransitionScope) {
+): Modifier =
+    with(sharedTransitionScope) {
         this@expandSharedElementTransition.sharedElement(
-            state = rememberSharedContentState(key = key),
+            sharedContentState = rememberSharedContentState(key = key),
             animatedVisibilityScope = animatedVisibilityScope,
             boundsTransform = { _, _ ->
                 spring(stiffness = Spring.StiffnessMediumLow)
             },
         )
     }
-}

@@ -124,8 +124,7 @@ private fun SettingsOptionSelectionBottomSheetUI(
                         .background(if (optionSelected) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent)
                         .clickable {
                             actionListener(optionContent.selectionContent.onSelect(index))
-                        }
-                        .padding(Dimens.spacingMedium),
+                        }.padding(Dimens.spacingMedium),
             ) {
                 Text(
                     text = stringResourceFromStringKey(titleAndDescription.title),

@@ -73,12 +73,11 @@ internal fun generateCodeViaZxing(
  *
  * @return the error correction level, or null if no value is specified for the format
  */
-private fun getErrorCorrectionLevel(format: BarcodeFormat): Any? {
-    return when (format) {
+private fun getErrorCorrectionLevel(format: BarcodeFormat): Any? =
+    when (format) {
         BarcodeFormat.QR_CODE -> ErrorCorrectionLevel.H
         else -> null
     }
-}
 
 private fun createQRCodeBitmap(
     matrix: BitMatrix,

@@ -25,14 +25,13 @@ import com.pedroid.qrcodecompose.androidapp.core.domain.QRAppActions
 
 private const val VIBRATION_DURATION_MILLIS = 300L
 
-fun Context.openAppToView(content: String): QRAppActions.OpenApp {
-    return try {
+fun Context.openAppToView(content: String): QRAppActions.OpenApp =
+    try {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(content)))
         QRAppActions.OpenApp(ActionStatus.SUCCESS)
     } catch (e: ActivityNotFoundException) {
         QRAppActions.OpenApp(ActionStatus.ERROR_NO_APP)
     }
-}
 
 fun Context.launchBrowserCustomTab(
     content: String,
@@ -48,11 +47,14 @@ fun Context.launchBrowserCustomTab(
         }
     } else {
         val customTabBarColor =
-            CustomTabColorSchemeParams.Builder()
-                .setToolbarColor(toolbarColor).build()
+            CustomTabColorSchemeParams
+                .Builder()
+                .setToolbarColor(toolbarColor)
+                .build()
         CustomTabsIntent.Builder()
         val customTabsIntent =
-            CustomTabsIntent.Builder()
+            CustomTabsIntent
+                .Builder()
                 .setDefaultColorSchemeParams(customTabBarColor)
                 .build()
         customTabsIntent.launchUrl(this, Uri.parse(content))
@@ -63,8 +65,8 @@ fun Context.launchBrowserCustomTab(
 fun Context.shareTextToAnotherApp(
     content: String,
     shareTitle: String? = null,
-): QRAppActions.ShareApp {
-    return try {
+): QRAppActions.ShareApp =
+    try {
         val sendIntent: Intent =
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, content)
@@ -76,7 +78,6 @@ fun Context.shareTextToAnotherApp(
     } catch (e: ActivityNotFoundException) {
         QRAppActions.ShareApp(ActionStatus.ERROR_NO_APP)
     }
-}
 
 fun Context.shareImageToAnotherApp(
     content: Bitmap?,
@@ -158,6 +159,7 @@ fun Context.shortPhoneVibration() {
             vibrator.cancel()
             vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_DURATION_MILLIS, VibrationEffect.DEFAULT_AMPLITUDE))
         }
+
         else -> {
             vibrator.cancel()
             @Suppress("DEPRECATION")

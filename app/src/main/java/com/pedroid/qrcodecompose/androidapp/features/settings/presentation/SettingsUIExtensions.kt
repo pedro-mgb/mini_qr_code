@@ -12,9 +12,8 @@ fun Context.openUrl(
     content: String,
     preferences: OpenUrlPreferences,
     customTabToolbarColor: Int = md_theme_dark_background.toArgb(),
-): QRAppActions.OpenApp {
-    return when (preferences) {
+): QRAppActions.OpenApp =
+    when (preferences) {
         OpenUrlPreferences.IN_CUSTOM_TAB -> this.launchBrowserCustomTab(content, customTabToolbarColor)
         OpenUrlPreferences.IN_BROWSER -> this.openAppToView(content)
     }
-}

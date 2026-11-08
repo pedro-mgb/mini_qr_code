@@ -63,12 +63,11 @@ private fun TemporaryMessageData.toSnackbarVisuals(context: Context): QRAppSnack
         message = context.getString(this.text),
     )
 
-private fun TemporaryMessageType.toSnackbarType(): SnackbarType {
-    return when (this) {
+private fun TemporaryMessageType.toSnackbarType(): SnackbarType =
+    when (this) {
         TemporaryMessageType.TOAST -> SnackbarType.INFO
         TemporaryMessageType.INFO_SNACKBAR -> SnackbarType.INFO
         TemporaryMessageType.SUCCESS_SNACKBAR -> SnackbarType.SUCCESS
         TemporaryMessageType.ERROR_SNACKBAR -> SnackbarType.ERROR
     }
-}
 // endregion data

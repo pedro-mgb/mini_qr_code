@@ -99,7 +99,7 @@ internal class HistoryDetailViewModelTest {
                     uid = UID,
                     value = "123456",
                     format = QRCodeComposeXFormat.BARCODE_ITF,
-                    displayDate = "Sunday, 17 Mar 2024 - 3:00:00 PM",
+                    displayDate = "Sunday, 17 Mar 2024 - 3:00:00\u202FPM",
                     typeUI = HistoryTypeUI.GENERATE,
                 )
             sut.uiState.test {

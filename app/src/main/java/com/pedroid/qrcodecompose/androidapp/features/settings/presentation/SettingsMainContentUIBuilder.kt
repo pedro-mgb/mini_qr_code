@@ -153,42 +153,51 @@ class SettingsMainContentUIBuilder
 
 private fun OpenUrlPreferences.createTitleAndDescription(): TitleAndDescription =
     when (this) {
-        OpenUrlPreferences.IN_BROWSER ->
+        OpenUrlPreferences.IN_BROWSER -> {
             TitleAndDescription(
                 title = "settings_main_screen_general_open_urls_option_browser_title",
                 description = "settings_main_screen_general_open_urls_option_browser_description",
             )
-        OpenUrlPreferences.IN_CUSTOM_TAB ->
+        }
+
+        OpenUrlPreferences.IN_CUSTOM_TAB -> {
             TitleAndDescription(
                 title = "settings_main_screen_general_open_urls_in_app_custom_tab_title",
                 description = "settings_main_screen_general_open_urls_in_app_custom_tab_description",
             )
+        }
     }
 
 private fun HistorySavePreferences.createScanTitleAndDescription(): TitleAndDescription =
     when (this) {
-        HistorySavePreferences.UPON_USER_ACTION ->
+        HistorySavePreferences.UPON_USER_ACTION -> {
             TitleAndDescription(
                 title = "settings_main_screen_scan_save_history_option_upon_user_action_title",
                 description = "settings_main_screen_scan_save_history_option_upon_user_action_description",
             )
-        HistorySavePreferences.NEVER_SAVE ->
+        }
+
+        HistorySavePreferences.NEVER_SAVE -> {
             TitleAndDescription(
                 title = "settings_main_screen_scan_save_history_option_never_title",
                 description = "settings_main_screen_scan_save_history_option_never_description",
             )
+        }
     }
 
 private fun HistorySavePreferences.createGenerateTitleAndDescription(): TitleAndDescription =
     when (this) {
-        HistorySavePreferences.UPON_USER_ACTION ->
+        HistorySavePreferences.UPON_USER_ACTION -> {
             TitleAndDescription(
                 title = "settings_main_screen_generate_save_history_option_upon_user_action_title",
                 description = "settings_main_screen_generate_save_history_option_upon_user_action_description",
             )
-        HistorySavePreferences.NEVER_SAVE ->
+        }
+
+        HistorySavePreferences.NEVER_SAVE -> {
             TitleAndDescription(
                 title = "settings_main_screen_generate_save_history_option_never_title",
                 description = "settings_main_screen_generate_save_history_option_never_description",
             )
+        }
     }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -39,7 +40,9 @@ import com.pedroid.qrcodecomposelib.generate.QRCodeGenerateResult
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HistoryDetailRoute(val uid: Long)
+data class HistoryDetailRoute(
+    val uid: Long,
+)
 
 @ExperimentalSharedTransitionApi
 fun NavGraphBuilder.historyDetailRoute(
@@ -82,6 +85,7 @@ private fun HistoryDetailCoordinator(
         is HistoryDetailUIState.Idle -> {
             // nothing to show, should be transition state
         }
+
         is HistoryDetailUIState.Deleted -> {
             LaunchedEffect(key1 = uiState) {
                 val deletedByUserUid: Long? = (uiState as? HistoryDetailUIState.Deleted)?.deletedItemUid
@@ -92,6 +96,7 @@ private fun HistoryDetailCoordinator(
                 }
             }
         }
+
         is HistoryDetailUIState.Content -> {
             HistoryDetailScreen(
                 data = (uiState as HistoryDetailUIState.Content).data,
@@ -148,9 +153,9 @@ private fun HistoryDetailCoordinator(
 
     if (showDeleteDialog) {
         HistoryDeleteConfirmationDialog(
-            title = context.getString(R.string.history_delete_single_item_notice_title),
-            description = context.getString(R.string.history_delete_single_item_notice_description),
-            deleteActionButton = context.getString(R.string.history_delete_single_item_notice_action),
+            title = stringResource(R.string.history_delete_single_item_notice_title),
+            description = stringResource(R.string.history_delete_single_item_notice_description),
+            deleteActionButton = stringResource(R.string.history_delete_single_item_notice_action),
             onDelete = {
                 viewModel.onNewAction(HistoryDetailUIAction.Delete)
                 showDeleteDialog = false

@@ -72,7 +72,9 @@ fun QRCodeComposeCameraXTheme(
                 dynamicDarkColorScheme(context)
             }
 
-            else -> darkColorScheme
+            else -> {
+                darkColorScheme
+            }
         }
 
     MaterialTheme(

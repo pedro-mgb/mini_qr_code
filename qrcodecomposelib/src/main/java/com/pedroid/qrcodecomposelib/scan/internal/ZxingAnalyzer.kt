@@ -51,7 +51,8 @@ private const val LOG_TAG = "ZxingAnalyzer"
 
 internal class ZxingAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
+) : QRCodeCameraAnalyzer,
+    QRCodeFileAnalyzer {
     override fun analyze(image: ImageProxy) {
         if (image.format in supportedImageFormats) {
             val binaryBmp = image.convertToBinaryBitmap()

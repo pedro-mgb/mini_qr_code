@@ -98,8 +98,7 @@ fun ExpandQRCodeScreen(
                         rotationZ = 0f,
                         translationX = imageOffset.x,
                         translationY = imageOffset.y,
-                    )
-                    .pointerInput(key1 = Unit) {
+                    ).pointerInput(key1 = Unit) {
                         detectTapGestures(
                             onTap = {
                                 closeButtonVisible = !closeButtonVisible
@@ -115,8 +114,7 @@ fun ExpandQRCodeScreen(
                                 }
                             },
                         )
-                    }
-                    .transformable(state = transformableState),
+                    }.transformable(state = transformableState),
         ) {
             QRCodeComposeXGenerator(
                 modifier =
@@ -125,8 +123,7 @@ fun ExpandQRCodeScreen(
                             sharedTransitionScope = sharedTransitionScope,
                             animatedVisibilityScope = animatedVisibilityScope,
                             key = arguments.key,
-                        )
-                        .aspectRatio(aspectRatio)
+                        ).aspectRatio(aspectRatio)
                         .background(Color.White)
                         .align(Alignment.Center)
                         .fillMaxWidth(fraction = IMAGE_WIDTH_FACTOR),
@@ -149,8 +146,7 @@ fun ExpandQRCodeScreen(
                     .background(
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         shape = CircleShape,
-                    )
-                    .size(Dimens.iconButtonSize + Dimens.spacingSmall),
+                    ).size(Dimens.iconButtonSize + Dimens.spacingSmall),
             onClick = navigationListeners.goBack,
         ) {
             Icon(

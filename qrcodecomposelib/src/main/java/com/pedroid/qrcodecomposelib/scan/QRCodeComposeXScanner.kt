@@ -93,11 +93,13 @@ fun defaultQRCodeCameraAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeCam
 fun defaultQRCodeFileAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeFileAnalyzer = ZxingAnalyzer(onResult)
 
 private fun buildBackCameraSelector() =
-    CameraSelector.Builder()
+    CameraSelector
+        .Builder()
         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
         .build()
 
 private fun buildImageAnalysis() =
-    ImageAnalysis.Builder()
+    ImageAnalysis
+        .Builder()
         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
         .build()

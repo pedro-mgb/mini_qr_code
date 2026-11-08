@@ -76,11 +76,12 @@ fun QRAppSelectableItem(
 fun QRAppFunctionalSelectableItemsPreview() {
     var itemList by remember {
         mutableStateOf(
-            mutableListOf<Pair<String, Boolean>>().apply {
-                repeat(40) {
-                    add(Pair("Text $it", false))
-                }
-            }.toList(),
+            mutableListOf<Pair<String, Boolean>>()
+                .apply {
+                    repeat(40) {
+                        add(Pair("Text $it", false))
+                    }
+                }.toList(),
         )
     }
     val inSelectableMode by remember {

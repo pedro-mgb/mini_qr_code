@@ -18,11 +18,12 @@ object DatabaseProvides {
     fun providesQRCodeDatabase(
         @ApplicationContext applicationContext: Context,
     ): QRCodeDatabase =
-        Room.databaseBuilder(
-            applicationContext,
-            QRCodeDatabase::class.java,
-            DATABASE_NAME,
-        ).build()
+        Room
+            .databaseBuilder(
+                applicationContext,
+                QRCodeDatabase::class.java,
+                DATABASE_NAME,
+            ).build()
 
     @Provides
     fun providesQRCodeHistoryDao(qrCodeHistoryDatabase: QRCodeDatabase): QRCodeHistoryDao = qrCodeHistoryDatabase.qrCodeHistoryDao()
