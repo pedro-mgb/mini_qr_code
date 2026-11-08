@@ -21,9 +21,11 @@ private const val LOG_TAG = "MLKitAnalyzer"
 @ExperimentalGetImage
 class MLKitImageAnalyzer(
     override val onQRCodeStatus: (QRCodeScanResult) -> Unit,
-) : QRCodeCameraAnalyzer, QRCodeFileAnalyzer {
+) : QRCodeCameraAnalyzer,
+    QRCodeFileAnalyzer {
     private val scanningOptions =
-        BarcodeScannerOptions.Builder()
+        BarcodeScannerOptions
+            .Builder()
             .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
             .build()
 
@@ -34,7 +36,8 @@ class MLKitImageAnalyzer(
         image.image?.let { currentImage ->
             val inputImage =
                 InputImage.fromMediaImage(currentImage, image.imageInfo.rotationDegrees)
-            barcodeScanner.process(inputImage)
+            barcodeScanner
+                .process(inputImage)
                 .addListeners {
                     image.close()
                 }
@@ -54,7 +57,8 @@ class MLKitImageAnalyzer(
             onQRCodeStatus.invoke(QRCodeScanResult.UnrecoverableError)
             return
         }
-        barcodeScanner.process(inputImage)
+        barcodeScanner
+            .process(inputImage)
             .addListeners()
     }
 

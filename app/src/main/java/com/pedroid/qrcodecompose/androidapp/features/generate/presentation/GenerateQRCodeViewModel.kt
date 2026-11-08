@@ -102,20 +102,19 @@ class GenerateQRCodeViewModel
                         }
                         action
                     }
-                }
-                .filterNotNull()
+                }.filterNotNull()
                 .debounce(AWAIT_INPUT_STOP_INTERVAL)
                 .onEach { action ->
                     // only update qrcode to generate if user as stopped typing for a small interval
                     logger.debug(LOG_TAG, "Update QR code to generate based on action $action")
                     savedStateHandle.updateState {
                         it.copy {
-                            GenerateQRCodeUIState.content.generating.qrCodeText.set(action.text)
+                            GenerateQRCodeUIState.content.generating.qrCodeText
+                                .set(action.text)
                             GenerateQRCodeUIState.content.inputErrorMessage.set("")
                         }
                     }
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
 
         private fun setupSaveHistory() {
@@ -130,28 +129,36 @@ class GenerateQRCodeViewModel
                     "Processing to check if should save history - $generatingContent / $actionWithCurrentContent / $savePreferences",
                 )
                 when {
-                    generatingContent.empty -> null
+                    generatingContent.empty -> {
+                        null
+                    }
+
                     savePreferences == HistorySavePreferences.NEVER_SAVE -> {
                         resetActionComplete(actionWithCurrentContent)
                         null
                     }
-                    actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> null
+
+                    actionWithCurrentContent.actionComplete?.status != ActionStatus.SUCCESS -> {
+                        null
+                    }
+
                     generatingContent == actionWithCurrentContent.code -> {
                         resetActionComplete(actionWithCurrentContent)
                         null
                     }
-                    else -> GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
+
+                    else -> {
+                        GeneratedCodeWithAction(generatingContent, actionWithCurrentContent.actionComplete)
+                    }
                 }
-            }
-                .filterNotNull()
+            }.filterNotNull()
                 .distinctUntilChanged()
                 .onEach { newCodeWithAction ->
                     // reset the action flow to avoid repeated emissions and repeated saves
                     resetActionComplete(newCodeWithAction)
                     logger.debug(LOG_TAG, "Saving to history based on action - $newCodeWithAction")
                     historyRepository.saveGeneratedCode(newCodeWithAction.code)
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
 
         private fun resetActionComplete(actionWithCode: GeneratedCodeWithAction) {
@@ -183,7 +190,8 @@ class GenerateQRCodeViewModel
                             savedStateHandle.updateState {
                                 it.copy {
                                     GenerateQRCodeUIState.content.inputErrorMessage.set(errorMessage)
-                                    GenerateQRCodeUIState.content.generating.format.set(format)
+                                    GenerateQRCodeUIState.content.generating.format
+                                        .set(format)
                                 }
                             }
                         }
@@ -282,13 +290,21 @@ data class GenerateQRCodeContentState(
 sealed class GenerateQRCodeUIAction {
     sealed class UpdateCodeContentAction : GenerateQRCodeUIAction()
 
-    data class UpdateText(val text: String) : UpdateCodeContentAction()
+    data class UpdateText(
+        val text: String,
+    ) : UpdateCodeContentAction()
 
-    data class Customize(val options: QRCodeCustomizationOptions) : UpdateCodeContentAction()
+    data class Customize(
+        val options: QRCodeCustomizationOptions,
+    ) : UpdateCodeContentAction()
 
-    data class GenerateErrorReceived(val exception: Exception) : GenerateQRCodeUIAction()
+    data class GenerateErrorReceived(
+        val exception: Exception,
+    ) : GenerateQRCodeUIAction()
 
-    data class QRActionComplete(val action: QRAppActions) : GenerateQRCodeUIAction()
+    data class QRActionComplete(
+        val action: QRAppActions,
+    ) : GenerateQRCodeUIAction()
 
     data object TmpMessageShown : GenerateQRCodeUIAction()
 }

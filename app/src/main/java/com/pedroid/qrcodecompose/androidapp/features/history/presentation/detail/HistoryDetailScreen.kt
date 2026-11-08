@@ -212,8 +212,7 @@ private fun HistoryDetailContentLargeScreen(
                                 start = Dimens.spacingLarge,
                                 end = Dimens.spacingLarge,
                                 bottom = Dimens.spacingExtraSmall,
-                            )
-                            .constrainAs(errorText) {
+                            ).constrainAs(errorText) {
                                 width = Dimension.preferredWrapContent
                                 linkTo(start = image.start, end = image.end)
                                 top.linkTo(parent.top)
@@ -238,8 +237,7 @@ private fun HistoryDetailContentLargeScreen(
                             sharedTransitionScope = sharedTransitionScope,
                             animatedVisibilityScope = animatedVisibilityScope,
                             key = expandArguments.key,
-                        )
-                        .clickable { navigationListeners.onExpand(expandArguments) }
+                        ).clickable { navigationListeners.onExpand(expandArguments) }
                         .fillMaxWidth(0.4f)
                         .constrainAs(image) {
                             linkTo(start = startAnchor(), end = endAnchor())
@@ -353,8 +351,7 @@ private fun HistoryDetailContentPortrait(
                                 start = Dimens.spacingLarge,
                                 end = Dimens.spacingLarge,
                                 bottom = Dimens.spacingExtraSmall,
-                            )
-                            .constrainAs(errorText) {
+                            ).constrainAs(errorText) {
                                 width = Dimension.preferredWrapContent
                                 linkTo(start = parent.start, end = parent.end)
                                 top.linkTo(parent.top)
@@ -379,8 +376,7 @@ private fun HistoryDetailContentPortrait(
                             sharedTransitionScope = sharedTransitionScope,
                             animatedVisibilityScope = animatedVisibilityScope,
                             key = expandArguments.key,
-                        )
-                        .clickable { navigationListeners.onExpand(expandArguments) }
+                        ).clickable { navigationListeners.onExpand(expandArguments) }
                         .fillMaxWidth(0.6f)
                         .constrainAs(image) {
                             linkTo(start = parent.start, end = parent.end)

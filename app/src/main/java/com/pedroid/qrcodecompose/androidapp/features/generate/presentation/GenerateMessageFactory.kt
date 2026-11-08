@@ -19,13 +19,12 @@ class GenerateMessageFactory
         internal fun createGenerateErrorMessage(
             format: QRCodeComposeXFormat,
             inputText: String,
-        ): String {
-            return try {
+        ): String =
+            try {
                 context.getString(format.errorMessageStringId, inputText.length)
             } catch (ex: IllegalArgumentException) {
                 // string has no arguments, or some of the arguments was not properly formatted
                 //  instead of crashing, just get string without arguments
                 context.getString(format.errorMessageStringId)
             }
-        }
     }

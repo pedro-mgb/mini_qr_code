@@ -92,8 +92,7 @@ private fun MainSettingsSections(
                             .fillMaxWidth()
                             .clickable {
                                 item.invokeAction(actionListeners)
-                            }
-                            .padding(start = Dimens.spacingSmall, bottom = Dimens.spacingMedium),
+                            }.padding(start = Dimens.spacingSmall, bottom = Dimens.spacingMedium),
                     sectionItem = item,
                     actionListeners = actionListeners,
                 )
@@ -167,6 +166,7 @@ private fun MainSettingsItem(
                     // no additional content to place, just to create an empty space
                 }
             }
+
             is SettingsMainContentItem.OptionWithToggle -> {
                 Switch(
                     checked = sectionItem.toggleOn,
@@ -175,6 +175,7 @@ private fun MainSettingsItem(
                     },
                 )
             }
+
             is SettingsMainContentItem.OptionWithExternalScreenAction -> {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -191,9 +192,11 @@ private fun SettingsMainContentItem.invokeAction(listeners: SettingsMainActionLi
         is SettingsMainContentItem.OptionWithActionSelection -> {
             listeners.onShowSettingsOptionSelection(this)
         }
+
         is SettingsMainContentItem.OptionWithToggle -> {
             listeners.onUIAction(this.toggleAction)
         }
+
         is SettingsMainContentItem.OptionWithExternalScreenAction -> {
             listeners.onExternalNavigationAction(this.action)
         }

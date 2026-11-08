@@ -18,8 +18,8 @@ fun Context.saveInCache(
     fileName: String,
     clearFolderBeforeWriting: Boolean,
     streamWriterDelegate: (OutputStream) -> Unit,
-): Uri? {
-    return try {
+): Uri? =
+    try {
         val dir = File(cacheDir, directoryName)
         dir.mkdirs()
         if (clearFolderBeforeWriting) {
@@ -33,7 +33,6 @@ fun Context.saveInCache(
     } catch (ex: IOException) {
         null
     }
-}
 
 /**
  * Extension function to save file in uri
@@ -41,11 +40,10 @@ fun Context.saveInCache(
 fun Uri.saveFile(
     context: Context,
     streamWriterDelegate: (OutputStream) -> Boolean,
-): Boolean {
-    return context.contentResolver.openOutputStream(this)?.use {
+): Boolean =
+    context.contentResolver.openOutputStream(this)?.use {
         streamWriterDelegate(it)
     } ?: false
-}
 
 private fun File.deleteSubFiles() {
     listFiles()?.forEach {

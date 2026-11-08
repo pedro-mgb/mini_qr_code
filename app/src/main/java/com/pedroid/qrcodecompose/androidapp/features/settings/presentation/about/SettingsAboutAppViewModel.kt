@@ -49,6 +49,7 @@ class SettingsAboutAppViewModel
                             )
                         }
                     }
+
                     is SettingsAboutAppUIAction.TmpMessageShown -> {
                         temporaryMessageFlow.emit(null)
                     }
@@ -63,7 +64,9 @@ data class SettingsAboutAppUIState(
 )
 
 sealed class SettingsAboutAppUIAction {
-    data class OpenUrlAttempt(val action: QRAppActions.OpenApp) : SettingsAboutAppUIAction()
+    data class OpenUrlAttempt(
+        val action: QRAppActions.OpenApp,
+    ) : SettingsAboutAppUIAction()
 
     data object TmpMessageShown : SettingsAboutAppUIAction()
 }

@@ -205,8 +205,7 @@ private fun GeneratedQRCodeContentLargeScreen(
                         sharedTransitionScope = sharedTransitionScope,
                         animatedVisibilityScope = animatedVisibilityScope,
                         key = expandArguments.key,
-                    )
-                    .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
+                    ).clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
                     .fillMaxWidth(fraction = 0.4f)
                     .constrainAs(qrCodeImage) {
                         linkTo(start = textBox.end, end = actionButtons.start)
@@ -251,8 +250,7 @@ private fun GeneratedQRCodeContentPortrait(
                             sharedTransitionScope = sharedTransitionScope,
                             animatedVisibilityScope = animatedVisibilityScope,
                             key = expandArguments.key,
-                        )
-                        .clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
+                        ).clickable(enabled = state.canGenerate) { qrCodeActionListeners.onExpand(expandArguments) }
                         .fillMaxWidth(fraction = 0.6f)
                         .constrainAs(qrCodeImage) {
                             linkTo(start = parent.start, end = parent.end)

@@ -6,7 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 sealed class HistoryListItem : Parcelable {
     @Parcelize
-    data class SectionHeader(val text: String) : HistoryListItem()
+    data class SectionHeader(
+        val text: String,
+    ) : HistoryListItem()
 
     @Parcelize
     data class Data(

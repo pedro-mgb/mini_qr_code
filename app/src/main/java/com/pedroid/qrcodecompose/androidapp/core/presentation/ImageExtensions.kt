@@ -12,15 +12,14 @@ private const val CACHED_IMAGES_DIRECTORY = "images"
 fun Uri.saveBitmap(
     context: Context,
     bitmap: Bitmap?,
-): Boolean {
-    return if (bitmap == null) {
+): Boolean =
+    if (bitmap == null) {
         false
     } else {
         this.saveFile(context) {
             bitmap.compressToStream(it)
         }
     }
-}
 
 fun Context.saveImageInCache(
     imageBitmap: Bitmap?,

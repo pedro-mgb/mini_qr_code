@@ -47,7 +47,8 @@ fun QRCodeImageOrInfoContent(
         } else {
             QRCodeComposeXGenerator(
                 modifier =
-                    Modifier.baseQRCodeImageModifier(format.preferredAspectRatio, error)
+                    Modifier
+                        .baseQRCodeImageModifier(format.preferredAspectRatio, error)
                         .background(
                             color = Color.White,
                             shape = qrCodeCornerShape,
@@ -66,7 +67,8 @@ private fun Modifier.baseQRCodeImageModifier(
     aspectRatio: Float,
     error: Boolean,
 ): Modifier =
-    this.fillMaxWidth()
+    this
+        .fillMaxWidth()
         .aspectRatio(aspectRatio)
         .border(
             width = Dimens.borderWidthMedium,

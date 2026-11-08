@@ -36,31 +36,29 @@ enum class AppLanguage(
     ;
 
     companion object {
-        internal fun fromLocaleList(localeList: LocaleListCompat): AppLanguage {
-            return localeList.getFirstMatch(
-                AppLanguage.entries
-                    .filterNot { it == SAME_AS_SYSTEM }
-                    .map { it.langCode }
-                    .toTypedArray(),
-            ).let {
-                if (it == null) {
-                    SAME_AS_SYSTEM
-                } else {
-                    fromLanguageTag(it.toLanguageTag())
+        internal fun fromLocaleList(localeList: LocaleListCompat): AppLanguage =
+            localeList
+                .getFirstMatch(
+                    AppLanguage.entries
+                        .filterNot { it == SAME_AS_SYSTEM }
+                        .map { it.langCode }
+                        .toTypedArray(),
+                ).let {
+                    if (it == null) {
+                        SAME_AS_SYSTEM
+                    } else {
+                        fromLanguageTag(it.toLanguageTag())
+                    }
                 }
-            }
-        }
 
-        fun fromOrdinal(ordinal: Int): AppLanguage? {
-            return AppLanguage.entries.find {
+        fun fromOrdinal(ordinal: Int): AppLanguage? =
+            AppLanguage.entries.find {
                 it.ordinal == ordinal
             }
-        }
 
-        private fun fromLanguageTag(tag: String): AppLanguage {
-            return AppLanguage.entries.find {
+        private fun fromLanguageTag(tag: String): AppLanguage =
+            AppLanguage.entries.find {
                 it.langCode == tag
             } ?: SAME_AS_SYSTEM
-        }
     }
 }

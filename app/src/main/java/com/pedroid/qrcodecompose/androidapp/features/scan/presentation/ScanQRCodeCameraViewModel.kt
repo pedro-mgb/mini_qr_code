@@ -32,7 +32,11 @@ class ScanQRCodeCameraViewModel
                                     QRCodeCameraUIState.ScanComplete(
                                         action.result.qrCode,
                                         action.result.format,
-                                        vibrate = settingsRepository.getFullSettings().first().scan.hapticFeedback,
+                                        vibrate =
+                                            settingsRepository
+                                                .getFullSettings()
+                                                .first()
+                                                .scan.hapticFeedback,
                                     )
                             }
                         }
@@ -57,5 +61,7 @@ sealed class QRCodeCameraUIState {
 }
 
 sealed class QRCodeCameraUIAction {
-    data class ResultUpdate(val result: QRCodeScanResult) : QRCodeCameraUIAction()
+    data class ResultUpdate(
+        val result: QRCodeScanResult,
+    ) : QRCodeCameraUIAction()
 }

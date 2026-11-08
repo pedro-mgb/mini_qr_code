@@ -150,31 +150,40 @@ class HistoryListViewModel
                             emitDeleteSuccessMessage()
                         }
                     }
+
                     is HistoryListUIAction.SelectedItemToggle -> {
                         itemUidsSelectedFlow.update { set ->
                             if (action.selectedUid in set) {
-                                set.toMutableSet().apply {
-                                    remove(action.selectedUid)
-                                }.toSet()
+                                set
+                                    .toMutableSet()
+                                    .apply {
+                                        remove(action.selectedUid)
+                                    }.toSet()
                             } else {
-                                set.toMutableSet().apply {
-                                    add(action.selectedUid)
-                                }.toSet()
+                                set
+                                    .toMutableSet()
+                                    .apply {
+                                        add(action.selectedUid)
+                                    }.toSet()
                             }
                         }
                     }
+
                     HistoryListUIAction.SelectAll -> {
                         val selectedItems =
-                            (uiState.value.content as? HistoryListContentState.DataList)?.list
+                            (uiState.value.content as? HistoryListContentState.DataList)
+                                ?.list
                                 ?.filterIsInstance<HistoryListItem.Data>()
                                 ?.map {
                                     it.uid
                                 } ?: emptyList()
                         itemUidsSelectedFlow.emit(selectedItems.toSet())
                     }
+
                     HistoryListUIAction.CancelSelection -> {
                         itemUidsSelectedFlow.emit(emptySet())
                     }
+
                     HistoryListUIAction.DeleteSelected -> {
                         val listToDelete = itemUidsSelectedFlow.value.toList()
                         deletedItemsUids.addAll(listToDelete)
@@ -186,6 +195,7 @@ class HistoryListViewModel
                         //  then the coroutine fails, and nothing happens; so we can assume if it reaches this block that it succeeds
                         emitDeleteSuccessMessage()
                     }
+
                     HistoryListUIAction.TmpMessageShown -> {
                         temporaryMessageFlow.emit(null)
                     }
@@ -218,8 +228,10 @@ data class HistoryListUIState(
     @IgnoredOnParcel
     val allSelected: Boolean =
         selectionMode is HistorySelectionMode.Selection &&
-            (content as? HistoryListContentState.DataList)?.list
-                ?.filterIsInstance<HistoryListItem.Data>()?.all { it.selected } == true
+            (content as? HistoryListContentState.DataList)
+                ?.list
+                ?.filterIsInstance<HistoryListItem.Data>()
+                ?.all { it.selected } == true
 }
 
 sealed class HistoryListContentState : Parcelable {
@@ -230,7 +242,9 @@ sealed class HistoryListContentState : Parcelable {
     data object Empty : HistoryListContentState()
 
     @Parcelize
-    data class DataList(val list: List<HistoryListItem>) : HistoryListContentState()
+    data class DataList(
+        val list: List<HistoryListItem>,
+    ) : HistoryListContentState()
 }
 
 sealed class HistorySelectionMode : Parcelable {
@@ -238,13 +252,19 @@ sealed class HistorySelectionMode : Parcelable {
     data object None : HistorySelectionMode()
 
     @Parcelize
-    data class Selection(val currentlySelected: Int) : HistorySelectionMode()
+    data class Selection(
+        val currentlySelected: Int,
+    ) : HistorySelectionMode()
 }
 
 sealed class HistoryListUIAction {
-    data class DeletedFromDetails(val deletedUid: Long) : HistoryListUIAction()
+    data class DeletedFromDetails(
+        val deletedUid: Long,
+    ) : HistoryListUIAction()
 
-    data class SelectedItemToggle(val selectedUid: Long) : HistoryListUIAction()
+    data class SelectedItemToggle(
+        val selectedUid: Long,
+    ) : HistoryListUIAction()
 
     data object SelectAll : HistoryListUIAction()
 

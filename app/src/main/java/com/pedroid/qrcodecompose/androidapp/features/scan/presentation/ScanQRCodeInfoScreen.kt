@@ -189,8 +189,7 @@ private fun QRCodeReadContent(
                         sharedTransitionScope = sharedTransitionScope,
                         animatedVisibilityScope = animatedVisibilityScope,
                         key = expandArguments.key,
-                    )
-                    .clickable { actionListeners.onExpand(expandArguments) }
+                    ).clickable { actionListeners.onExpand(expandArguments) }
                     .fillMaxWidth(0.4f)
                     .align(Alignment.CenterHorizontally),
             showInfoScreen = false,
@@ -329,6 +328,7 @@ private fun CameraPermissionContent(cameraPermissionStatus: PermissionStatus) {
             // nothing to show here, as permission has already been granted
             Spacer(modifier = Modifier.height(Dimens.spacingMedium))
         }
+
         is PermissionStatus.Denied -> {
             Spacer(modifier = Modifier.height(Dimens.spacingMedium))
             Text(

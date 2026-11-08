@@ -103,12 +103,15 @@ class HistoryDetailViewModel
                     is HistoryDetailUIAction.Generate -> {
                         generateResultMutableFlow.emit(action.generateResult)
                     }
+
                     is HistoryDetailUIAction.QRActionComplete -> {
                         temporaryMessageFlow.emit(action.action.asTemporaryMessage())
                     }
+
                     is HistoryDetailUIAction.TmpMessageShown -> {
                         temporaryMessageFlow.emit(null)
                     }
+
                     is HistoryDetailUIAction.Delete -> {
                         (uiState.value as? HistoryDetailUIState.Content)?.data?.uid?.let { uid ->
                             historyRepository.deleteHistoryEntries(listOf(uid))
@@ -128,7 +131,9 @@ interface HistoryDetailViewModelFactory {
 sealed class HistoryDetailUIState {
     data object Idle : HistoryDetailUIState()
 
-    data class Deleted(val deletedItemUid: Long?) : HistoryDetailUIState()
+    data class Deleted(
+        val deletedItemUid: Long?,
+    ) : HistoryDetailUIState()
 
     data class Content(
         val data: HistoryDetail,
@@ -137,9 +142,13 @@ sealed class HistoryDetailUIState {
 }
 
 sealed class HistoryDetailUIAction {
-    data class Generate(val generateResult: QRCodeGenerateResult) : HistoryDetailUIAction()
+    data class Generate(
+        val generateResult: QRCodeGenerateResult,
+    ) : HistoryDetailUIAction()
 
-    data class QRActionComplete(val action: QRAppActions) : HistoryDetailUIAction()
+    data class QRActionComplete(
+        val action: QRAppActions,
+    ) : HistoryDetailUIAction()
 
     data object TmpMessageShown : HistoryDetailUIAction()
 

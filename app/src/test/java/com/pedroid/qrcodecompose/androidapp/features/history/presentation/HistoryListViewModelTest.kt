@@ -244,7 +244,8 @@ class HistoryListViewModelTest {
                 val result = awaitItem()
                 assertEquals(HistorySelectionMode.Selection(2), result.selectionMode)
                 val historySelectedResult: List<Pair<Long, Boolean>> =
-                    (result.content as? HistoryListContentState.DataList)?.list
+                    (result.content as? HistoryListContentState.DataList)
+                        ?.list
                         ?.filterIsInstance<HistoryListItem.Data>()
                         ?.map {
                             Pair(it.uid, it.selected)
@@ -274,7 +275,8 @@ class HistoryListViewModelTest {
                 val result = awaitItem()
                 assertEquals(HistorySelectionMode.Selection(1), result.selectionMode)
                 val historySelectedResult: HistoryListItem.Data? =
-                    (result.content as? HistoryListContentState.DataList)?.list
+                    (result.content as? HistoryListContentState.DataList)
+                        ?.list
                         ?.filterIsInstance<HistoryListItem.Data>()
                         ?.firstOrNull {
                             it.uid == 4L
@@ -296,7 +298,8 @@ class HistoryListViewModelTest {
                 val result = awaitItem()
                 assertEquals(HistorySelectionMode.Selection(fixedHistoryListItems.size), result.selectionMode)
                 val historySelectedResult =
-                    (result.content as? HistoryListContentState.DataList)?.list
+                    (result.content as? HistoryListContentState.DataList)
+                        ?.list
                         ?.filterIsInstance<HistoryListItem.Data>() ?: emptyList()
                 assertTrue(historySelectedResult.all { it.selected })
                 assertTrue(result.allSelected)
@@ -318,7 +321,8 @@ class HistoryListViewModelTest {
                 val result = awaitItem()
                 assertEquals(HistorySelectionMode.None, result.selectionMode)
                 val historySelectedResult =
-                    (result.content as? HistoryListContentState.DataList)?.list
+                    (result.content as? HistoryListContentState.DataList)
+                        ?.list
                         ?.filterIsInstance<HistoryListItem.Data>() ?: emptyList()
                 assertTrue(historySelectedResult.all { !it.selected })
             }

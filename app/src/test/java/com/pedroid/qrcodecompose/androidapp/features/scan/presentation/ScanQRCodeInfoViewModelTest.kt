@@ -108,7 +108,8 @@ class ScanQRCodeInfoViewModelTest {
             ),
         )
 
-        sut.uiState.value.temporaryMessage.assertHasError()
+        sut.uiState.value.temporaryMessage
+            .assertHasError()
     }
 
     @Test

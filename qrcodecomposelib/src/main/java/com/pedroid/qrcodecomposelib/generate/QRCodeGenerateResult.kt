@@ -11,7 +11,11 @@ typealias QRCodeComposeXNotCompliantWithFormatException = IllegalArgumentExcepti
  * Type of Result of generating QR Code - either successfully Generated or an Error occurred
  */
 sealed class QRCodeGenerateResult {
-    data class Generated(val bitmap: Bitmap) : QRCodeGenerateResult()
+    data class Generated(
+        val bitmap: Bitmap,
+    ) : QRCodeGenerateResult()
 
-    data class Error(val exception: Exception) : QRCodeGenerateResult()
+    data class Error(
+        val exception: Exception,
+    ) : QRCodeGenerateResult()
 }

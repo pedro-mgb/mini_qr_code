@@ -15,23 +15,19 @@ class QRCodeHistoryRepository
     constructor(
         private val dao: QRCodeHistoryDao,
     ) : HistoryRepository {
-        override fun getAllHistory(): Flow<List<HistoryEntry>> {
-            return dao.getAll().map { entityList ->
+        override fun getAllHistory(): Flow<List<HistoryEntry>> =
+            dao.getAll().map { entityList ->
                 entityList.map { entity ->
                     entity.toHistoryEntry()
                 }
             }
-        }
 
-        override fun getSingleHistory(uid: Long): Flow<HistoryEntry?> {
-            return dao.getByUid(uid).map {
+        override fun getSingleHistory(uid: Long): Flow<HistoryEntry?> =
+            dao.getByUid(uid).map {
                 it?.toHistoryEntry()
             }
-        }
 
-        override suspend fun addHistoryEntry(entry: HistoryEntry): Long {
-            return dao.insert(entry.toDBEntity())
-        }
+        override suspend fun addHistoryEntry(entry: HistoryEntry): Long = dao.insert(entry.toDBEntity())
 
         override suspend fun deleteHistoryEntries(idList: List<Long>) {
             dao.deleteAllMatchingIds(idList)
@@ -74,6 +70,7 @@ class QRCodeHistoryRepository
                         format = this.format,
                     )
                 }
+
                 is HistoryEntry.Generate -> {
                     QRCodeHistoryDBEntity(
                         type = HistoryType.GENERATE,

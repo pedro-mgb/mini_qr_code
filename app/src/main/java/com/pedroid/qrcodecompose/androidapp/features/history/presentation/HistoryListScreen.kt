@@ -85,6 +85,7 @@ fun HistoryListScreen(
             HistoryListContentState.Idle -> {
                 // no UI content to add
             }
+
             HistoryListContentState.Empty -> {
                 HistoryEmptyContent(
                     modifier =
@@ -93,6 +94,7 @@ fun HistoryListScreen(
                             .padding(horizontal = Dimens.spacingExtraLarge),
                 )
             }
+
             is HistoryListContentState.DataList -> {
                 HistoryDataList(
                     modifier = Modifier.fillMaxSize(),
@@ -163,7 +165,7 @@ private fun HistoryDataList(
             },
         ) { item ->
             when (item) {
-                is HistoryListItem.SectionHeader ->
+                is HistoryListItem.SectionHeader -> {
                     HistorySectionHeader(
                         modifier =
                             Modifier
@@ -177,7 +179,9 @@ private fun HistoryDataList(
                         item = item,
                         context = context,
                     )
-                is HistoryListItem.Data ->
+                }
+
+                is HistoryListItem.Data -> {
                     QRAppSelectableItem(
                         modifier =
                             Modifier
@@ -217,6 +221,7 @@ private fun HistoryDataList(
                             item,
                         )
                     }
+                }
             }
         }
     }
@@ -333,8 +338,7 @@ private fun HistoryListDataItem(
                             width = Dimension.fillToConstraints
                             linkTo(start = icon.end, end = barrier, bias = 0f)
                             linkTo(top = parent.top, bottom = value.top, bottomMargin = 2.dp)
-                        }
-                        .padding(horizontal = Dimens.spacingSmall),
+                        }.padding(horizontal = Dimens.spacingSmall),
                 text = stringResource(id = item.typeUI.typeStringId),
                 color = item.typeUI.color(),
                 maxLines = 1,
@@ -351,8 +355,7 @@ private fun HistoryListDataItem(
                                 bottom = parent.bottom,
                                 topMargin = 2.dp,
                             )
-                        }
-                        .padding(horizontal = Dimens.spacingSmall),
+                        }.padding(horizontal = Dimens.spacingSmall),
                 text = item.value,
                 fontStyle = FontStyle.Italic,
                 maxLines = 1,

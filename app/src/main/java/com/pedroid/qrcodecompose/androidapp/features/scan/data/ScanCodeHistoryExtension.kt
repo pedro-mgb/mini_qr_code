@@ -5,9 +5,7 @@ import com.pedroid.qrcodecompose.androidapp.features.history.domain.HistoryRepos
 import com.pedroid.qrcodecompose.androidapp.features.history.domain.ID_NEW_ENTRY
 import java.time.Instant
 
-suspend fun HistoryRepository.saveScannedCode(data: ScannedCode): Long {
-    return this.addHistoryEntry(data.toHistoryEntry())
-}
+suspend fun HistoryRepository.saveScannedCode(data: ScannedCode): Long = this.addHistoryEntry(data.toHistoryEntry())
 
 private fun ScannedCode.toHistoryEntry(): HistoryEntry =
     HistoryEntry.Scan(

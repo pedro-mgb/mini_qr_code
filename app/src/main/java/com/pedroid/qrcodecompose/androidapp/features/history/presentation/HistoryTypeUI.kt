@@ -48,5 +48,8 @@ fun HistoryEntry.getTypeUI(): HistoryTypeUI =
                 HistoryTypeUI.SCAN_FILE
             }
         }
-        is HistoryEntry.Generate -> HistoryTypeUI.GENERATE
+
+        is HistoryEntry.Generate -> {
+            HistoryTypeUI.GENERATE
+        }
     }

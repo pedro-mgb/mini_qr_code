@@ -13,17 +13,13 @@ class QRCodeHistoryDBTypeConverters {
     fun instantToTimestamp(instant: Instant): Long = instant.toEpochMilli()
 
     @TypeConverter
-    fun fromHistoryTypeString(value: String): HistoryType {
-        return HistoryType.entries.first { value == it.name }
-    }
+    fun fromHistoryTypeString(value: String): HistoryType = HistoryType.entries.first { value == it.name }
 
     @TypeConverter
     fun historyTypeToString(type: HistoryType): String = type.name
 
     @TypeConverter
-    fun fromQRCodeComposeXFormatString(value: String): QRCodeComposeXFormat {
-        return QRCodeComposeXFormat.entries.first { value == it.name }
-    }
+    fun fromQRCodeComposeXFormatString(value: String): QRCodeComposeXFormat = QRCodeComposeXFormat.entries.first { value == it.name }
 
     @TypeConverter
     fun qrCodeComposeXFormatToString(format: QRCodeComposeXFormat): String = format.name

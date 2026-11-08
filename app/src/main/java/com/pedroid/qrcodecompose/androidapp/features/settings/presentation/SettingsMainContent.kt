@@ -41,7 +41,10 @@ data class SelectionContent(
     val onSelect: (Int) -> SettingsMainUIAction,
 )
 
-data class TitleAndDescription(val title: String, val description: String)
+data class TitleAndDescription(
+    val title: String,
+    val description: String,
+)
 
 sealed interface SettingsExternalAction {
     data object ContactDeveloper : SettingsExternalAction
