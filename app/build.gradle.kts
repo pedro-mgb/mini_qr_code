@@ -30,23 +30,31 @@ android {
         }
     }
 
-    signingConfigs {
-        create("qr_app_release") {
-            keyAlias = System.getenv("PEDROID_QR_CODE_KEY_ALIAS") ?: ""
-            keyPassword = System.getenv("PEDROID_QR_CODE_KEY_PW") ?: ""
-            storeFile = file(System.getenv("PEDROID_QR_CODE_KEYSTORE_FILE_NAME") ?: "invalidPath")
-            storePassword = System.getenv("PEDROID_QR_CODE_KEY_STORE_PW") ?: ""
+    // AGP 9 validates the keystore of the signing config of any variant that is built, so only
+    //  register it when a keystore is provided (e.g. not for CI jobs that run instrumented tests)
+    val releaseKeystoreFileName: String? = System.getenv("PEDROID_QR_CODE_KEYSTORE_FILE_NAME")
+    if (releaseKeystoreFileName != null) {
+        signingConfigs {
+            create("qr_app_release") {
+                keyAlias = System.getenv("PEDROID_QR_CODE_KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("PEDROID_QR_CODE_KEY_PW") ?: ""
+                storeFile = file(releaseKeystoreFileName)
+                storePassword = System.getenv("PEDROID_QR_CODE_KEY_STORE_PW") ?: ""
+            }
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("qr_app_release")
+            if (releaseKeystoreFileName != null) {
+                signingConfig = signingConfigs.getByName("qr_app_release")
+            }
         }
     }
 
@@ -129,7 +137,7 @@ dependencies {
     // endregion test utils
     //region baseline profile
     implementation(libs.androidx.profileinstaller)
-    "baselineProfile"(project(":baselineProfile"))
+    "baselineProfile"(project(":baselineprofile"))
     //endregion baseline profile
 
     coreLibraryDesugaring(libs.desugaring.jdk)
