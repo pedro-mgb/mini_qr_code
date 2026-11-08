@@ -17,4 +17,4 @@ rootProject.name = "QR CodeCompose CameraX"
 include(":app")
 include(":qrcodecomposelib")
 include(":qrcodecomposelibmlkit")
-include(":baselineprofile")
+include(":baselineProfile")

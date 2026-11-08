@@ -129,7 +129,7 @@ dependencies {
     // endregion test utils
     //region baseline profile
     implementation(libs.androidx.profileinstaller)
-    "baselineProfile"(project(":baselineprofile"))
+    "baselineProfile"(project(":baselineProfile"))
     //endregion baseline profile
 
     coreLibraryDesugaring(libs.desugaring.jdk)
