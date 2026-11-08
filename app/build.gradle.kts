@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.pedroid.qrcodecompose.androidapp"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 37
         versionCode = 10
         versionName = "0.7.1"
@@ -81,7 +81,8 @@ kotlin {
 }
 
 kotlinter {
-    ignoreFailures = false
+    ignoreFormatFailures = false
+    ignoreLintFailures = false
     reporters = arrayOf("plain")
 }
 
@@ -104,6 +105,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material.icons.extended)
     implementation(libs.material3.adaptive)
     implementation(libs.material3.windowSizeClass)
     // endregion compose bom
@@ -167,9 +169,6 @@ androidComponents {
 
             project.tasks.getByName("ksp" + variant.name.replaceFirstChar { it.uppercaseChar() } + "Kotlin") {
                 dependsOn(protoTask)
-                (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>).setSource(
-                    protoTask.outputBaseDir
-                )
             }
         }
     }
