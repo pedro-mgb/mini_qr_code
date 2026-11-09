@@ -62,10 +62,6 @@ android {
     //   shouldn't add much extra size to the apk users download in play store
     bundle.language.enableSplit = false
 
-    room {
-        schemaDirectory("$projectDir/dbSchemas")
-    }
-
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_25
@@ -86,6 +82,10 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
     }
+}
+
+room {
+    schemaDirectory("$projectDir/dbSchemas")
 }
 
 kotlinter {
