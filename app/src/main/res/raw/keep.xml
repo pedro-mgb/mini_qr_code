@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- These strings are looked up by name (Context.getString(key: String) uses Resources.getIdentifier),
+     so resource shrinking can't see they are used. -->
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@string/code_*,@string/error_*,@string/generate_*,@string/history_*,@string/settings_*" />

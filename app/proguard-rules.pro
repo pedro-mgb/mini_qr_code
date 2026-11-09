@@ -27,3 +27,7 @@
 }
 # to not crash due to missing compose navigation type-safe mapping.
 -keep class com.pedroid.qrcodecomposelib.common.QRCodeComposeXFormat
+
+# ML Kit registers its components by instantiating these registrars through reflection;
+#  the rule shipped with firebase-components keeps the class but not its constructor (R8 full mode)
+-keep class * implements com.google.firebase.components.ComponentRegistrar { <init>(); }
