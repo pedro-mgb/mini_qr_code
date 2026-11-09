@@ -23,9 +23,11 @@ import androidx.core.content.ContextCompat
 import com.pedroid.qrcodecompose.androidapp.R
 import com.pedroid.qrcodecompose.androidapp.designsystem.components.QRAppSimpleToolbar
 import com.pedroid.qrcodecompose.androidapp.designsystem.theme.Dimens
+import com.pedroid.qrcodecomposelib.scan.CompositeQRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeCameraAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeComposeXScanner
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelibmicroqr.MicroQRCameraAnalyzer
 import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
 
 @androidx.annotation.OptIn(ExperimentalGetImage::class)
@@ -46,7 +48,7 @@ fun ScanQRCodeCameraScreen(
         onBackInvoked()
         return
     }
-    val qrCodeAnalyzer = rememberMLKitAnalyzer(onQRCodeResult)
+    val qrCodeAnalyzer = rememberQRCodeAnalyzer(onQRCodeResult)
     ScanQRCodeCameraContent(
         modifier = Modifier.fillMaxSize(),
         onBackInvoked = onBackInvoked,
@@ -112,7 +114,12 @@ private fun InformativeLabel() {
 
 @androidx.annotation.OptIn(ExperimentalGetImage::class)
 @Composable
-fun rememberMLKitAnalyzer(callback: (QRCodeScanResult) -> Unit): QRCodeCameraAnalyzer =
+fun rememberQRCodeAnalyzer(callback: (QRCodeScanResult) -> Unit): QRCodeCameraAnalyzer =
     remember(key1 = callback) {
-        MLKitImageAnalyzer(callback)
+        // ML Kit for everything it supports, plus zxing-cpp for Micro QR Codes, which ML Kit doesn't read
+        CompositeQRCodeCameraAnalyzer(
+            onQRCodeStatus = callback,
+            primary = { MLKitImageAnalyzer(it) },
+            secondary = listOf({ MicroQRCameraAnalyzer(it) }),
+        )
     }

@@ -98,6 +98,7 @@ dependencies {
 
     implementation(project(":qrcodecomposelib"))
     implementation(project(":qrcodecomposelibmlkit"))
+    implementation(project(":qrcodecomposelibmicroqr"))
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)

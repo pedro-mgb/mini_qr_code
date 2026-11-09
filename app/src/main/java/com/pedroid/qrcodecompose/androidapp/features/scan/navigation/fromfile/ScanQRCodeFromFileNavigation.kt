@@ -24,8 +24,10 @@ import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.QRCodeFromFileUIState
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.ScanQRCodeFromFileScreen
 import com.pedroid.qrcodecompose.androidapp.features.scan.presentation.fromfile.ScanQRCodeFromFileViewModel
+import com.pedroid.qrcodecomposelib.scan.CompositeQRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeFileAnalyzer
 import com.pedroid.qrcodecomposelib.scan.QRCodeScanResult
+import com.pedroid.qrcodecomposelibmicroqr.MicroQRFileAnalyzer
 import com.pedroid.qrcodecomposelibmlkit.MLKitImageAnalyzer
 import kotlinx.serialization.Serializable
 
@@ -122,7 +124,7 @@ private fun performNavigation(
 private fun rememberImageFileScannerActivityResult(
     context: Context,
     onResult: (QRCodeScanResult) -> Unit,
-    analyzer: QRCodeFileAnalyzer = rememberMLKitImageFileAnalyzer(onResult),
+    analyzer: QRCodeFileAnalyzer = rememberQRCodeImageFileAnalyzer(onResult),
 ) = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
     if (uri != null) {
         analyzer.analyze(context, uri)
@@ -132,7 +134,13 @@ private fun rememberImageFileScannerActivityResult(
 }
 
 @OptIn(ExperimentalGetImage::class)
-private fun rememberMLKitImageFileAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeFileAnalyzer = MLKitImageAnalyzer(onResult)
+private fun rememberQRCodeImageFileAnalyzer(onResult: (QRCodeScanResult) -> Unit): QRCodeFileAnalyzer =
+    // ML Kit for everything it supports, and only if it finds nothing, zxing-cpp for Micro QR Codes
+    CompositeQRCodeFileAnalyzer(
+        onQRCodeStatus = onResult,
+        primary = { MLKitImageAnalyzer(it) },
+        fallbacks = listOf({ MicroQRFileAnalyzer(it) }),
+    )
 // endregion coordinator
 
 fun NavController.navigateToScanQRCodeFromFile(

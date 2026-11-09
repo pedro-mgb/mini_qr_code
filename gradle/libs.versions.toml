@@ -10,6 +10,7 @@ androidxCore = "1.19.1"
 androidxCameraX = "1.6.2"
 androidxCoreSplashscreen = "1.2.0"
 androidxDataStore = "1.3.0"
+androidxExifinterface = "1.4.1"
 androidxHiltNavigationCompose = "1.4.0"
 androidxLifecycle = "2.11.0"
 androidxNavigation = "2.10.2"
@@ -37,6 +38,7 @@ profileinstaller = "1.4.1"
 turbine = "1.2.1"
 uiautomator = "2.4.1"
 zxing = "3.5.4"
+zxingCpp = "3.1.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
@@ -68,6 +70,7 @@ material3-windowSizeClass = { group = "androidx.compose.material3", name = "mate
 # endregion Compose BOM and associated dependencies
 
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "androidxExifinterface" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
@@ -99,6 +102,7 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 zxing = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
+zxing-cpp-android = { group = "io.github.zxing-cpp", name = "android", version.ref = "zxingCpp" }
 
 [plugins]
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
